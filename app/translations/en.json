@@ -1,0 +1,18 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "classes": "Classes",
+    "pricing": "Our Packages",
+    "contact": "Contact",
+    "joinUs": "Join Us"
+  },
+  "home": {
+    "comingSoon": "COMING SOON",
+    "message": "We're spinning up something amazing for you!",
+    "stayTuned": "Stay tuned for updates",
+    "indoorCyclingClub": "INDOOR CYCLING CLUB",
+    "location": "Kuşadası"
+  }
+}
+

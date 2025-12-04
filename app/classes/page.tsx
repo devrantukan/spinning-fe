@@ -1,10 +1,10 @@
 'use client';
 
-import { useLanguage } from "./contexts/LanguageContext";
-import Logo from "./components/Logo";
-import SocialIcons from "./components/SocialIcons";
+import { useLanguage } from "../contexts/LanguageContext";
+import Logo from "../components/Logo";
+import SocialIcons from "../components/SocialIcons";
 
-export default function Home() {
+export default function Classes() {
   const { t } = useLanguage();
 
   return (
@@ -44,3 +44,4 @@ export default function Home() {
     </div>
   );
 }
+
