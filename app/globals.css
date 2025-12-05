@@ -178,6 +178,17 @@ html:not(.dark):not([data-theme="dark"]) header.bg-white {
   background: #ffffff !important;
 }
 
+/* Ensure footer is not sticky on mobile */
+footer {
+  position: static !important;
+}
+
+@media (min-width: 768px) {
+  footer {
+    position: static;
+  }
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
