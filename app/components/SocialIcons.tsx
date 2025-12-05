@@ -33,7 +33,7 @@ export default function SocialIcons() {
 
       {/* Facebook */}
       <a
-        href="https://facebook.com"
+        href="https://www.facebook.com/share/17iH2W9TgK/?mibextid=wwXIfr"
         target="_blank"
         rel="noopener noreferrer"
         className="transition-transform duration-200 hover:scale-110"
@@ -79,4 +79,3 @@ export default function SocialIcons() {
     </div>
   );
 }
-

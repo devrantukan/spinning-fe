@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useLanguage } from "../contexts/LanguageContext";
 import Logo from "../components/Logo";
@@ -14,19 +14,19 @@ export default function Classes() {
           <Logo className="h-32 md:h-48 lg:h-64 w-auto" />
           <div className="text-center">
             <p className="text-lg md:text-xl font-semibold text-gray-900 dark:text-gray-200 mb-2">
-              {t('home.indoorCyclingClub')}
+              {t("home.indoorCyclingClub")}
             </p>
             <p className="text-base md:text-lg text-gray-700 dark:text-gray-400">
-              {t('home.location')}
+              {t("home.location")}
             </p>
           </div>
         </div>
         <div className="text-center animate-fade-in-up max-w-2xl">
           <h1 className="text-5xl md:text-4xl font-bold tracking-wider mb-3 text-black dark:text-white">
-            {t('home.comingSoon')}
+            {t("home.comingSoon")}
           </h1>
           <p className="text-xl md:text-2xl text-gray-900 dark:text-gray-300 mb-6 animate-fade-in-up [animation-delay:0.3s]">
-            {t('home.message')}
+            {t("home.message")}
           </p>
           <div className="flex flex-col items-center gap-4 mt-8">
             <div className="flex items-center justify-center gap-2">
@@ -35,7 +35,7 @@ export default function Classes() {
               <span className="w-3 h-3 bg-black dark:bg-white rounded-full animate-pulse [animation-delay:0.4s]"></span>
             </div>
             <p className="text-sm text-gray-900 dark:text-gray-400 animate-fade-in-up [animation-delay:0.6s]">
-              {t('home.stayTuned')}
+              {t("home.stayTuned")}
             </p>
             <SocialIcons />
           </div>
@@ -44,5 +44,3 @@ export default function Classes() {
     </div>
   );
 }
-
-

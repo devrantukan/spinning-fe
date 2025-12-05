@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useSyncExternalStore,
+  ReactNode,
+  useCallback,
+} from "react";
 import enTranslations from "../translations/en.json";
 import trTranslations from "../translations/tr.json";
 
@@ -33,29 +39,51 @@ function getNestedValue(obj: Record<string, unknown>, path: string): string {
   return typeof result === "string" ? result : path;
 }
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  // Initialize state with function to read from localStorage on client, default to 'en' on server
-  // This prevents hydration mismatches and avoids setState in effects
-  const [language, setLanguageState] = useState<Language>(() => {
-    if (typeof window !== "undefined") {
-      const savedLanguage = localStorage.getItem("language") as Language;
-      if (savedLanguage === "en" || savedLanguage === "tr") {
-        return savedLanguage;
-      }
-    }
-    return "en";
-  });
+// Store for language state
+const languageListeners = new Set<() => void>();
 
-  const setLanguage = (lang: Language) => {
-    setLanguageState(lang);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("language", lang);
-    }
+function getLanguageSnapshot(): Language {
+  if (typeof window === "undefined") {
+    return "en"; // Server-side: always return 'en' to match initial render
+  }
+  const saved = localStorage.getItem("language") as Language;
+  if (saved === "en" || saved === "tr") {
+    return saved;
+  }
+  return "en";
+}
+
+function subscribeLanguage(callback: () => void) {
+  languageListeners.add(callback);
+  return () => {
+    languageListeners.delete(callback);
   };
+}
+
+function setLanguageStore(lang: Language) {
+  if (typeof window !== "undefined") {
+    localStorage.setItem("language", lang);
+  }
+  languageListeners.forEach((listener) => listener());
+}
+
+export function LanguageProvider({ children }: { children: ReactNode }) {
+  // Use useSyncExternalStore to sync with localStorage
+  // This ensures server and client render the same initially ('en'), then syncs after hydration
+  const language = useSyncExternalStore(
+    subscribeLanguage,
+    getLanguageSnapshot,
+    () => "en" as Language // Server snapshot: always 'en' to prevent hydration mismatch
+  ) as Language;
+
+  const setLanguage = useCallback((lang: Language) => {
+    setLanguageStore(lang);
+  }, []);
 
   const t = (key: string): string => {
+    const lang = language as Language;
     const translation = getNestedValue(
-      translations[language] as Record<string, unknown>,
+      translations[lang] as Record<string, unknown>,
       key
     );
     return translation || key;

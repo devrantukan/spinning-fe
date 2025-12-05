@@ -17,19 +17,24 @@ export default function Contact() {
     "idle" | "success" | "error"
   >("idle");
 
-  // Google Maps embed URL for Kuşadası, Aydın, Türkiye
-  // To get the embed URL:
-  // 1. Go to https://www.google.com/maps and search for "Kuşadası, Aydın, Türkiye"
-  // 2. Click "Share" button
-  // 3. Select "Embed a map" tab
-  // 4. Copy the iframe src URL and replace the mapEmbedUrl below
-  const mapEmbedUrl =
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3125.1234567890!2d27.2583!3d37.8575!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zS3XFn2FkYXPEsSBBeWTEsW4gVMO8cmtpeWU!5e0!3m2!1sen!2str!4v1234567890123!5m2!1sen!2str";
+  // Google Maps embed URL for Kadınlar Denizi, 14. Sk., 09400 Kuşadası/Aydın
+  // NOTE: To get the correct embed URL with exact coordinates:
+  // 1. Go to https://www.google.com/maps
+  // 2. Search for: "Kadınlar Denizi, 14. Sk., 09400 Kuşadası/Aydın"
+  // 3. Click "Share" button
+  // 4. Select "Embed a map" tab
+  // 5. Copy the iframe src URL and replace mapEmbedUrl below
+  const addressForMap = "Kadınlar Denizi, 14. Sk., 09400 Kuşadası/Aydın";
+  // Temporary solution: Using a search-based URL (may not work perfectly)
+  // Replace this with the actual embed URL from Google Maps for best results
+  const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(
+    addressForMap
+  )}&output=embed`;
 
   // Google Maps directions URL
   const directionsUrl =
     "https://www.google.com/maps/dir/?api=1&destination=" +
-    encodeURIComponent("Kuşadası, Aydın, Türkiye");
+    encodeURIComponent("Kadınlar Denizi, 14. Sk., 09400 Kuşadası/Aydın");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -242,10 +247,10 @@ export default function Contact() {
                       {t("contact.info.phone")}
                     </p>
                     <a
-                      href="tel:+905551234567"
+                      href="tel:+905441571549"
                       className="text-sm md:text-base text-gray-900 dark:text-white hover:text-orange-500 transition-colors"
                     >
-                      +90 555 123 4567
+                      +90 544 157 15 49
                     </a>
                   </div>
                 </div>

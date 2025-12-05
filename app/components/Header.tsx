@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { useLanguage } from '../contexts/LanguageContext';
-import ThemeSwitcher from './ThemeSwitcher';
-import Logo from './Logo';
+import { useState } from "react";
+import Link from "next/link";
+import { useLanguage } from "../contexts/LanguageContext";
+import ThemeSwitcher from "./ThemeSwitcher";
+import Logo from "./Logo";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,15 +15,15 @@ export default function Header() {
   };
 
   const menuItems = [
-    { href: '/', key: 'nav.home' },
-    { href: '/about', key: 'nav.about' },
-    { href: '/classes', key: 'nav.classes' },
-    { href: '/pricing', key: 'nav.pricing' },
-    { href: '/contact', key: 'nav.contact' },
+    { href: "/", key: "nav.home" },
+    { href: "/about", key: "nav.about" },
+    { href: "/classes", key: "nav.classes" },
+    { href: "/pricing", key: "nav.pricing" },
+    { href: "/contact", key: "nav.contact" },
   ];
 
   const toggleLanguage = () => {
-    setLanguage(language === 'en' ? 'tr' : 'en');
+    setLanguage(language === "en" ? "tr" : "en");
   };
 
   return (
@@ -50,7 +50,7 @@ export default function Header() {
               href="/contact"
               className="bg-orange-500 text-white px-6 py-2 rounded-full font-semibold hover:bg-orange-600 transition-colors duration-200"
             >
-              {t('nav.joinUs')}
+              {t("nav.joinUs")}
             </Link>
             {/* Language Switcher */}
             <button
@@ -58,7 +58,7 @@ export default function Header() {
               className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:border-orange-500 dark:hover:border-orange-500 hover:text-orange-500 dark:hover:text-orange-500 transition-colors duration-200 font-medium bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200"
               aria-label="Toggle language"
             >
-              <span className="text-sm">{language === 'en' ? 'TR' : 'EN'}</span>
+              <span className="text-sm">{language === "en" ? "TR" : "EN"}</span>
             </button>
             {/* Theme Switcher */}
             <ThemeSwitcher />
@@ -71,7 +71,9 @@ export default function Header() {
               className="flex items-center gap-1 px-2 py-1.5 rounded-lg border border-gray-300 dark:border-gray-600 hover:border-orange-500 dark:hover:border-orange-500 transition-colors duration-200 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200"
               aria-label="Toggle language"
             >
-              <span className="text-xs font-medium">{language === 'en' ? 'TR' : 'EN'}</span>
+              <span className="text-xs font-medium">
+                {language === "en" ? "TR" : "EN"}
+              </span>
             </button>
             <ThemeSwitcher />
             <button
@@ -79,32 +81,32 @@ export default function Header() {
               className="flex flex-col justify-center items-center w-8 h-8 space-y-1.5 focus:outline-none text-gray-900 dark:text-white"
               aria-label="Toggle menu"
             >
-            <span
-              className={`block w-6 h-0.5 transition-all duration-300 ${
-                isMenuOpen ? 'rotate-45 translate-y-2' : ''
-              }`}
-              style={{ backgroundColor: 'currentColor' }}
-            />
-            <span
-              className={`block w-6 h-0.5 transition-all duration-300 ${
-                isMenuOpen ? 'opacity-0' : ''
-              }`}
-              style={{ backgroundColor: 'currentColor' }}
-            />
-            <span
-              className={`block w-6 h-0.5 transition-all duration-300 ${
-                isMenuOpen ? '-rotate-45 -translate-y-2' : ''
-              }`}
-              style={{ backgroundColor: 'currentColor' }}
-            />
-          </button>
+              <span
+                className={`block w-6 h-0.5 transition-all duration-300 ${
+                  isMenuOpen ? "rotate-45 translate-y-2" : ""
+                }`}
+                style={{ backgroundColor: "currentColor" }}
+              />
+              <span
+                className={`block w-6 h-0.5 transition-all duration-300 ${
+                  isMenuOpen ? "opacity-0" : ""
+                }`}
+                style={{ backgroundColor: "currentColor" }}
+              />
+              <span
+                className={`block w-6 h-0.5 transition-all duration-300 ${
+                  isMenuOpen ? "-rotate-45 -translate-y-2" : ""
+                }`}
+                style={{ backgroundColor: "currentColor" }}
+              />
+            </button>
           </div>
         </div>
 
         {/* Mobile Menu */}
         <div
           className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+            isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
           }`}
         >
           <div className="py-4 space-y-4 border-t border-gray-200 dark:border-gray-700">
@@ -123,7 +125,7 @@ export default function Header() {
               onClick={() => setIsMenuOpen(false)}
               className="block bg-orange-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-orange-600 transition-colors duration-200 text-center mt-4"
             >
-              {t('nav.joinUs')}
+              {t("nav.joinUs")}
             </Link>
           </div>
         </div>
@@ -131,4 +133,3 @@ export default function Header() {
     </header>
   );
 }
-

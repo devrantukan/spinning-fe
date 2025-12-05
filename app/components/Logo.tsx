@@ -45,4 +45,3 @@ export default function Logo({ className = "h-12 md:h-16 w-auto" }: LogoProps) {
     </svg>
   );
 }
-
