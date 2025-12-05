@@ -13,6 +13,38 @@
     "stayTuned": "Güncellemeler için takipte kalın",
     "indoorCyclingClub": "INDOOR CYCLING CLUB",
     "location": "Kuşadası"
+  },
+  "contact": {
+    "title": "İletişime Geçin",
+    "subtitle": "Sizden haber almak isteriz",
+    "form": {
+      "name": "Ad Soyad",
+      "namePlaceholder": "Adınız",
+      "email": "E-posta",
+      "emailPlaceholder": "ornek@email.com",
+      "phone": "Telefon",
+      "phonePlaceholder": "+90 555 123 4567",
+      "message": "Mesaj",
+      "messagePlaceholder": "Mesajınız...",
+      "submit": "Mesaj Gönder",
+      "sending": "Gönderiliyor...",
+      "success": "Teşekkürler! Mesajınız gönderildi.",
+      "error": "Bir şeyler yanlış gitti. Lütfen tekrar deneyin."
+    },
+    "location": {
+      "title": "Bizi Bulun",
+      "address": "Kuşadası, Aydın, Türkiye",
+      "getDirections": "Yol Tarifi Al"
+    },
+    "info": {
+      "title": "İletişim Bilgileri",
+      "email": "E-posta",
+      "phone": "Telefon",
+      "address": "Adres"
+    },
+    "social": {
+      "title": "Bizi Takip Edin"
+    }
   }
 }
 

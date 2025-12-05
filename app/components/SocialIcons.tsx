@@ -10,7 +10,7 @@ export default function SocialIcons() {
     <div className="flex items-center justify-center gap-6 mt-6">
       {/* Instagram */}
       <a
-        href="https://instagram.com"
+        href="https://www.instagram.com/kusadasindoorcyclingclub/"
         target="_blank"
         rel="noopener noreferrer"
         className="transition-transform duration-200 hover:scale-110"

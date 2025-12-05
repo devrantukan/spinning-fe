@@ -89,6 +89,12 @@ html:not(.dark):not([data-theme="dark"]) button.text-white {
   color: #ffffff !important;
 }
 
+/* Ensure placeholder text is visible but not too dark in light mode */
+html:not(.dark):not([data-theme="dark"]) input::placeholder,
+html:not(.dark):not([data-theme="dark"]) textarea::placeholder {
+  color: #9ca3af !important; /* gray-400 - medium gray for placeholders */
+}
+
 /* Force background on main page container */
 html.dark div.bg-white,
 html[data-theme="dark"] div.bg-white,
@@ -101,6 +107,17 @@ html:not(.dark):not([data-theme="dark"]) div.bg-white,
 html:not(.dark) [class*="bg-white"] {
   background-color: #ffffff !important;
   background: #ffffff !important;
+}
+
+/* Force gray-50 containers to be white in light mode for better contrast */
+html:not(.dark):not([data-theme="dark"]) [class*="bg-gray-50"] {
+  background-color: #ffffff !important;
+  background: #ffffff !important;
+}
+
+html.dark [class*="bg-gray-50"] {
+  background-color: #1f2937 !important;
+  background: #1f2937 !important;
 }
 
 /* Force header background */

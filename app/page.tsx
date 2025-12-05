@@ -38,7 +38,7 @@ export default function Home() {
               {t('home.stayTuned')}
             </p>
             <SocialIcons />
-          </div>
+        </div>
         </div>
       </main>
     </div>
