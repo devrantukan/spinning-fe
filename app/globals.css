@@ -95,6 +95,52 @@ html:not(.dark):not([data-theme="dark"]) textarea::placeholder {
   color: #9ca3af !important; /* gray-400 - medium gray for placeholders */
 }
 
+/* Force all text elements to be light/readable in dark mode */
+html.dark p,
+html[data-theme="dark"] p,
+html.dark span,
+html[data-theme="dark"] span,
+html.dark a,
+html[data-theme="dark"] a,
+html.dark h1,
+html[data-theme="dark"] h1,
+html.dark h2,
+html[data-theme="dark"] h2,
+html.dark h3,
+html[data-theme="dark"] h3,
+html.dark h4,
+html[data-theme="dark"] h4,
+html.dark h5,
+html[data-theme="dark"] h5,
+html.dark h6,
+html[data-theme="dark"] h6 {
+  color: #f9fafb !important; /* gray-50 - very light for dark mode */
+}
+
+/* Ensure gray text classes are light in dark mode */
+html.dark .text-gray-300,
+html[data-theme="dark"] .text-gray-300,
+html.dark .text-gray-400,
+html[data-theme="dark"] .text-gray-400,
+html.dark .text-gray-500,
+html[data-theme="dark"] .text-gray-500,
+html.dark .text-gray-600,
+html[data-theme="dark"] .text-gray-600,
+html.dark .text-gray-700,
+html[data-theme="dark"] .text-gray-700,
+html.dark .text-gray-800,
+html[data-theme="dark"] .text-gray-800,
+html.dark .text-gray-900,
+html[data-theme="dark"] .text-gray-900 {
+  color: #f3f4f6 !important; /* gray-100 - light for dark mode */
+}
+
+/* Ensure dark text classes are light in dark mode */
+html.dark .text-black,
+html[data-theme="dark"] .text-black {
+  color: #f9fafb !important; /* gray-50 - very light for dark mode */
+}
+
 /* Force background on main page container */
 html.dark div.bg-white,
 html[data-theme="dark"] div.bg-white,
