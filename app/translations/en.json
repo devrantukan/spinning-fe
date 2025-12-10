@@ -2,6 +2,7 @@
   "nav": {
     "home": "Home",
     "about": "About",
+    "philosophy": "Our Philosophy",
     "classes": "Classes",
     "pricing": "Our Packages",
     "contact": "Contact",
@@ -44,6 +45,153 @@
     },
     "social": {
       "title": "Follow Us"
+    }
+  },
+  "philosophy": {
+    "title": "Our Philosophy",
+    "hero": {
+      "subtitle": "A JOURNEY TO YOUR WELL-BEING AND FITNESS",
+      "description": "Indoor Cycling Club is a community where we work together to achieve our goals, becoming a point of reference for all fitness enthusiasts. This is your own circle where you can connect with others while making that extra push to achieve your goals and sharing the excitement of the ride with you.",
+      "tagline": "YOU DON'T HAVE TO RIDE ALONE."
+    },
+    "sharedJourney": {
+      "title": "We may have different goals, but we share the same journey.",
+      "description": "We inspire and empower you to achieve your fitness and well-being goals through an indoor cycling journey where the momentum, focus, and motivation are all shared in community."
+    },
+    "tailoredApproach": {
+      "title": "Tailored Made Approach",
+      "description": "Each of our trainers brings their own unique touch to every class by creating personalized playlists and choreographies. This distinctive approach ensures that every session has its own special mood and vibe, tailored to enhance the workout experience. Whether you're in the mood for an energetic, high-intensity ride or a more rhythmic, flow-based session, our diverse range of classes guarantees you'll find the perfect fit."
+    },
+    "mission": {
+      "title": "MISSION",
+      "description": "Spin8's mission is to provide a transformative indoor cycling experience that enables people to unlock their potential, overcome their mental barriers, and achieve their goals."
+    },
+    "vision": {
+      "title": "VISION",
+      "description": "Spin8's vision is to be recognized as an inclusive and empowering environment where people can discover their inner strength, embrace wellness culture, and find motivation. Here, everyone feels they belong, meets at the same energy level, and moves forward in the same rhythm."
+    },
+    "values": {
+      "title": "Values",
+      "community": {
+        "number": "01",
+        "title": "COMMUNITY",
+        "description": "The new lifestyle focuses on feeling better. At Spin8, classes transform into an experience that refreshes both body and mind through rhythm, pedals, and high energy. Spin8's goal is to create an inclusive community where everyone can feel comfortable. Whatever your goal may be, we all share the same journey here. Many people now prefer studios where they can move to the rhythm and release stress in environments that make them feel good, rather than going out at night and consuming their energy."
+      },
+      "empowerment": {
+        "number": "02",
+        "title": "EMPOWERMENT",
+        "description": "Spin8 offers an environment that creates awareness both mentally and physically. This space creates an experience that motivates you, empowers you, and helps you overcome all obstacles by discovering your own potential. Every class is designed to bring out the strength within you and take you even further."
+      },
+      "wellness": {
+        "number": "03",
+        "title": "WELLNESS",
+        "description": "We are not all about physical strength, we prioritize the overall wellness of our customers by addressing their mental and emotional well-being through our shared journey."
+      },
+      "professionalism": {
+        "number": "04",
+        "title": "PROFESSIONALISM",
+        "description": "At Spin8, all instructors are carefully selected for their professionalism, patience, and supportive approach. Every class is designed so that members can reach their goals safely and with proper guidance."
+      }
+    },
+    "quotes": {
+      "inspire": "INSPIRE, EMPOWER, ACHIEVE.",
+      "rideJourney": "RIDE THE JOURNEY.",
+      "shoulderToShoulder": "SHOULDER TO SHOULDER.",
+      "bestSelf": "THE PATH TO YOUR BEST SELF.",
+      "innerPotential": "RIDE YOUR INNER POTENTIAL.",
+      "findYourself": "THE JOURNEY TO FIND YOURSELF",
+      "findCircle": "FIND YOUR CIRCLE.",
+      "buildCircle": "BUILD YOUR CIRCLE."
+    }
+  },
+  "auth": {
+    "email": "Email",
+    "emailPlaceholder": "your.email@example.com",
+    "password": "Password",
+    "passwordPlaceholder": "Your password",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "login": {
+      "title": "Login",
+      "submit": "Login",
+      "prompt": "Don't have an account? Register"
+    },
+    "register": {
+      "title": "Register",
+      "name": "Full Name",
+      "namePlaceholder": "Your name",
+      "submit": "Register",
+      "prompt": "Already have an account? Login",
+      "success": "Registration successful! Please check your email to verify your account."
+    },
+    "forgotPassword": "Forgot password?",
+    "resetPassword": {
+      "title": "Reset Password",
+      "setNewPassword": "Set New Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "sendResetLink": "Send Reset Link",
+      "resetPassword": "Reset Password",
+      "emailSent": "Password reset email sent! Please check your inbox.",
+      "success": "Password reset successfully! Redirecting...",
+      "passwordMismatch": "Passwords do not match",
+      "passwordTooShort": "Password must be at least 6 characters",
+      "backToHome": "Back to Home"
+    },
+    "activate": {
+      "activating": "Activating Account...",
+      "pleaseWait": "Please wait while we activate your account.",
+      "success": "Account activated successfully! Redirecting...",
+      "successTitle": "Account Activated!",
+      "error": "Activation failed. The link may have expired.",
+      "errorTitle": "Activation Failed",
+      "invalidLink": "Invalid activation link.",
+      "goToDashboard": "Go to Dashboard",
+      "goHome": "Go to Home",
+      "requestNewLink": "Request a new activation link"
+    },
+    "invitation": {
+      "accepting": "Accepting Invitation...",
+      "pleaseWait": "Please wait while we process your invitation.",
+      "success": "Password created successfully! Redirecting...",
+      "successTitle": "Invitation Accepted!",
+      "error": "Failed to accept invitation. The link may have expired.",
+      "errorTitle": "Invitation Failed",
+      "invalidLink": "Invalid invitation link. Please check your email for a valid invitation.",
+      "setPasswordTitle": "Create Your Password",
+      "setPasswordMessage": "Please create a password for your account.",
+      "createPassword": "Create Password",
+      "passwordError": "Failed to set password. Please try again.",
+      "goToDashboard": "Go to Dashboard",
+      "goHome": "Go to Home"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome",
+    "signOut": "Sign Out",
+    "membership": "Membership",
+    "membershipInfo": "Your membership information will appear here.",
+    "classes": "Classes",
+    "classesInfo": "Your class schedule will appear here.",
+    "creditBalance": "Credit Balance",
+    "creditBalanceInfo": "Available credits for booking classes",
+    "totalBookings": "Total Bookings",
+    "creditHistory": {
+      "title": "Credit History",
+      "date": "Date",
+      "type": "Type",
+      "amount": "Amount",
+      "description": "Description",
+      "credit": "Credit",
+      "debit": "Debit",
+      "empty": "No credit history available."
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "suspended": "Suspended"
     }
   }
 }

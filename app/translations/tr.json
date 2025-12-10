@@ -2,6 +2,7 @@
   "nav": {
     "home": "Ana Sayfa",
     "about": "Hakkımızda",
+    "philosophy": "Felsefemiz",
     "classes": "Dersler",
     "pricing": "Paketlerimiz",
     "contact": "İletişim",
@@ -44,6 +45,153 @@
     },
     "social": {
       "title": "Bizi Takip Edin"
+    }
+  },
+  "philosophy": {
+    "title": "Felsefemiz",
+    "hero": {
+      "subtitle": "SAĞLIK VE FİTNESS YOLCULUĞUNUZ",
+      "description": "Indoor Cycling Club, hedeflerimize ulaşmak için birlikte çalıştığımız, tüm fitness tutkunları için bir referans noktası haline gelen bir topluluktur. Bu, hedeflerinize ulaşmak için o ekstra itişi yaparken başkalarıyla bağlantı kurabileceğiniz ve sürüşün heyecanını sizinle paylaşabileceğiniz kendi çevrenizdir.",
+      "tagline": "YALNIZ SÜRMEK ZORUNDA DEĞİLSİNİZ."
+    },
+    "sharedJourney": {
+      "title": "Farklı hedeflerimiz olabilir, ama aynı yolculuğu paylaşıyoruz.",
+      "description": "Momentum, odak ve motivasyonun toplulukta paylaşıldığı bir kapalı bisiklet yolculuğu aracılığıyla fitness ve sağlık hedeflerinize ulaşmanız için sizi ilham veriyor ve güçlendiriyoruz."
+    },
+    "tailoredApproach": {
+      "title": "Kişiye Özel Yaklaşım",
+      "description": "Her antrenörümüz, kişiselleştirilmiş çalma listeleri ve koreografiler oluşturarak her derse kendi benzersiz dokunuşunu getirir. Bu ayırt edici yaklaşım, her oturumun kendi özel ruh haline ve havasına sahip olmasını sağlar ve antrenman deneyimini geliştirmek için uyarlanır. İster enerjik, yüksek yoğunluklu bir sürüş, ister daha ritmik, akış tabanlı bir oturum ruh halinde olun, çeşitli sınıf yelpazemiz size mükemmel uyumu garanti eder."
+    },
+    "mission": {
+      "title": "MİSYON",
+      "description": "Spin8'in misyonu; insanlara kendi potansiyellerini açığa çıkarabilecekleri, zihinsel bariyerlerini aşabilecekleri ve hedeflerine ulaşabilecekleri dönüştürücü bir indoor cycling deneyimi sunmaktır."
+    },
+    "vision": {
+      "title": "VİZYON",
+      "description": "Spin8'in vizyonu; insanların iç güçlerini keşfederken, wellness kültürünü benimseyip motivasyon bulabilecekleri, kapsayıcı ve güç veren bir ortam olarak tanınmaktır. Burada herkes kendini ait hisseder, aynı enerjide buluşur ve aynı ritimde ilerler."
+    },
+    "values": {
+      "title": "Değerler",
+      "community": {
+        "number": "01",
+        "title": "TOPLULUK",
+        "description": "Yeni yaşam tarzı daha iyi hissettirmeye odaklanıyor.\n\nSpin8'de dersler; ritim, pedal ve yüksek enerjiyle hem bedeni hem zihni tazeleyen bir deneyime dönüşüyor.\n\nSpin8'in amacı, herkesin kendini rahat hissedebileceği kapsayıcı bir topluluk yaratmak.\n\nHedefin ne olursa olsun, burada aynı yolculuğu paylaşıyoruz.\n\nArtık birçok kişi gece dışarı çıkıp enerjisini tüketmek yerine, iyi hissettiren ortamlarda ritimle hareket edip stres attığı stüdyoları tercih ediyor."
+      },
+      "empowerment": {
+        "number": "02",
+        "title": "GÜÇLENME",
+        "description": "Spin8, hem zihinsel hem fiziksel olarak farkındalık yaratan bir ortam sunar.\n\nBu alan; seni motive eden, güçlendiren ve kendi potansiyelini keşfederek tüm engelleri aşmana yardımcı olan bir deneyim yaratır."
+      },
+      "wellness": {
+        "number": "03",
+        "title": "SAĞLIK",
+        "description": "Sadece fiziksel güçle ilgili değiliz, müşterilerimizin genel sağlığını, zihinsel ve duygusal refahlarını ortak yolculuğumuz aracılığıyla ele alarak önceliklendiriyoruz."
+      },
+      "professionalism": {
+        "number": "04",
+        "title": "PROFESYONELLİK",
+        "description": "Spin8'de tüm eğitmenler; profesyonellikleri, sabırları ve destekleyici yaklaşımlarıyla özenle seçilir.\n\nHer ders, üyelerin hedeflerine güvenle ve doğru yönlendirmeyle ulaşabilmesi için tasarlanır."
+      }
+    },
+    "quotes": {
+      "inspire": "İLHAM VER, GÜÇLENDİR, BAŞAR.",
+      "rideJourney": "YOLCULUĞA ÇIK.",
+      "shoulderToShoulder": "OMUZ OMUZA.",
+      "bestSelf": "EN İYİ HALİNE GİDEN YOL.",
+      "innerPotential": "İÇ POTANSİYELİNE BİN.",
+      "findYourself": "KENDİNİ BULMA YOLCULUĞU",
+      "findCircle": "ÇEVRENİ BUL.",
+      "buildCircle": "ÇEVRENİ KUR."
+    }
+  },
+  "auth": {
+    "email": "E-posta",
+    "emailPlaceholder": "ornek@email.com",
+    "password": "Şifre",
+    "passwordPlaceholder": "Şifreniz",
+    "loading": "Yükleniyor...",
+    "error": "Bir hata oluştu",
+    "login": {
+      "title": "Giriş Yap",
+      "submit": "Giriş Yap",
+      "prompt": "Hesabınız yok mu? Kayıt olun"
+    },
+    "register": {
+      "title": "Kayıt Ol",
+      "name": "Ad Soyad",
+      "namePlaceholder": "Adınız",
+      "submit": "Kayıt Ol",
+      "prompt": "Zaten hesabınız var mı? Giriş yapın",
+      "success": "Kayıt başarılı! Hesabınızı doğrulamak için e-postanızı kontrol edin."
+    },
+    "forgotPassword": "Şifremi Unuttum",
+    "resetPassword": {
+      "title": "Şifre Sıfırla",
+      "setNewPassword": "Yeni Şifre Belirle",
+      "newPassword": "Yeni Şifre",
+      "confirmPassword": "Şifreyi Onayla",
+      "confirmPasswordPlaceholder": "Şifrenizi onaylayın",
+      "sendResetLink": "Sıfırlama Bağlantısı Gönder",
+      "resetPassword": "Şifreyi Sıfırla",
+      "emailSent": "Şifre sıfırlama e-postası gönderildi! Lütfen gelen kutunuzu kontrol edin.",
+      "success": "Şifre başarıyla sıfırlandı! Yönlendiriliyorsunuz...",
+      "passwordMismatch": "Şifreler eşleşmiyor",
+      "passwordTooShort": "Şifre en az 6 karakter olmalıdır",
+      "backToHome": "Ana Sayfaya Dön"
+    },
+    "activate": {
+      "activating": "Hesap Aktifleştiriliyor...",
+      "pleaseWait": "Lütfen hesabınızın aktifleştirilmesini bekleyin.",
+      "success": "Hesap başarıyla aktifleştirildi! Yönlendiriliyorsunuz...",
+      "successTitle": "Hesap Aktifleştirildi!",
+      "error": "Aktifleştirme başarısız oldu. Bağlantı süresi dolmuş olabilir.",
+      "errorTitle": "Aktifleştirme Başarısız",
+      "invalidLink": "Geçersiz aktifleştirme bağlantısı.",
+      "goToDashboard": "Panele Git",
+      "goHome": "Ana Sayfaya Git",
+      "requestNewLink": "Yeni aktifleştirme bağlantısı iste"
+    },
+    "invitation": {
+      "accepting": "Davet Kabul Ediliyor...",
+      "pleaseWait": "Lütfen davetinizin işlenmesini bekleyin.",
+      "success": "Şifre başarıyla oluşturuldu! Yönlendiriliyorsunuz...",
+      "successTitle": "Davet Kabul Edildi!",
+      "error": "Davet kabul edilemedi. Bağlantı süresi dolmuş olabilir.",
+      "errorTitle": "Davet Başarısız",
+      "invalidLink": "Geçersiz davet bağlantısı. Lütfen geçerli bir davet için e-postanızı kontrol edin.",
+      "setPasswordTitle": "Şifrenizi Oluşturun",
+      "setPasswordMessage": "Lütfen hesabınız için bir şifre oluşturun.",
+      "createPassword": "Şifre Oluştur",
+      "passwordError": "Şifre oluşturulamadı. Lütfen tekrar deneyin.",
+      "goToDashboard": "Panele Git",
+      "goHome": "Ana Sayfaya Git"
+    }
+  },
+  "dashboard": {
+    "title": "Panel",
+    "welcome": "Hoş Geldiniz",
+    "signOut": "Çıkış Yap",
+    "membership": "Üyelik",
+    "membershipInfo": "Üyelik bilgileriniz burada görünecek.",
+    "classes": "Dersler",
+    "classesInfo": "Ders programınız burada görünecek.",
+    "creditBalance": "Kredi Bakiyesi",
+    "creditBalanceInfo": "Ders rezervasyonu için mevcut krediler",
+    "totalBookings": "Toplam Rezervasyon",
+    "creditHistory": {
+      "title": "Kredi Geçmişi",
+      "date": "Tarih",
+      "type": "Tür",
+      "amount": "Tutar",
+      "description": "Açıklama",
+      "credit": "Kredi",
+      "debit": "Borç",
+      "empty": "Kredi geçmişi bulunmamaktadır."
+    },
+    "status": {
+      "active": "Aktif",
+      "inactive": "Pasif",
+      "suspended": "Askıya Alındı"
     }
   }
 }

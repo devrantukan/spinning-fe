@@ -2,21 +2,42 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useLanguage } from "../contexts/LanguageContext";
+import { useAuth } from "../contexts/AuthContext";
 import ThemeSwitcher from "./ThemeSwitcher";
 import Logo from "./Logo";
+import AuthModal from "./AuthModal";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
+  const { user, signOut } = useAuth();
+  const router = useRouter();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleJoinUsClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (user) {
+      router.push("/dashboard");
+    } else {
+      setIsAuthModalOpen(true);
+    }
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push("/");
+  };
+
   const menuItems = [
     { href: "/", key: "nav.home" },
     { href: "/about", key: "nav.about" },
+    { href: "/philosophy", key: "nav.philosophy" },
     { href: "/classes", key: "nav.classes" },
     { href: "/pricing", key: "nav.pricing" },
     { href: "/contact", key: "nav.contact" },
@@ -31,27 +52,53 @@ export default function Header() {
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
+          <Link href={user ? "/dashboard" : "/"} className="flex items-center">
             <Logo />
           </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-6">
-            {menuItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-gray-900 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-500 font-medium transition-colors duration-200"
+            {!user &&
+              menuItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="text-gray-900 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-500 font-medium transition-colors duration-200"
+                >
+                  {t(item.key)}
+                </Link>
+              ))}
+            {user && (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="text-gray-900 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-500 font-medium transition-colors duration-200"
+                >
+                  {t("dashboard.title") || "Dashboard"}
+                </Link>
+                <Link
+                  href="/classes"
+                  className="text-gray-900 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-500 font-medium transition-colors duration-200"
+                >
+                  {t("nav.classes")}
+                </Link>
+              </>
+            )}
+            {user ? (
+              <button
+                onClick={handleSignOut}
+                className="bg-red-500 text-white px-6 py-2 rounded-full font-semibold hover:bg-red-600 transition-colors duration-200 cursor-pointer"
               >
-                {t(item.key)}
-              </Link>
-            ))}
-            <Link
-              href="/contact"
-              className="bg-orange-500 text-white px-6 py-2 rounded-full font-semibold hover:bg-orange-600 transition-colors duration-200"
-            >
-              {t("nav.joinUs")}
-            </Link>
+                {t("dashboard.signOut") || "Sign Out"}
+              </button>
+            ) : (
+              <button
+                onClick={handleJoinUsClick}
+                className="bg-orange-500 text-white px-6 py-2 rounded-full font-semibold hover:bg-orange-600 transition-colors duration-200 cursor-pointer"
+              >
+                {t("nav.joinUs")}
+              </button>
+            )}
             {/* Language Switcher */}
             <button
               onClick={toggleLanguage}
@@ -110,26 +157,63 @@ export default function Header() {
           }`}
         >
           <div className="py-4 space-y-4 border-t border-gray-200 dark:border-gray-700">
-            {menuItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsMenuOpen(false)}
-                className="block text-gray-900 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-500 font-medium py-2 transition-colors duration-200"
+            {!user &&
+              menuItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block text-gray-900 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-500 font-medium py-2 transition-colors duration-200"
+                >
+                  {t(item.key)}
+                </Link>
+              ))}
+            {user && (
+              <>
+                <Link
+                  href="/dashboard"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block text-gray-900 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-500 font-medium py-2 transition-colors duration-200"
+                >
+                  {t("dashboard.title") || "Dashboard"}
+                </Link>
+                <Link
+                  href="/classes"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block text-gray-900 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-500 font-medium py-2 transition-colors duration-200"
+                >
+                  {t("nav.classes")}
+                </Link>
+              </>
+            )}
+            {user ? (
+              <button
+                onClick={async () => {
+                  setIsMenuOpen(false);
+                  await handleSignOut();
+                }}
+                className="w-full bg-red-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-red-600 transition-colors duration-200 text-center mt-4 cursor-pointer"
               >
-                {t(item.key)}
-              </Link>
-            ))}
-            <Link
-              href="/contact"
-              onClick={() => setIsMenuOpen(false)}
-              className="block bg-orange-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-orange-600 transition-colors duration-200 text-center mt-4"
-            >
-              {t("nav.joinUs")}
-            </Link>
+                {t("dashboard.signOut") || "Sign Out"}
+              </button>
+            ) : (
+              <button
+                onClick={(e) => {
+                  setIsMenuOpen(false);
+                  handleJoinUsClick(e);
+                }}
+                className="w-full bg-orange-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-orange-600 transition-colors duration-200 text-center mt-4 cursor-pointer"
+              >
+                {t("nav.joinUs")}
+              </button>
+            )}
           </div>
         </div>
       </nav>
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+      />
     </header>
   );
 }

@@ -10,6 +10,7 @@ export default function Footer() {
   const menuItems = [
     { href: "/", key: "nav.home" },
     { href: "/about", key: "nav.about" },
+    { href: "/philosophy", key: "nav.philosophy" },
     { href: "/classes", key: "nav.classes" },
     { href: "/pricing", key: "nav.pricing" },
     { href: "/contact", key: "nav.contact" },
