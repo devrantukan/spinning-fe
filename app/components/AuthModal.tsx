@@ -16,6 +16,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [acceptToc, setAcceptToc] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -31,6 +32,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
       setEmail("");
       setPassword("");
       setName("");
+      setAcceptToc(false);
     }
   }, [isOpen, isLogin]);
 
@@ -53,18 +55,51 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
         onClose();
         router.push("/dashboard");
       } else {
-        const { error: signUpError } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: {
-              name: name,
+        // Validate TOC acceptance
+        if (!acceptToc) {
+          setError(
+            t("auth.register.tocRequired") ||
+              "You must accept the Terms and Conditions to register"
+          );
+          setLoading(false);
+          return;
+        }
+
+        const { data: signUpData, error: signUpError } =
+          await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+              data: {
+                name: name,
+              },
+              emailRedirectTo: `${window.location.origin}/auth/activate`,
             },
-            emailRedirectTo: `${window.location.origin}/auth/activate`,
-          },
-        });
+          });
 
         if (signUpError) throw signUpError;
+
+        // Save TOC acceptance to database
+        if (signUpData.user) {
+          try {
+            const response = await fetch("/api/users/toc", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                supabaseUserId: signUpData.user.id,
+                accepted: true,
+              }),
+            });
+
+            if (!response.ok) {
+              console.error("Failed to save TOC acceptance");
+            }
+          } catch (err) {
+            console.error("Error saving TOC acceptance:", err);
+          }
+        }
 
         setMessage(
           t("auth.registration.success") ||
@@ -180,6 +215,26 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
               placeholder={t("auth.passwordPlaceholder") || "Your password"}
             />
           </div>
+
+          {!isLogin && (
+            <div className="flex items-start">
+              <input
+                id="acceptToc"
+                type="checkbox"
+                checked={acceptToc}
+                onChange={(e) => setAcceptToc(e.target.checked)}
+                required
+                className="mt-1 h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 rounded"
+              />
+              <label
+                htmlFor="acceptToc"
+                className="ml-2 text-sm text-gray-700 dark:text-gray-300"
+              >
+                {t("auth.register.acceptToc") ||
+                  "I accept the Terms and Conditions"}
+              </label>
+            </div>
+          )}
 
           {isLogin && (
             <div className="text-right">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../contexts/AuthContext";
 import { useLanguage } from "../contexts/LanguageContext";
@@ -32,6 +32,8 @@ export default function Dashboard() {
   const [loadingMember, setLoadingMember] = useState(true);
   const [creditHistory, setCreditHistory] = useState<CreditTransaction[]>([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
+  const fetchingRef = useRef(false);
+  const fetchedMemberIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -39,22 +41,49 @@ export default function Dashboard() {
     }
   }, [user, loading, router]);
 
-  useEffect(() => {
-    if (user && session) {
-      fetchMemberData();
-    }
-  }, [user, session]);
+  const fetchCreditHistory = useCallback(
+    async (memberId: string) => {
+      if (!session?.access_token || !memberId) {
+        return;
+      }
 
-  // Debug: Log memberData changes
-  useEffect(() => {
-    console.log("memberData state changed:", memberData);
-  }, [memberData]);
+      // Prevent fetching if already fetched for this member
+      if (fetchedMemberIdRef.current === memberId) {
+        return;
+      }
 
-  const fetchMemberData = async () => {
-    if (!session?.access_token) {
-      setLoadingMember(false);
+      setLoadingHistory(true);
+      try {
+        const historyRes = await fetch(`/api/members/${memberId}/credits`, {
+          headers: {
+            Authorization: `Bearer ${session.access_token}`,
+          },
+        });
+
+        if (historyRes.ok) {
+          const history = await historyRes.json();
+          setCreditHistory(Array.isArray(history) ? history : []);
+          fetchedMemberIdRef.current = memberId;
+        } else {
+          setCreditHistory([]);
+        }
+      } catch (error) {
+        console.error("Error fetching credit history:", error);
+        setCreditHistory([]);
+      } finally {
+        setLoadingHistory(false);
+      }
+    },
+    [session?.access_token]
+  );
+
+  const fetchMemberData = useCallback(async () => {
+    if (!session?.access_token || fetchingRef.current) {
       return;
     }
+
+    fetchingRef.current = true;
+    setLoadingMember(true);
 
     try {
       // First, get user info to find member ID
@@ -66,6 +95,7 @@ export default function Dashboard() {
 
       if (!userRes.ok) {
         setLoadingMember(false);
+        fetchingRef.current = false;
         return;
       }
 
@@ -80,25 +110,14 @@ export default function Dashboard() {
 
       if (membersRes.ok) {
         const members = await membersRes.json();
-        console.log("Members API response:", members);
-        console.log("User ID from auth:", userData.id);
 
         // API already filters by the correct user, so just use the first member
-        // (or the member if it's a single object)
         const member =
           Array.isArray(members) && members.length > 0
             ? members[0]
             : members && typeof members === "object" && !Array.isArray(members)
             ? members
             : null;
-
-        console.log("Found member:", member);
-        console.log("Member type:", typeof member);
-        console.log("Is array:", Array.isArray(members));
-        console.log(
-          "Members length:",
-          Array.isArray(members) ? members.length : "not array"
-        );
 
         if (member) {
           // Normalize credit balance
@@ -111,80 +130,38 @@ export default function Dashboard() {
                 : 0,
           };
 
-          console.log("Normalized member data:", normalizedMember);
-          console.log("Credit balance value:", normalizedMember.creditBalance);
-          console.log("Setting memberData with:", normalizedMember);
-
           setMemberData(normalizedMember);
-          console.log("memberData state should be updated");
-          // Fetch credit history
-          if (normalizedMember.id) {
+          // Fetch credit history only if member ID changed
+          if (
+            normalizedMember.id &&
+            fetchedMemberIdRef.current !== normalizedMember.id
+          ) {
             fetchCreditHistory(normalizedMember.id);
           }
-        } else {
-          console.warn("No member found for user:", userData.id);
-          console.warn("Members array:", members);
         }
-      } else {
-        const errorText = await membersRes.text();
-        console.error("Members API error:", membersRes.status, errorText);
       }
     } catch (error) {
       console.error("Error fetching member data:", error);
     } finally {
       setLoadingMember(false);
+      fetchingRef.current = false;
     }
-  };
+  }, [session?.access_token, fetchCreditHistory]);
 
-  const fetchCreditHistory = async (memberId: string) => {
-    if (!session?.access_token) {
-      return;
+  useEffect(() => {
+    if (user && session?.access_token && !fetchingRef.current) {
+      fetchMemberData();
     }
-
-    setLoadingHistory(true);
-    try {
-      console.log("Fetching credit history for member:", memberId);
-      const historyRes = await fetch(`/api/members/${memberId}/credits`, {
-        headers: {
-          Authorization: `Bearer ${session.access_token}`,
-        },
-      });
-
-      if (historyRes.ok) {
-        const history = await historyRes.json();
-        console.log("Credit history response:", history);
-        setCreditHistory(Array.isArray(history) ? history : []);
-      } else {
-        const errorText = await historyRes.text();
-        console.error(
-          "Credit history API error:",
-          historyRes.status,
-          errorText
-        );
-        setCreditHistory([]);
-      }
-    } catch (error) {
-      console.error("Error fetching credit history:", error);
-      setCreditHistory([]);
-    } finally {
-      setLoadingHistory(false);
-    }
-  };
+  }, [user, session?.access_token, fetchMemberData]);
 
   // Calculate actual credit balance from member data
   const getCreditBalance = () => {
     if (!memberData) {
-      console.log("getCreditBalance: memberData is null");
       return 0;
     }
     const balance = memberData.creditBalance ?? memberData.credit_balance ?? 0;
-    console.log(
-      "getCreditBalance: returning",
-      balance,
-      "from memberData:",
-      memberData
-    );
-    return balance;
+    // Return as integer (rounded)
+    return Math.round(Number(balance));
   };
 
   if (loading || loadingMember) {
@@ -228,7 +205,7 @@ export default function Dashboard() {
                     {t("dashboard.creditBalance") || "Credit Balance"}
                   </h3>
                   <p className="text-3xl font-bold text-orange-600 dark:text-orange-400">
-                    {getCreditBalance().toFixed(2)}
+                    {Math.round(getCreditBalance())}
                   </p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                     {t("dashboard.creditBalanceInfo") ||
@@ -343,7 +320,7 @@ export default function Dashboard() {
                                   }`}
                                 >
                                   {transaction.amount > 0 ? "+" : ""}
-                                  {Number(transaction.amount).toFixed(2)}
+                                  {Math.round(Number(transaction.amount))}
                                 </td>
                                 <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
                                   {transaction.description || "-"}

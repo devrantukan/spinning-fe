@@ -122,7 +122,9 @@
       "namePlaceholder": "Your name",
       "submit": "Register",
       "prompt": "Already have an account? Login",
-      "success": "Registration successful! Please check your email to verify your account."
+      "success": "Registration successful! Please check your email to verify your account.",
+      "acceptToc": "I accept the Terms and Conditions",
+      "tocRequired": "You must accept the Terms and Conditions to register"
     },
     "forgotPassword": "Forgot password?",
     "resetPassword": {
@@ -164,7 +166,9 @@
       "createPassword": "Create Password",
       "passwordError": "Failed to set password. Please try again.",
       "goToDashboard": "Go to Dashboard",
-      "goHome": "Go to Home"
+      "goHome": "Go to Home",
+      "acceptToc": "I accept the Terms and Conditions",
+      "tocRequired": "You must accept the Terms and Conditions to continue"
     }
   },
   "dashboard": {

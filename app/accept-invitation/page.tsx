@@ -16,6 +16,7 @@ function AcceptInvitationContent() {
   const [error, setError] = useState<string | null>(null);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [acceptToc, setAcceptToc] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
   const { t } = useLanguage();
   const { refreshSession } = useAuth();
@@ -103,12 +104,44 @@ function AcceptInvitationContent() {
       return;
     }
 
+    if (!acceptToc) {
+      setError(
+        t("auth.invitation.tocRequired") ||
+          "You must accept the Terms and Conditions to continue"
+      );
+      setPasswordLoading(false);
+      return;
+    }
+
     try {
-      const { error: updateError } = await supabase.auth.updateUser({
-        password: password,
-      });
+      const { data: userData, error: updateError } =
+        await supabase.auth.updateUser({
+          password: password,
+        });
 
       if (updateError) throw updateError;
+
+      // Save TOC acceptance to database
+      if (userData.user) {
+        try {
+          const response = await fetch("/api/users/toc", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              supabaseUserId: userData.user.id,
+              accepted: true,
+            }),
+          });
+
+          if (!response.ok) {
+            console.error("Failed to save TOC acceptance");
+          }
+        } catch (err) {
+          console.error("Error saving TOC acceptance:", err);
+        }
+      }
 
       setStatus("success");
       setMessage(
@@ -206,6 +239,27 @@ function AcceptInvitationContent() {
                     "Confirm your password"
                   }
                 />
+              </div>
+
+              <div className="flex items-start">
+                <input
+                  id="acceptToc"
+                  type="checkbox"
+                  checked={acceptToc}
+                  onChange={(e) => {
+                    setAcceptToc(e.target.checked);
+                    if (error) setError(null);
+                  }}
+                  required
+                  className="mt-1 h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 rounded"
+                />
+                <label
+                  htmlFor="acceptToc"
+                  className="ml-2 text-sm text-gray-700 dark:text-gray-300"
+                >
+                  {t("auth.invitation.acceptToc") ||
+                    "I accept the Terms and Conditions"}
+                </label>
               </div>
 
               <button

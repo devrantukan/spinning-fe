@@ -122,7 +122,9 @@
       "namePlaceholder": "Adınız",
       "submit": "Kayıt Ol",
       "prompt": "Zaten hesabınız var mı? Giriş yapın",
-      "success": "Kayıt başarılı! Hesabınızı doğrulamak için e-postanızı kontrol edin."
+      "success": "Kayıt başarılı! Hesabınızı doğrulamak için e-postanızı kontrol edin.",
+      "acceptToc": "Kullanım Şartlarını kabul ediyorum",
+      "tocRequired": "Kayıt olmak için Kullanım Şartlarını kabul etmelisiniz"
     },
     "forgotPassword": "Şifremi Unuttum",
     "resetPassword": {
@@ -164,7 +166,9 @@
       "createPassword": "Şifre Oluştur",
       "passwordError": "Şifre oluşturulamadı. Lütfen tekrar deneyin.",
       "goToDashboard": "Panele Git",
-      "goHome": "Ana Sayfaya Git"
+      "goHome": "Ana Sayfaya Git",
+      "acceptToc": "Kullanım Şartlarını kabul ediyorum",
+      "tocRequired": "Devam etmek için Kullanım Şartlarını kabul etmelisiniz"
     }
   },
   "dashboard": {
