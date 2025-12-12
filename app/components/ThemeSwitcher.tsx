@@ -25,7 +25,9 @@ export default function ThemeSwitcher() {
         aria-label="Toggle theme"
         aria-expanded={isOpen}
       >
-        <span className="text-xs hidden sm:inline">{currentTheme.label}</span>
+        <span className="text-xs hidden sm:inline" suppressHydrationWarning>
+          {currentTheme.label}
+        </span>
         <svg
           className={`w-4 h-4 transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
