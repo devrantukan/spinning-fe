@@ -31,6 +31,18 @@ export default function Footer() {
                 {t(item.key)}
               </Link>
             ))}
+            <Link
+              href="/faq"
+              className="text-gray-900 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-500 font-medium transition-colors duration-200 text-sm md:text-base"
+            >
+              {t("footer.faq")}
+            </Link>
+            <Link
+              href="/terms"
+              className="text-gray-900 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-500 font-medium transition-colors duration-200 text-sm md:text-base"
+            >
+              {t("footer.terms")}
+            </Link>
           </nav>
 
           {/* TukanFT Credit */}

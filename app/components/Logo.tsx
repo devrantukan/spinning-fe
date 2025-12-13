@@ -1,6 +1,7 @@
 "use client";
 
 import { useTheme } from "../contexts/ThemeContext";
+import { useState, useEffect } from "react";
 
 interface LogoProps {
   className?: string;
@@ -8,7 +9,38 @@ interface LogoProps {
 
 export default function Logo({ className = "h-12 md:h-16 w-auto" }: LogoProps) {
   const { resolvedTheme } = useTheme();
-  const fillColor = resolvedTheme === "dark" ? "#ffffff" : "#000000";
+  const [mounted, setMounted] = useState(false);
+  const [fillColor, setFillColor] = useState("#000000");
+
+  // Update fill color when theme changes
+  useEffect(() => {
+    setMounted(true);
+    // Check both resolvedTheme and document class for dark mode
+    const isDark =
+      resolvedTheme === "dark" ||
+      document.documentElement.classList.contains("dark") ||
+      document.documentElement.getAttribute("data-theme") === "dark";
+    setFillColor(isDark ? "#ffffff" : "#000000");
+  }, [resolvedTheme]);
+
+  // Also listen for theme changes via DOM mutations
+  useEffect(() => {
+    if (!mounted) return;
+
+    const observer = new MutationObserver(() => {
+      const isDark =
+        document.documentElement.classList.contains("dark") ||
+        document.documentElement.getAttribute("data-theme") === "dark";
+      setFillColor(isDark ? "#ffffff" : "#000000");
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class", "data-theme"],
+    });
+
+    return () => observer.disconnect();
+  }, [mounted]);
 
   return (
     <svg

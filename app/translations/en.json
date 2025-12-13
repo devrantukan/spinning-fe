@@ -8,6 +8,10 @@
     "contact": "Contact",
     "joinUs": "Join Us"
   },
+  "footer": {
+    "faq": "FAQ",
+    "terms": "Terms & Conditions"
+  },
   "home": {
     "comingSoon": "COMING SOON",
     "message": "We're spinning up something amazing for you!",
@@ -274,6 +278,108 @@
       "nd": "nd",
       "rd": "rd",
       "th": "th"
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to common questions about our classes, bookings, and membership.",
+    "contact": "Still have questions? Feel free to contact us through our contact page.",
+    "questions": {
+      "q1": {
+        "question": "What should I bring to my first class?",
+        "answer": "For your first class, we recommend bringing a water bottle, a towel, and wearing comfortable workout clothes. We provide the bikes and all necessary equipment. Cycling shoes are optional but recommended for the best experience."
+      },
+      "q2": {
+        "question": "Do I need to book classes in advance?",
+        "answer": "Yes, we highly recommend booking classes in advance to secure your spot. You can book classes through our website or mobile app up to 2 weeks in advance. Walk-ins are welcome but subject to availability."
+      },
+      "q3": {
+        "question": "What is the cancellation policy?",
+        "answer": "You can cancel your booking up to 12 hours before the class starts without losing your credit. Cancellations made less than 12 hours before the class will result in the loss of your credit. Late cancellations and no-shows cannot be refunded."
+      },
+      "q4": {
+        "question": "How do credits work?",
+        "answer": "Credits are used to book classes. Each class requires one credit. You can purchase credit packages that offer better value. Credits do not expire and can be used for any class type."
+      },
+      "q5": {
+        "question": "Can I try a class before committing to a membership?",
+        "answer": "Yes! We offer a first-time visitor special that allows you to try a class at a discounted rate. Contact us or check our pricing page for current promotions."
+      },
+      "q6": {
+        "question": "What is the difference between class types?",
+        "answer": "We offer various class types including Signature Ride, The Takeover with guest coaches, and themed sessions. Each class has different music, intensity levels, and instructor styles. Check the class description when booking to find the perfect fit for you."
+      },
+      "q7": {
+        "question": "Is there an age requirement?",
+        "answer": "Participants must be at least 16 years old. Participants under 18 require parental consent. We welcome all fitness levels and ages above the minimum requirement."
+      },
+      "q8": {
+        "question": "What if I'm running late?",
+        "answer": "If you're running late, please call the studio. We hold spots for 5 minutes after class starts. After that, your spot may be given to a walk-in participant, and your credit will be forfeited."
+      },
+      "q9": {
+        "question": "Do you offer private sessions or group bookings?",
+        "answer": "Yes, we offer private sessions and group bookings for special events, corporate wellness programs, and celebrations. Please contact us directly to discuss your needs and pricing."
+      },
+      "q10": {
+        "question": "How do I update my account information?",
+        "answer": "You can update your account information, including contact details and preferences, through your dashboard on our website. Simply log in and navigate to your profile settings."
+      }
+    }
+  },
+  "terms": {
+    "title": "Terms and Conditions",
+    "lastUpdated": "Last updated: December 2025",
+    "contact": "If you have any questions about these Terms and Conditions, please contact us.",
+    "sections": {
+      "section1": {
+        "title": "Acceptance of Terms",
+        "content": "By accessing and using this website and our services, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service."
+      },
+      "section2": {
+        "title": "Use License",
+        "content": "Permission is granted to temporarily access the materials on Spin8 Studio's website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:\n\n- Modify or copy the materials\n- Use the materials for any commercial purpose or for any public display\n- Attempt to decompile or reverse engineer any software\n- Remove any copyright or other proprietary notations from the materials"
+      },
+      "section3": {
+        "title": "Membership and Bookings",
+        "content": "Memberships and class bookings are subject to availability. We reserve the right to cancel or reschedule classes. Credits purchased are non-refundable but can be used for future bookings. All bookings are subject to our cancellation policy."
+      },
+      "section4": {
+        "title": "Health and Safety",
+        "content": "By participating in our classes, you acknowledge that indoor cycling involves physical activity and potential risks. You agree to inform us of any medical conditions or injuries that may affect your participation. We are not liable for any injuries that may occur during classes."
+      },
+      "section5": {
+        "title": "Payment Terms",
+        "content": "All payments must be made in advance. We accept various payment methods as indicated on our website. Prices are subject to change without notice. Refunds are processed according to our refund policy."
+      },
+      "section6": {
+        "title": "Cancellation and Refund Policy",
+        "content": "Cancellations must be made at least 12 hours before the scheduled class time to avoid credit forfeiture. No refunds will be provided for late cancellations or no-shows. Credit packages are non-refundable but credits do not expire."
+      },
+      "section7": {
+        "title": "Privacy Policy",
+        "content": "Your privacy is important to us. We collect and use your personal information in accordance with our Privacy Policy. By using our services, you consent to the collection and use of information as described in our Privacy Policy."
+      },
+      "section8": {
+        "title": "Intellectual Property",
+        "content": "All content on this website, including but not limited to text, graphics, logos, images, and software, is the property of Spin8 Studio and is protected by copyright and other intellectual property laws."
+      },
+      "section9": {
+        "title": "Limitation of Liability",
+        "content": "Spin8 Studio shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use the service."
+      },
+      "section10": {
+        "title": "Modifications to Terms",
+        "content": "We reserve the right to modify these terms at any time. Your continued use of the service after any such changes constitutes your acceptance of the new terms."
+      },
+      "section11": {
+        "title": "Governing Law",
+        "content": "These terms shall be governed by and construed in accordance with the laws of Turkey, without regard to its conflict of law provisions."
+      },
+      "section12": {
+        "title": "Contact Information",
+        "content": "For questions regarding these Terms and Conditions, please contact us through our contact page or email us directly."
+      }
     }
   }
 }

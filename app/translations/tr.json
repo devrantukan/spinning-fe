@@ -8,6 +8,10 @@
     "contact": "İletişim",
     "joinUs": "Bize Katıl"
   },
+  "footer": {
+    "faq": "SSS",
+    "terms": "Kullanım Şartları"
+  },
   "home": {
     "comingSoon": "YAKINDA",
     "message": "Sizin için harika bir şeyler hazırlıyoruz!",
@@ -274,6 +278,108 @@
       "nd": ".",
       "rd": ".",
       "th": "."
+    }
+  },
+  "faq": {
+    "title": "Sıkça Sorulan Sorular",
+    "subtitle": "Derslerimiz, rezervasyonlar ve üyelik hakkında yaygın soruların yanıtlarını bulun.",
+    "contact": "Hala sorularınız mı var? İletişim sayfamızdan bizimle iletişime geçmekten çekinmeyin.",
+    "questions": {
+      "q1": {
+        "question": "İlk dersime ne getirmeliyim?",
+        "answer": "İlk dersiniz için su şişesi, havlu ve rahat spor kıyafetleri getirmenizi öneririz. Bisikletleri ve gerekli tüm ekipmanları biz sağlıyoruz. Bisiklet ayakkabıları isteğe bağlıdır ancak en iyi deneyim için önerilir."
+      },
+      "q2": {
+        "question": "Dersleri önceden rezerve etmem gerekiyor mu?",
+        "answer": "Evet, yerinizi garanti altına almak için dersleri önceden rezerve etmenizi şiddetle tavsiye ederiz. Dersleri web sitemiz veya mobil uygulamamız üzerinden 2 hafta öncesine kadar rezerve edebilirsiniz. Son dakika katılımlar memnuniyetle karşılanır ancak müsaitlik durumuna bağlıdır."
+      },
+      "q3": {
+        "question": "İptal politikası nedir?",
+        "answer": "Ders başlamadan 12 saat öncesine kadar rezervasyonunuzu kredinizi kaybetmeden iptal edebilirsiniz. Ders başlamadan 12 saatten az bir süre kala yapılan iptaller kredinizin kaybedilmesine neden olur. Geç iptaller ve gelmeme durumları için geri ödeme yapılamaz."
+      },
+      "q4": {
+        "question": "Krediler nasıl çalışır?",
+        "answer": "Krediler ders rezervasyonu için kullanılır. Her ders bir kredi gerektirir. Daha iyi değer sunan kredi paketleri satın alabilirsiniz. Kredilerin süresi dolmaz ve herhangi bir ders türü için kullanılabilir."
+      },
+      "q5": {
+        "question": "Üyeliğe bağlanmadan önce bir ders deneyebilir miyim?",
+        "answer": "Evet! İlk ziyaretçi özel teklifimiz var ve bu sayede bir dersi indirimli fiyatla deneyebilirsiniz. Güncel kampanyalar için bizimle iletişime geçin veya fiyatlandırma sayfamıza bakın."
+      },
+      "q6": {
+        "question": "Ders türleri arasındaki fark nedir?",
+        "answer": "Signature Ride, misafir eğitmenlerle The Takeover ve temalı oturumlar dahil olmak üzere çeşitli ders türleri sunuyoruz. Her dersin farklı müziği, yoğunluk seviyeleri ve eğitmen stilleri vardır. Size en uygun olanı bulmak için rezervasyon yaparken ders açıklamasını kontrol edin."
+      },
+      "q7": {
+        "question": "Yaş gereksinimi var mı?",
+        "answer": "Katılımcılar en az 16 yaşında olmalıdır. 18 yaşın altındaki katılımcılar için ebeveyn onayı gereklidir. Minimum gereksinimin üzerindeki tüm fitness seviyelerini ve yaşları memnuniyetle karşılıyoruz."
+      },
+      "q8": {
+        "question": "Geç kalırsam ne olur?",
+        "answer": "Geç kalıyorsanız, lütfen stüdyoyu arayın. Ders başladıktan sonra 5 dakika yer tutuyoruz. Bundan sonra yeriniz son dakika katılımcıya verilebilir ve krediniz kaybedilir."
+      },
+      "q9": {
+        "question": "Özel oturumlar veya grup rezervasyonları sunuyor musunuz?",
+        "answer": "Evet, özel etkinlikler, kurumsal wellness programları ve kutlamalar için özel oturumlar ve grup rezervasyonları sunuyoruz. İhtiyaçlarınızı ve fiyatlandırmayı görüşmek için lütfen doğrudan bizimle iletişime geçin."
+      },
+      "q10": {
+        "question": "Hesap bilgilerimi nasıl güncelleyebilirim?",
+        "answer": "Hesap bilgilerinizi, iletişim detayları ve tercihleriniz dahil olmak üzere web sitemizdeki panonuz aracılığıyla güncelleyebilirsiniz. Sadece giriş yapın ve profil ayarlarınıza gidin."
+      }
+    }
+  },
+  "terms": {
+    "title": "Kullanım Şartları",
+    "lastUpdated": "Son güncelleme: Aralık 2025",
+    "contact": "Bu Kullanım Şartları hakkında herhangi bir sorunuz varsa, lütfen bizimle iletişime geçin.",
+    "sections": {
+      "section1": {
+        "title": "Şartların Kabulü",
+        "content": "Bu web sitesine erişerek ve hizmetlerimizi kullanarak, bu anlaşmanın şartlarını ve hükümlerini kabul eder ve bunlara bağlı kalmayı kabul edersiniz. Yukarıdakilere uymayı kabul etmiyorsanız, lütfen bu hizmeti kullanmayın."
+      },
+      "section2": {
+        "title": "Kullanım Lisansı",
+        "content": "Spin8 Studio web sitesindeki materyallere kişisel, ticari olmayan geçici görüntüleme için geçici olarak erişim izni verilir. Bu bir lisans verilmesidir, başlık transferi değildir ve bu lisans altında şunları yapamazsınız:\n\n- Materyalleri değiştirmek veya kopyalamak\n- Materyalleri herhangi bir ticari amaç için veya herhangi bir kamu gösterimi için kullanmak\n- Herhangi bir yazılımı tersine mühendislik yapmaya veya derlemeyi kaldırmaya çalışmak\n- Materyallerden telif hakkı veya diğer mülkiyet notlarını kaldırmak"
+      },
+      "section3": {
+        "title": "Üyelik ve Rezervasyonlar",
+        "content": "Üyelikler ve ders rezervasyonları müsaitliğe tabidir. Dersleri iptal etme veya yeniden planlama hakkımız saklıdır. Satın alınan krediler iade edilemez ancak gelecekteki rezervasyonlar için kullanılabilir. Tüm rezervasyonlar iptal politikamıza tabidir."
+      },
+      "section4": {
+        "title": "Sağlık ve Güvenlik",
+        "content": "Derslerimize katılarak, kapalı bisiklet sürmenin fiziksel aktivite ve potansiyel riskler içerdiğini kabul edersiniz. Katılımınızı etkileyebilecek herhangi bir tıbbi durum veya yaralanmayı bize bildirmeyi kabul edersiniz. Dersler sırasında meydana gelebilecek yaralanmalardan sorumlu değiliz."
+      },
+      "section5": {
+        "title": "Ödeme Şartları",
+        "content": "Tüm ödemeler önceden yapılmalıdır. Web sitemizde belirtildiği gibi çeşitli ödeme yöntemlerini kabul ediyoruz. Fiyatlar önceden haber verilmeksizin değiştirilebilir. İadeler iade politikamıza göre işlenir."
+      },
+      "section6": {
+        "title": "İptal ve İade Politikası",
+        "content": "Kredi kaybını önlemek için iptaller planlanan ders saatinden en az 12 saat önce yapılmalıdır. Geç iptaller veya gelmeme durumları için geri ödeme yapılmayacaktır. Kredi paketleri iade edilemez ancak kredilerin süresi dolmaz."
+      },
+      "section7": {
+        "title": "Gizlilik Politikası",
+        "content": "Gizliliğiniz bizim için önemlidir. Kişisel bilgilerinizi Gizlilik Politikamıza uygun olarak topluyor ve kullanıyoruz. Hizmetlerimizi kullanarak, Gizlilik Politikamızda açıklandığı şekilde bilgilerin toplanmasına ve kullanılmasına izin verirsiniz."
+      },
+      "section8": {
+        "title": "Fikri Mülkiyet",
+        "content": "Bu web sitesindeki metin, grafikler, logolar, görüntüler ve yazılım dahil ancak bunlarla sınırlı olmamak üzere tüm içerik Spin8 Studio'nun mülkiyetindedir ve telif hakkı ve diğer fikri mülkiyet yasalarıyla korunmaktadır."
+      },
+      "section9": {
+        "title": "Sorumluluk Sınırlaması",
+        "content": "Spin8 Studio, hizmeti kullanmanızdan veya kullanamamanızdan kaynaklanan dolaylı, arızi, özel, sonuçsal veya cezai zararlardan sorumlu değildir."
+      },
+      "section10": {
+        "title": "Şartlarda Değişiklikler",
+        "content": "Bu şartları istediğimiz zaman değiştirme hakkımız saklıdır. Bu tür değişikliklerden sonra hizmeti kullanmaya devam etmeniz, yeni şartları kabul ettiğiniz anlamına gelir."
+      },
+      "section11": {
+        "title": "Uygulanacak Hukuk",
+        "content": "Bu şartlar, çatışma hukuku hükümlerine bakılmaksızın Türkiye yasalarına göre yönetilir ve yorumlanır."
+      },
+      "section12": {
+        "title": "İletişim Bilgileri",
+        "content": "Bu Kullanım Şartları ile ilgili sorularınız için lütfen iletişim sayfamızdan veya doğrudan e-posta ile bizimle iletişime geçin."
+      }
     }
   }
 }
