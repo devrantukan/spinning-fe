@@ -9,9 +9,14 @@ import { useRouter } from "next/navigation";
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
+  redirectAfterLogin?: boolean | string; // true/false or specific route
 }
 
-export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
+export default function AuthModal({
+  isOpen,
+  onClose,
+  redirectAfterLogin = true,
+}: AuthModalProps) {
   const [isLogin, setIsLogin] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -53,7 +58,15 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
         await refreshSession();
         onClose();
-        router.push("/dashboard");
+
+        // Redirect if enabled (default behavior)
+        if (redirectAfterLogin) {
+          const redirectPath =
+            typeof redirectAfterLogin === "string"
+              ? redirectAfterLogin
+              : "/dashboard";
+          router.push(redirectPath);
+        }
       } else {
         // Validate TOC acceptance
         if (!acceptToc) {

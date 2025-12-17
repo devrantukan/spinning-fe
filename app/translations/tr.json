@@ -194,13 +194,20 @@
       "description": "Açıklama",
       "credit": "Kredi",
       "debit": "Borç",
-      "empty": "Kredi geçmişi bulunmamaktadır."
+      "empty": "Kredi geçmişi bulunmamaktadır.",
+      "noHistoryYet": "İşlemler admin tarafından onaylandıktan sonra kredi geçmişi burada görünecektir.",
+      "currentBalance": "Mevcut bakiye: {balance} kredi"
     },
     "status": {
       "active": "Aktif",
       "inactive": "Pasif",
       "suspended": "Askıya Alındı"
-    }
+    },
+    "allAccess": "All Access",
+    "eliteMember": "Elite Üye",
+    "eliteMemberInfo": "Öncelikli rezervasyon ve özel avantajlar",
+    "active": "Aktif",
+    "expired": "Süresi Doldu"
   },
   "classes": {
     "title": "Program",
@@ -231,8 +238,24 @@
       "studio": "Stüdyo",
       "musicGenre": "Müzik Türü",
       "bookNow": "REZERVASYON YAP",
+      "booking": "Rezervasyon yapılıyor...",
       "timeTbd": "Saat Belirlenecek",
       "unknownInstructor": "Bilinmeyen Eğitmen"
+    },
+    "booking": {
+      "success": "Rezervasyon başarılı! Rezervasyonunuz onaylandı.",
+      "error": "Oturum rezerve edilemedi. Lütfen tekrar deneyin.",
+      "loginRequired": "Oturum rezerve etmek için lütfen giriş yapın.",
+      "noMember": "Üye hesabı bulunamadı. Lütfen destek ile iletişime geçin.",
+      "insufficientCredits": "Yetersiz kredi veya ödeme yöntemi mevcut değil.",
+      "selectPaymentMethod": "Ödeme Yöntemi Seç",
+      "selectPaymentMethodDescription": "Bu oturum için nasıl ödeme yapmak istediğinizi seçin:",
+      "credits": "Kredi",
+      "available": "mevcut",
+      "allAccess": "All Access",
+      "friendPass": "Arkadaş Hakkı",
+      "cancel": "İptal",
+      "confirm": "Rezervasyonu Onayla"
     },
     "days": {
       "sun": "Paz",
@@ -278,6 +301,61 @@
       "nd": ".",
       "rd": ".",
       "th": "."
+    }
+  },
+  "pricing": {
+    "title": "Paketlerimiz",
+    "subtitle": "Fitness yolculuğunuz için mükemmel paketi seçin",
+    "noPackages": "Şu anda paket bulunmamaktadır",
+    "purchase": "Satın Al",
+    "purchasePackage": "Paket Satın Al",
+    "purchaseSuccess": "Paket başarıyla satın alındı!",
+    "purchaseError": "Paket satın alma başarısız oldu",
+    "permissionError": "Paket satın alma izniniz yok. Bunun bir hata olduğunu düşünüyorsanız lütfen destek ile iletişime geçin.",
+    "loginRequired": "Paket satın almak için lütfen giriş yapın",
+    "memberNotFound": "Üye hesabı bulunamadı. Lütfen destek ile iletişime geçin.",
+    "couponCode": "Kupon Kodu",
+    "optional": "İsteğe Bağlı",
+    "couponApplied": "Kupon başarıyla uygulandı",
+    "invalidCoupon": "Geçersiz kupon kodu",
+    "couponNotApplicable": "Kupon bu pakete uygulanamaz",
+    "couponError": "Kupon doğrulama başarısız oldu",
+    "originalPrice": "Orijinal Fiyat",
+    "discount": "İndirim",
+    "save": "Tasarruf",
+    "credits": "kredi",
+    "perCredit": "kredi",
+    "cancel": "İptal",
+    "processing": "İşleniyor...",
+    "paymentMethod": "Ödeme Yöntemi",
+    "comingSoon": "Yakında",
+    "credits": {
+      "title": "Kredi kartı ile ödeme"
+    },
+    "bankTransfer": {
+      "title": "Banka Havalesi",
+      "pending": "Banka havalesi siparişi oluşturuldu! Lütfen ödeme talimatları için e-postanızı kontrol edin.",
+      "successTitle": "Ödeme Talimatları",
+      "emailSent": "Ödeme talimatları e-posta adresinize gönderildi.",
+      "orderId": "Sipariş No",
+      "orderIdNote": "Lütfen bu Sipariş No'yu banka havalesi referansına ekleyin.",
+      "details": "Banka Havalesi Detayları",
+      "accountName": "Hesap Adı",
+      "bankName": "Banka Adı",
+      "accountNumber": "Hesap Numarası",
+      "iban": "IBAN",
+      "swift": "SWIFT",
+      "branchCode": "Şube Kodu",
+      "amount": "Transfer Edilecek Tutar",
+      "important": "Önemli",
+      "note": "Lütfen Sipariş No'nuzu transfer referansına ekleyin. Ödeme onaylandıktan sonra paketiniz aktifleştirilecektir.",
+      "close": "Kapat"
+    },
+    "types": {
+      "singleRide": "Tek Sürüş",
+      "creditPack": "Kredi Paketi",
+      "elite30": "Elite 30",
+      "allAccess": "All Access"
     }
   },
   "faq": {

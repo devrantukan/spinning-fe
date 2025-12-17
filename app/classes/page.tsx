@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
+import { useAuth } from "../contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 interface Session {
   id: string;
@@ -47,8 +49,15 @@ function getInstructorName(
 
 export default function Classes() {
   const { t } = useLanguage();
+  const { user, session } = useAuth();
+  const router = useRouter();
   const [sessions, setSessions] = useState<Session[]>([]);
   const [loading, setLoading] = useState(true);
+  const [bookingSessionId, setBookingSessionId] = useState<string | null>(null);
+  const [bookingMessage, setBookingMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
   const [selectedInstructor, setSelectedInstructor] = useState<string>("");
   const [selectedWorkoutType, setSelectedWorkoutType] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -100,6 +109,17 @@ export default function Classes() {
         console.log("Raw sessions from API:", rawSessions);
 
         // Transform backend session format to frontend format
+        interface LocationObject {
+          name?: string;
+          address?: string;
+          id?: string;
+          description?: string;
+          organizationId?: string;
+          isDefault?: boolean;
+          createdAt?: string;
+          updatedAt?: string;
+        }
+
         interface RawSession {
           id?: string;
           _id?: string;
@@ -112,7 +132,7 @@ export default function Classes() {
           instructor?: unknown;
           instructorId?: unknown;
           duration?: number | string;
-          location?: string;
+          location?: string | LocationObject;
           studio?: string | { name?: string; address?: string };
           workoutType?: string;
           musicGenre?: string;
@@ -122,7 +142,7 @@ export default function Classes() {
             name?: string;
             instructor?: unknown;
             duration?: number | string;
-            location?: string;
+            location?: string | LocationObject;
             studio?: string | { name?: string };
             workoutType?: string;
             musicGenre?: string;
@@ -181,11 +201,29 @@ export default function Classes() {
             session.duration || session.class?.duration || 50;
 
           // Extract location
-          const sessionLocation =
-            session.location ||
-            session.class?.location ||
-            (typeof session.studio === "object" && session.studio?.address) ||
-            "";
+          let sessionLocation: string = "";
+          if (typeof session.location === "string") {
+            sessionLocation = session.location;
+          } else if (session.location && typeof session.location === "object") {
+            // Handle location object (extract name or address property)
+            const locationObj = session.location as LocationObject;
+            sessionLocation = locationObj?.name || locationObj?.address || "";
+          } else if (session.class?.location) {
+            if (typeof session.class.location === "string") {
+              sessionLocation = session.class.location;
+            } else if (
+              session.class.location &&
+              typeof session.class.location === "object"
+            ) {
+              const locationObj = session.class.location as LocationObject;
+              sessionLocation = locationObj?.name || locationObj?.address || "";
+            }
+          } else if (
+            typeof session.studio === "object" &&
+            session.studio?.address
+          ) {
+            sessionLocation = session.studio.address;
+          }
 
           // Extract studio
           let sessionStudio: string = "";
@@ -497,12 +535,275 @@ export default function Classes() {
     setSelectedDates([]); // Reset selected dates when navigating
   }
 
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedSessionForBooking, setSelectedSessionForBooking] =
+    useState<Session | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<
+    "CREDITS" | "ALL_ACCESS" | "FRIEND_PASS"
+  >("CREDITS");
+  const [memberData, setMemberData] = useState<any>(null);
+  const [redemptions, setRedemptions] = useState<any[]>([]);
+  const [allAccessUsages, setAllAccessUsages] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (user && session?.access_token) {
+      fetchMemberAndRedemptions();
+    }
+  }, [user, session?.access_token]);
+
+  const fetchMemberAndRedemptions = async () => {
+    if (!session?.access_token) return;
+
+    try {
+      // Fetch member
+      const membersRes = await fetch("/api/members", {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+      if (membersRes.ok) {
+        const members = await membersRes.json();
+        const member =
+          Array.isArray(members) && members.length > 0 ? members[0] : null;
+        if (member) {
+          setMemberData(member);
+
+          // Fetch redemptions
+          const redemptionsRes = await fetch(
+            `/api/members/${member.id}/redemptions`,
+            {
+              headers: {
+                Authorization: `Bearer ${session.access_token}`,
+              },
+            }
+          );
+          if (redemptionsRes.ok) {
+            const redemptionsData = await redemptionsRes.json();
+            const redemptionsList = Array.isArray(redemptionsData)
+              ? redemptionsData
+              : [];
+            setRedemptions(redemptionsList);
+
+            // Fetch All Access usage
+            const allAccessRedemptions = redemptionsList.filter(
+              (r: any) =>
+                r.status === "ACTIVE" &&
+                r.allAccessExpiresAt &&
+                new Date(r.allAccessExpiresAt) > new Date()
+            );
+
+            if (allAccessRedemptions.length > 0) {
+              const usagePromises = allAccessRedemptions.map((r: any) =>
+                fetch(`/api/redemptions/${r.id}/all-access-usage`, {
+                  headers: {
+                    Authorization: `Bearer ${session.access_token}`,
+                  },
+                }).then((res) => (res.ok ? res.json() : []))
+              );
+
+              const usageResults = await Promise.all(usagePromises);
+              const allUsages = usageResults.flat();
+              setAllAccessUsages(Array.isArray(allUsages) ? allUsages : []);
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching member data:", error);
+    }
+  };
+
+  const getAvailablePaymentMethods = (): Array<
+    "CREDITS" | "ALL_ACCESS" | "FRIEND_PASS"
+  > => {
+    const methods: Array<"CREDITS" | "ALL_ACCESS" | "FRIEND_PASS"> = [];
+
+    if (!memberData) return methods;
+
+    // Check credits (assuming 1 credit per session)
+    const sessionCredits = 1;
+    if (memberData.creditBalance >= sessionCredits) {
+      methods.push("CREDITS");
+    }
+
+    // Check All Access
+    if (memberData.hasAllAccess && memberData.allAccessExpiresAt) {
+      const activeRedemption = redemptions.find(
+        (r: any) =>
+          r.status === "ACTIVE" &&
+          r.allAccessExpiresAt &&
+          new Date(r.allAccessExpiresAt) > new Date()
+      );
+      if (activeRedemption) {
+        const todayStr = new Date().toISOString().split("T")[0];
+        const usedToday = allAccessUsages.some(
+          (usage: any) => usage.usageDate === todayStr && !usage.wasNoShow
+        );
+        if (!usedToday) {
+          methods.push("ALL_ACCESS");
+        }
+      }
+    }
+
+    // Check friend pass
+    const friendPassRedemption = redemptions.find(
+      (r: any) =>
+        r.friendPassAvailable &&
+        !r.friendPassUsed &&
+        r.friendPassExpiresAt &&
+        new Date(r.friendPassExpiresAt) > new Date()
+    );
+    if (friendPassRedemption) {
+      methods.push("FRIEND_PASS");
+    }
+
+    return methods;
+  };
+
+  async function handleBookNow(session: Session) {
+    // Check if user is logged in
+    if (!user) {
+      setBookingMessage({
+        type: "error",
+        text:
+          t("classes.booking.loginRequired") ||
+          "Please log in to book a session.",
+      });
+      setTimeout(() => setBookingMessage(null), 5000);
+      router.push("/?auth=login");
+      return;
+    }
+
+    // Show payment method selection if multiple options available
+    const availableMethods = getAvailablePaymentMethods();
+    if (availableMethods.length === 0) {
+      setBookingMessage({
+        type: "error",
+        text:
+          t("classes.booking.insufficientCredits") ||
+          "Insufficient credits or no payment method available.",
+      });
+      setTimeout(() => setBookingMessage(null), 5000);
+      return;
+    }
+
+    if (availableMethods.length > 1) {
+      setSelectedSessionForBooking(session);
+      setPaymentMethod(availableMethods[0]);
+      setShowPaymentModal(true);
+      return;
+    }
+
+    // Single payment method, proceed directly
+    await proceedWithBooking(session, availableMethods[0]);
+  }
+
+  async function proceedWithBooking(
+    sessionToBook: Session,
+    paymentType: "CREDITS" | "ALL_ACCESS" | "FRIEND_PASS"
+  ) {
+    setBookingSessionId(sessionToBook.id);
+    setBookingMessage(null);
+    setShowPaymentModal(false);
+
+    try {
+      // First, get the member ID for the current user
+      const membersResponse = await fetch("/api/members", {
+        headers: {
+          Authorization: `Bearer ${session?.access_token}`,
+        },
+      });
+      let memberId: string | null = null;
+
+      if (membersResponse.ok) {
+        const members = await membersResponse.json();
+        if (Array.isArray(members) && members.length > 0) {
+          memberId = members[0].id;
+        }
+      }
+
+      if (!memberId) {
+        setBookingMessage({
+          type: "error",
+          text:
+            t("classes.booking.noMember") ||
+            "Member account not found. Please contact support.",
+        });
+        setBookingSessionId(null);
+        setTimeout(() => setBookingMessage(null), 5000);
+        return;
+      }
+
+      const response = await fetch("/api/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session?.access_token}`,
+        },
+        body: JSON.stringify({
+          sessionId: sessionToBook.id,
+          memberId: memberId,
+          paymentType: paymentType,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setBookingMessage({
+          type: "success",
+          text: t("classes.booking.success") || "Booking successful!",
+        });
+        // Refresh sessions and member data
+        await fetchMemberAndRedemptions();
+        setTimeout(() => {
+          setBookingSessionId(null);
+          setBookingMessage(null);
+          setSelectedSessionForBooking(null);
+          // Trigger a refresh by updating a dependency
+          setCurrentWeekStart((prev) => new Date(prev));
+        }, 2000);
+      } else {
+        setBookingMessage({
+          type: "error",
+          text:
+            data.error ||
+            t("classes.booking.error") ||
+            "Failed to book session. Please try again.",
+        });
+        setBookingSessionId(null);
+        setTimeout(() => setBookingMessage(null), 5000);
+      }
+    } catch (error: any) {
+      console.error("Error booking session:", error);
+      setBookingMessage({
+        type: "error",
+        text:
+          t("classes.booking.error") || "An error occurred. Please try again.",
+      });
+      setBookingSessionId(null);
+      setTimeout(() => setBookingMessage(null), 5000);
+    }
+  }
+
   const weekDates = getWeekDates(currentWeekStart);
   const sortedDateKeys = Object.keys(sessionsByDate).sort();
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-20 pb-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Booking Message */}
+        {bookingMessage && (
+          <div
+            className={`mb-6 p-4 rounded-lg ${
+              bookingMessage.type === "success"
+                ? "bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200"
+                : "bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200"
+            }`}
+          >
+            <p className="font-medium">{bookingMessage.text}</p>
+          </div>
+        )}
         {/* Page Title */}
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-2">
           {t("classes.title")}
@@ -739,8 +1040,18 @@ export default function Classes() {
                             </p>
                           )}
                         </div>
-                        <button className="mt-4 w-full md:w-auto px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors">
-                          {t("classes.session.bookNow")}
+                        <button
+                          onClick={() => handleBookNow(session)}
+                          disabled={bookingSessionId === session.id}
+                          className={`mt-4 w-full md:w-auto px-6 py-3 font-semibold rounded-lg transition-colors ${
+                            bookingSessionId === session.id
+                              ? "bg-gray-400 dark:bg-gray-600 text-white cursor-not-allowed"
+                              : "bg-orange-500 text-white hover:bg-orange-600"
+                          }`}
+                        >
+                          {bookingSessionId === session.id
+                            ? t("classes.session.booking")
+                            : t("classes.session.bookNow")}
                         </button>
                       </div>
                     ))}
@@ -748,6 +1059,91 @@ export default function Classes() {
                 </div>
               );
             })}
+          </div>
+        )}
+
+        {/* Payment Method Selection Modal */}
+        {showPaymentModal && selectedSessionForBooking && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {t("classes.booking.selectPaymentMethod") ||
+                    "Select Payment Method"}
+                </h3>
+                <button
+                  onClick={() => {
+                    setShowPaymentModal(false);
+                    setSelectedSessionForBooking(null);
+                  }}
+                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl"
+                >
+                  ×
+                </button>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-gray-600 dark:text-gray-400 mb-4">
+                  {t("classes.booking.selectPaymentMethodDescription") ||
+                    "Choose how you want to pay for this session:"}
+                </p>
+
+                {getAvailablePaymentMethods().map((method) => (
+                  <label
+                    key={method}
+                    className="flex items-center gap-3 p-3 mb-2 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700"
+                  >
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value={method}
+                      checked={paymentMethod === method}
+                      onChange={(e) =>
+                        setPaymentMethod(
+                          e.target.value as
+                            | "CREDITS"
+                            | "ALL_ACCESS"
+                            | "FRIEND_PASS"
+                        )
+                      }
+                      className="w-4 h-4 text-orange-500"
+                    />
+                    <span className="text-gray-900 dark:text-white">
+                      {method === "CREDITS"
+                        ? `${t("classes.booking.credits") || "Credits"} (${
+                            memberData?.creditBalance || 0
+                          } ${t("classes.booking.available") || "available"})`
+                        : method === "ALL_ACCESS"
+                        ? t("classes.booking.allAccess") || "All Access"
+                        : t("classes.booking.friendPass") || "Friend Pass"}
+                    </span>
+                  </label>
+                ))}
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    setShowPaymentModal(false);
+                    setSelectedSessionForBooking(null);
+                  }}
+                  className="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                >
+                  {t("classes.booking.cancel") || "Cancel"}
+                </button>
+                <button
+                  onClick={() =>
+                    proceedWithBooking(selectedSessionForBooking, paymentMethod)
+                  }
+                  disabled={bookingSessionId === selectedSessionForBooking.id}
+                  className="flex-1 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+                >
+                  {bookingSessionId === selectedSessionForBooking.id
+                    ? t("classes.session.booking")
+                    : t("classes.booking.confirm") || "Confirm Booking"}
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -102,7 +102,8 @@ USING (
         id,
         userId,
         creditBalance,
-        status
+        status,
+        confirmedCreditBalance:creditBalance
       `
       )
       .eq("userId", userRecord.id);

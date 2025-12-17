@@ -194,13 +194,20 @@
       "description": "Description",
       "credit": "Credit",
       "debit": "Debit",
-      "empty": "No credit history available."
+      "empty": "No credit history available.",
+      "noHistoryYet": "Credit history will appear here once transactions are confirmed by admin.",
+      "currentBalance": "Current balance: {balance} credits"
     },
     "status": {
       "active": "Active",
       "inactive": "Inactive",
       "suspended": "Suspended"
-    }
+    },
+    "allAccess": "All Access",
+    "eliteMember": "Elite Member",
+    "eliteMemberInfo": "Priority booking & exclusive benefits",
+    "active": "Active",
+    "expired": "Expired"
   },
   "classes": {
     "title": "Schedule",
@@ -231,8 +238,24 @@
       "studio": "Studio",
       "musicGenre": "Music Genre",
       "bookNow": "BOOK NOW",
+      "booking": "Booking...",
       "timeTbd": "Time TBD",
       "unknownInstructor": "Unknown Instructor"
+    },
+    "booking": {
+      "success": "Booking successful! Your reservation has been confirmed.",
+      "error": "Failed to book session. Please try again.",
+      "loginRequired": "Please log in to book a session.",
+      "noMember": "Member account not found. Please contact support.",
+      "insufficientCredits": "Insufficient credits or no payment method available.",
+      "selectPaymentMethod": "Select Payment Method",
+      "selectPaymentMethodDescription": "Choose how you want to pay for this session:",
+      "credits": "Credits",
+      "available": "available",
+      "allAccess": "All Access",
+      "friendPass": "Friend Pass",
+      "cancel": "Cancel",
+      "confirm": "Confirm Booking"
     },
     "days": {
       "sun": "Sun",
@@ -278,6 +301,61 @@
       "nd": "nd",
       "rd": "rd",
       "th": "th"
+    }
+  },
+  "pricing": {
+    "title": "Our Packages",
+    "subtitle": "Choose the perfect package for your fitness journey",
+    "noPackages": "No packages available at the moment",
+    "purchase": "Purchase",
+    "purchasePackage": "Purchase Package",
+    "purchaseSuccess": "Package purchased successfully!",
+    "purchaseError": "Failed to purchase package",
+    "permissionError": "You don't have permission to purchase packages. Please contact support if you believe this is an error.",
+    "loginRequired": "Please log in to purchase packages",
+    "memberNotFound": "Member account not found. Please contact support.",
+    "couponCode": "Coupon Code",
+    "optional": "Optional",
+    "couponApplied": "Coupon applied successfully",
+    "invalidCoupon": "Invalid coupon code",
+    "couponNotApplicable": "Coupon does not apply to this package",
+    "couponError": "Failed to validate coupon",
+    "originalPrice": "Original Price",
+    "discount": "Discount",
+    "save": "Save",
+    "credits": "credits",
+    "perCredit": "credit",
+    "cancel": "Cancel",
+    "processing": "Processing...",
+    "paymentMethod": "Payment Method",
+    "comingSoon": "Coming Soon",
+    "credits": {
+      "title": "Credit Card Payment"
+    },
+    "bankTransfer": {
+      "title": "Bank Transfer",
+      "pending": "Bank transfer order created! Please check your email for payment instructions.",
+      "successTitle": "Payment Instructions",
+      "emailSent": "Payment instructions have been sent to your email address.",
+      "orderId": "Order ID",
+      "orderIdNote": "Please include this Order ID in your bank transfer reference.",
+      "details": "Bank Transfer Details",
+      "accountName": "Account Name",
+      "bankName": "Bank Name",
+      "accountNumber": "Account Number",
+      "iban": "IBAN",
+      "swift": "SWIFT",
+      "branchCode": "Branch Code",
+      "amount": "Amount to Transfer",
+      "important": "Important",
+      "note": "Please include your Order ID in the transfer reference. Your package will be activated once payment is confirmed.",
+      "close": "Close"
+    },
+    "types": {
+      "singleRide": "Single Ride",
+      "creditPack": "Credit Pack",
+      "elite30": "Elite 30",
+      "allAccess": "All Access"
     }
   },
   "faq": {
