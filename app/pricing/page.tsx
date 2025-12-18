@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useAuth } from "../contexts/AuthContext";
 import { useRouter } from "next/navigation";
@@ -50,52 +50,38 @@ export default function Pricing() {
   } | null>(null);
   const [purchasing, setPurchasing] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<
-    "CREDITS" | "BANK_TRANSFER"
+    "CREDIT_CARD" | "BANK_TRANSFER"
   >("BANK_TRANSFER");
   const [message, setMessage] = useState<{
     type: "success" | "error";
     text: string;
   } | null>(null);
-  const [bankTransferDetails, setBankTransferDetails] = useState<{
-    orderId: string;
-    bankDetails: any;
-    amount: number;
-  } | null>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [pendingPackageSelection, setPendingPackageSelection] =
-    useState<Package | null>(null);
+  const [pendingPackage, setPendingPackage] = useState<Package | null>(null);
 
   useEffect(() => {
     fetchPackages();
   }, []);
 
-  // Handle automatic purchase modal opening after login
-  useEffect(() => {
-    if (
-      user &&
-      session?.access_token &&
-      pendingPackageSelection &&
-      !isAuthModalOpen &&
-      !showModal
-    ) {
-      // User just logged in and we have a pending package selection
-      // Small delay to ensure auth state is fully updated
-      setTimeout(() => {
-        setSelectedPackage(pendingPackageSelection);
-        setShowModal(true);
-        setCouponCode("");
-        setCouponDiscount(null);
-        setMessage(null);
-        setPendingPackageSelection(null);
-      }, 100);
-    }
-  }, [
-    user,
-    session?.access_token,
-    pendingPackageSelection,
-    isAuthModalOpen,
-    showModal,
-  ]);
+  // Handle successful login - open purchase modal if there was a pending package
+  const handleLoginSuccess = useCallback(() => {
+    // Use a small delay to ensure auth state is fully updated
+    setTimeout(() => {
+      setPendingPackage((currentPending) => {
+        if (currentPending) {
+          setSelectedPackage(currentPending);
+          setShowModal(true);
+          setCouponCode("");
+          setCouponDiscount(null);
+          setPaymentMethod("BANK_TRANSFER");
+          setMessage(null);
+          setIsAuthModalOpen(false);
+          return null; // Clear pending package
+        }
+        return currentPending;
+      });
+    }, 300);
+  }, []);
 
   const fetchPackages = async () => {
     setLoading(true);
@@ -221,11 +207,7 @@ export default function Pricing() {
 
   const handlePurchase = async () => {
     if (!user || !session?.access_token) {
-      setMessage({
-        type: "error",
-        text: t("pricing.loginRequired") || "Please log in to purchase",
-      });
-      router.push("/?auth=login");
+      setIsAuthModalOpen(true);
       return;
     }
 
@@ -258,84 +240,42 @@ export default function Pricing() {
 
     setPurchasing(true);
     try {
-      // Try member-specific endpoint first (better for member context)
-      let response = await fetch(`/api/members/${memberId}/packages/redeem`, {
+      const response = await fetch("/api/packages/redeem", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${session.access_token}`,
         },
         body: JSON.stringify({
+          memberId,
           packageId: selectedPackage.id,
           couponCode: couponCode.trim() || undefined,
           paymentType: paymentMethod,
         }),
       });
 
-      // If member-specific endpoint doesn't exist, fall back to general endpoint
-      if (response.status === 404) {
-        response = await fetch("/api/packages/redeem", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${session.access_token}`,
-          },
-          body: JSON.stringify({
-            memberId,
-            packageId: selectedPackage.id,
-            couponCode: couponCode.trim() || undefined,
-            paymentType: paymentMethod,
-          }),
-        });
-      }
-
       const data = await response.json();
 
       if (response.ok) {
-        // Handle bank transfer differently
-        if (paymentMethod === "BANK_TRANSFER" && data.orderId) {
-          setBankTransferDetails({
-            orderId: data.orderId,
-            bankDetails: data.bankDetails,
-            amount:
-              data.amount ||
-              (couponDiscount
-                ? couponDiscount.finalPrice
-                : selectedPackage.price),
-          });
-          setMessage({
-            type: "success",
-            text:
-              t("pricing.bankTransfer.pending") ||
-              "Bank transfer order created! Please check your email for payment instructions.",
-          });
-        } else {
-          setMessage({
-            type: "success",
-            text:
-              t("pricing.purchaseSuccess") || "Package purchased successfully!",
-          });
-          setShowModal(false);
-          setSelectedPackage(null);
-          setCouponCode("");
-          setCouponDiscount(null);
-          // Refresh packages and redirect to dashboard
-          setTimeout(() => {
-            router.push("/dashboard");
-          }, 2000);
-        }
+        setMessage({
+          type: "success",
+          text:
+            t("pricing.purchaseSuccess") || "Package purchased successfully!",
+        });
+        setShowModal(false);
+        setSelectedPackage(null);
+        setCouponCode("");
+        setCouponDiscount(null);
+        setPaymentMethod("BANK_TRANSFER");
+        // Refresh packages and redirect to dashboard
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 2000);
       } else {
-        // Provide clearer error message for permission issues
-        let errorMessage =
-          data.error || t("pricing.purchaseError") || "Failed to purchase";
-        if (errorMessage.includes("admin") || response.status === 403) {
-          errorMessage =
-            t("pricing.permissionError") ||
-            "You don't have permission to purchase packages. Please contact support if you believe this is an error.";
-        }
         setMessage({
           type: "error",
-          text: errorMessage,
+          text:
+            data.error || t("pricing.purchaseError") || "Failed to purchase",
         });
       }
     } catch (error: any) {
@@ -479,18 +419,16 @@ export default function Pricing() {
 
                 <button
                   onClick={() => {
-                    // Check if user is authenticated
                     if (!user || !session?.access_token) {
-                      // Store the package selection for after login
-                      setPendingPackageSelection(pkg);
+                      setPendingPackage(pkg);
                       setIsAuthModalOpen(true);
                       return;
                     }
-                    // User is authenticated, proceed with purchase modal
                     setSelectedPackage(pkg);
                     setShowModal(true);
                     setCouponCode("");
                     setCouponDiscount(null);
+                    setPaymentMethod("BANK_TRANSFER");
                     setMessage(null);
                   }}
                   className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-colors"
@@ -502,140 +440,8 @@ export default function Pricing() {
           </div>
         )}
 
-        {/* Bank Transfer Success Modal */}
-        {bankTransferDetails && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {t("pricing.bankTransfer.successTitle") ||
-                    "Payment Instructions"}
-                </h3>
-                <button
-                  onClick={() => {
-                    setBankTransferDetails(null);
-                    setShowModal(false);
-                    setSelectedPackage(null);
-                    setCouponCode("");
-                    setCouponDiscount(null);
-                    router.push("/dashboard");
-                  }}
-                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl"
-                >
-                  ×
-                </button>
-              </div>
-
-              <div className="mb-4 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
-                <p className="text-green-800 dark:text-green-200">
-                  {t("pricing.bankTransfer.emailSent") ||
-                    "Payment instructions have been sent to your email address."}
-                </p>
-              </div>
-
-              <div className="mb-4">
-                <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  {t("pricing.bankTransfer.orderId") || "Order ID"}
-                </h4>
-                <p className="text-2xl font-mono text-orange-600 dark:text-orange-400">
-                  {bankTransferDetails.orderId}
-                </p>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                  {t("pricing.bankTransfer.orderIdNote") ||
-                    "Please include this Order ID in your bank transfer reference."}
-                </p>
-              </div>
-
-              <div className="mb-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-                  {t("pricing.bankTransfer.details") || "Bank Transfer Details"}
-                </h4>
-                <div className="space-y-2 text-sm">
-                  <p>
-                    <strong>
-                      {t("pricing.bankTransfer.accountName") || "Account Name"}:
-                    </strong>{" "}
-                    {bankTransferDetails.bankDetails.accountName}
-                  </p>
-                  <p>
-                    <strong>
-                      {t("pricing.bankTransfer.bankName") || "Bank Name"}:
-                    </strong>{" "}
-                    {bankTransferDetails.bankDetails.bankName}
-                  </p>
-                  <p>
-                    <strong>
-                      {t("pricing.bankTransfer.accountNumber") ||
-                        "Account Number"}
-                      :
-                    </strong>{" "}
-                    {bankTransferDetails.bankDetails.accountNumber}
-                  </p>
-                  {bankTransferDetails.bankDetails.iban && (
-                    <p>
-                      <strong>
-                        {t("pricing.bankTransfer.iban") || "IBAN"}:
-                      </strong>{" "}
-                      {bankTransferDetails.bankDetails.iban}
-                    </p>
-                  )}
-                  {bankTransferDetails.bankDetails.swift && (
-                    <p>
-                      <strong>
-                        {t("pricing.bankTransfer.swift") || "SWIFT"}:
-                      </strong>{" "}
-                      {bankTransferDetails.bankDetails.swift}
-                    </p>
-                  )}
-                  {bankTransferDetails.bankDetails.branchCode && (
-                    <p>
-                      <strong>
-                        {t("pricing.bankTransfer.branchCode") || "Branch Code"}:
-                      </strong>{" "}
-                      {bankTransferDetails.bankDetails.branchCode}
-                    </p>
-                  )}
-                  <p className="mt-3 pt-3 border-t border-gray-300 dark:border-gray-600">
-                    <strong>
-                      {t("pricing.bankTransfer.amount") || "Amount to Transfer"}
-                      :
-                    </strong>{" "}
-                    <span className="text-xl font-bold text-orange-600 dark:text-orange-400">
-                      {formatPrice(bankTransferDetails.amount)}
-                    </span>
-                  </p>
-                </div>
-              </div>
-
-              <div className="mb-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
-                <p className="text-sm text-yellow-800 dark:text-yellow-200">
-                  <strong>
-                    {t("pricing.bankTransfer.important") || "Important"}:
-                  </strong>{" "}
-                  {t("pricing.bankTransfer.note") ||
-                    "Please include your Order ID in the transfer reference. Your package will be activated once payment is confirmed."}
-                </p>
-              </div>
-
-              <button
-                onClick={() => {
-                  setBankTransferDetails(null);
-                  setShowModal(false);
-                  setSelectedPackage(null);
-                  setCouponCode("");
-                  setCouponDiscount(null);
-                  router.push("/dashboard");
-                }}
-                className="w-full px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
-              >
-                {t("pricing.bankTransfer.close") || "Close"}
-              </button>
-            </div>
-          </div>
-        )}
-
         {/* Purchase Modal */}
-        {showModal && selectedPackage && !bankTransferDetails && (
+        {showModal && selectedPackage && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full">
               <div className="flex justify-between items-center mb-4">
@@ -648,6 +454,7 @@ export default function Pricing() {
                     setSelectedPackage(null);
                     setCouponCode("");
                     setCouponDiscount(null);
+                    setPaymentMethod("BANK_TRANSFER");
                   }}
                   className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl"
                 >
@@ -678,49 +485,6 @@ export default function Pricing() {
 
               <div className="mb-4">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  {t("pricing.paymentMethod") || "Payment Method"}
-                </label>
-                <div className="space-y-2">
-                  <label className="flex items-center gap-3 p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="BANK_TRANSFER"
-                      checked={paymentMethod === "BANK_TRANSFER"}
-                      onChange={(e) =>
-                        setPaymentMethod(
-                          e.target.value as "CREDITS" | "BANK_TRANSFER"
-                        )
-                      }
-                      className="w-4 h-4 text-orange-500"
-                    />
-                    <span className="text-gray-900 dark:text-white">
-                      {t("pricing.bankTransfer.title") || "Bank Transfer"}
-                    </span>
-                  </label>
-                  <label className="flex items-center gap-3 p-3 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="CREDITS"
-                      checked={paymentMethod === "CREDITS"}
-                      onChange={(e) =>
-                        setPaymentMethod(
-                          e.target.value as "CREDITS" | "BANK_TRANSFER"
-                        )
-                      }
-                      className="w-4 h-4 text-orange-500"
-                    />
-                    <span className="text-gray-900 dark:text-white">
-                      {t("pricing.credits.title") || "Credits"} (
-                      {t("pricing.comingSoon") || "Coming Soon"})
-                    </span>
-                  </label>
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   {t("pricing.couponCode") || "Coupon Code"} (
                   {t("pricing.optional") || "Optional"})
                 </label>
@@ -747,6 +511,68 @@ export default function Pricing() {
                 </div>
               </div>
 
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {t("pricing.paymentMethod") || "Payment Method"}
+                </label>
+                <div className="space-y-2">
+                  <label
+                    className={`flex items-center p-3 border-2 rounded-lg transition-colors ${"border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 opacity-60 cursor-not-allowed"}`}
+                  >
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="CREDIT_CARD"
+                      disabled
+                      className="mr-3 h-4 w-4 text-gray-400 border-gray-300 dark:border-gray-600 cursor-not-allowed"
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium text-gray-500 dark:text-gray-400">
+                          {t("pricing.creditCard") || "Credit Card"}
+                        </span>
+                        <span className="text-xs px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded">
+                          {t("pricing.comingSoon") || "Coming Soon"}
+                        </span>
+                      </div>
+                      <div className="text-sm text-gray-400 dark:text-gray-500">
+                        {t("pricing.creditCardDescription") ||
+                          "Pay instantly with your credit card"}
+                      </div>
+                    </div>
+                  </label>
+                  <label
+                    className={`flex items-center p-3 border-2 rounded-lg cursor-pointer transition-colors ${
+                      paymentMethod === "BANK_TRANSFER"
+                        ? "border-orange-500 bg-orange-50 dark:bg-orange-900/20"
+                        : "border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 hover:border-orange-500 dark:hover:border-orange-500"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="BANK_TRANSFER"
+                      checked={paymentMethod === "BANK_TRANSFER"}
+                      onChange={(e) =>
+                        setPaymentMethod(
+                          e.target.value as "CREDIT_CARD" | "BANK_TRANSFER"
+                        )
+                      }
+                      className="mr-3 h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 dark:border-gray-600"
+                    />
+                    <div className="flex-1">
+                      <div className="font-medium text-gray-900 dark:text-white">
+                        {t("pricing.bankTransfer") || "Bank Transfer"}
+                      </div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">
+                        {t("pricing.bankTransferDescription") ||
+                          "Transfer funds directly from your bank account"}
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
               <div className="flex gap-3">
                 <button
                   onClick={() => {
@@ -754,6 +580,7 @@ export default function Pricing() {
                     setSelectedPackage(null);
                     setCouponCode("");
                     setCouponDiscount(null);
+                    setPaymentMethod("BANK_TRANSFER");
                   }}
                   className="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                 >
@@ -778,7 +605,9 @@ export default function Pricing() {
           isOpen={isAuthModalOpen}
           onClose={() => {
             setIsAuthModalOpen(false);
+            setPendingPackage(null);
           }}
+          onLoginSuccess={handleLoginSuccess}
           redirectAfterLogin={false}
         />
       </div>

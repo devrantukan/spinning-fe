@@ -8,10 +8,6 @@
     "contact": "Contact",
     "joinUs": "Join Us"
   },
-  "footer": {
-    "faq": "FAQ",
-    "terms": "Terms & Conditions"
-  },
   "home": {
     "comingSoon": "COMING SOON",
     "message": "We're spinning up something amazing for you!",
@@ -194,163 +190,43 @@
       "description": "Description",
       "credit": "Credit",
       "debit": "Debit",
-      "empty": "No credit history available.",
-      "noHistoryYet": "Credit history will appear here once transactions are confirmed by admin.",
-      "currentBalance": "Current balance: {balance} credits"
+      "empty": "No credit history available."
     },
     "status": {
       "active": "Active",
       "inactive": "Inactive",
       "suspended": "Suspended"
-    },
-    "allAccess": "All Access",
-    "eliteMember": "Elite Member",
-    "eliteMemberInfo": "Priority booking & exclusive benefits",
-    "active": "Active",
-    "expired": "Expired"
-  },
-  "classes": {
-    "title": "Schedule",
-    "timetable": "Timetable",
-    "filters": {
-      "instructors": "Instructors",
-      "allInstructors": "All Instructors",
-      "workoutType": "Workout Type",
-      "allTypes": "All Types",
-      "search": "Search",
-      "searchPlaceholder": "Search sessions...",
-      "timeFilter": "Time Filter",
-      "allDay": "All Day",
-      "am": "AM",
-      "pm": "PM"
-    },
-    "quickDateSelection": "Quick Date Selection",
-    "previousWeek": "Previous week",
-    "nextWeek": "Next week",
-    "noSessions": "No sessions found for the selected filters.",
-    "session": {
-      "with": "With",
-      "time": "Time",
-      "date": "Date",
-      "duration": "Duration",
-      "minutes": "Minutes",
-      "location": "Location",
-      "studio": "Studio",
-      "musicGenre": "Music Genre",
-      "bookNow": "BOOK NOW",
-      "booking": "Booking...",
-      "timeTbd": "Time TBD",
-      "unknownInstructor": "Unknown Instructor"
-    },
-    "booking": {
-      "success": "Booking successful! Your reservation has been confirmed.",
-      "error": "Failed to book session. Please try again.",
-      "loginRequired": "Please log in to book a session.",
-      "noMember": "Member account not found. Please contact support.",
-      "insufficientCredits": "Insufficient credits or no payment method available.",
-      "selectPaymentMethod": "Select Payment Method",
-      "selectPaymentMethodDescription": "Choose how you want to pay for this session:",
-      "credits": "Credits",
-      "available": "available",
-      "allAccess": "All Access",
-      "friendPass": "Friend Pass",
-      "cancel": "Cancel",
-      "confirm": "Confirm Booking"
-    },
-    "days": {
-      "sun": "Sun",
-      "mon": "Mon",
-      "tue": "Tue",
-      "wed": "Wed",
-      "thu": "Thu",
-      "fri": "Fri",
-      "sat": "Sat"
-    },
-    "months": {
-      "short": {
-        "jan": "Jan",
-        "feb": "Feb",
-        "mar": "Mar",
-        "apr": "Apr",
-        "may": "May",
-        "jun": "Jun",
-        "jul": "Jul",
-        "aug": "Aug",
-        "sep": "Sep",
-        "oct": "Oct",
-        "nov": "Nov",
-        "dec": "Dec"
-      },
-      "long": {
-        "january": "January",
-        "february": "February",
-        "march": "March",
-        "april": "April",
-        "may": "May",
-        "june": "June",
-        "july": "July",
-        "august": "August",
-        "september": "September",
-        "october": "October",
-        "november": "November",
-        "december": "December"
-      }
-    },
-    "daySuffix": {
-      "st": "st",
-      "nd": "nd",
-      "rd": "rd",
-      "th": "th"
     }
   },
   "pricing": {
     "title": "Our Packages",
     "subtitle": "Choose the perfect package for your fitness journey",
     "noPackages": "No packages available at the moment",
-    "purchase": "Purchase",
-    "purchasePackage": "Purchase Package",
-    "purchaseSuccess": "Package purchased successfully!",
-    "purchaseError": "Failed to purchase package",
-    "permissionError": "You don't have permission to purchase packages. Please contact support if you believe this is an error.",
-    "loginRequired": "Please log in to purchase packages",
-    "memberNotFound": "Member account not found. Please contact support.",
-    "couponCode": "Coupon Code",
-    "optional": "Optional",
-    "couponApplied": "Coupon applied successfully",
-    "invalidCoupon": "Invalid coupon code",
-    "couponNotApplicable": "Coupon does not apply to this package",
-    "couponError": "Failed to validate coupon",
-    "originalPrice": "Original Price",
-    "discount": "Discount",
     "save": "Save",
     "credits": "credits",
     "perCredit": "credit",
+    "purchase": "Purchase",
+    "purchasePackage": "Purchase Package",
+    "originalPrice": "Original",
+    "discount": "Discount",
+    "couponCode": "Coupon Code",
+    "optional": "Optional",
     "cancel": "Cancel",
     "processing": "Processing...",
+    "loginRequired": "Please log in to purchase",
+    "invalidCoupon": "Invalid coupon code",
+    "couponNotApplicable": "Coupon does not apply to this package",
+    "couponApplied": "Coupon applied successfully",
+    "couponError": "Failed to validate coupon",
+    "memberNotFound": "Member account not found. Please contact support.",
+    "purchaseSuccess": "Package purchased successfully!",
+    "purchaseError": "Failed to purchase",
     "paymentMethod": "Payment Method",
+    "creditCard": "Credit Card",
+    "creditCardDescription": "Pay instantly with your credit card",
+    "bankTransfer": "Bank Transfer",
+    "bankTransferDescription": "Transfer funds directly from your bank account",
     "comingSoon": "Coming Soon",
-    "credits": {
-      "title": "Credit Card Payment"
-    },
-    "bankTransfer": {
-      "title": "Bank Transfer",
-      "pending": "Bank transfer order created! Please check your email for payment instructions.",
-      "successTitle": "Payment Instructions",
-      "emailSent": "Payment instructions have been sent to your email address.",
-      "orderId": "Order ID",
-      "orderIdNote": "Please include this Order ID in your bank transfer reference.",
-      "details": "Bank Transfer Details",
-      "accountName": "Account Name",
-      "bankName": "Bank Name",
-      "accountNumber": "Account Number",
-      "iban": "IBAN",
-      "swift": "SWIFT",
-      "branchCode": "Branch Code",
-      "amount": "Amount to Transfer",
-      "important": "Important",
-      "note": "Please include your Order ID in the transfer reference. Your package will be activated once payment is confirmed.",
-      "close": "Close"
-    },
     "types": {
       "singleRide": "Single Ride",
       "creditPack": "Credit Pack",
@@ -358,105 +234,117 @@
       "allAccess": "All Access"
     }
   },
-  "faq": {
-    "title": "Frequently Asked Questions",
-    "subtitle": "Find answers to common questions about our classes, bookings, and membership.",
-    "contact": "Still have questions? Feel free to contact us through our contact page.",
-    "questions": {
-      "q1": {
-        "question": "What should I bring to my first class?",
-        "answer": "For your first class, we recommend bringing a water bottle, a towel, and wearing comfortable workout clothes. We provide the bikes and all necessary equipment. Cycling shoes are optional but recommended for the best experience."
-      },
-      "q2": {
-        "question": "Do I need to book classes in advance?",
-        "answer": "Yes, we highly recommend booking classes in advance to secure your spot. You can book classes through our website or mobile app up to 2 weeks in advance. Walk-ins are welcome but subject to availability."
-      },
-      "q3": {
-        "question": "What is the cancellation policy?",
-        "answer": "You can cancel your booking up to 12 hours before the class starts without losing your credit. Cancellations made less than 12 hours before the class will result in the loss of your credit. Late cancellations and no-shows cannot be refunded."
-      },
-      "q4": {
-        "question": "How do credits work?",
-        "answer": "Credits are used to book classes. Each class requires one credit. You can purchase credit packages that offer better value. Credits do not expire and can be used for any class type."
-      },
-      "q5": {
-        "question": "Can I try a class before committing to a membership?",
-        "answer": "Yes! We offer a first-time visitor special that allows you to try a class at a discounted rate. Contact us or check our pricing page for current promotions."
-      },
-      "q6": {
-        "question": "What is the difference between class types?",
-        "answer": "We offer various class types including Signature Ride, The Takeover with guest coaches, and themed sessions. Each class has different music, intensity levels, and instructor styles. Check the class description when booking to find the perfect fit for you."
-      },
-      "q7": {
-        "question": "Is there an age requirement?",
-        "answer": "Participants must be at least 16 years old. Participants under 18 require parental consent. We welcome all fitness levels and ages above the minimum requirement."
-      },
-      "q8": {
-        "question": "What if I'm running late?",
-        "answer": "If you're running late, please call the studio. We hold spots for 5 minutes after class starts. After that, your spot may be given to a walk-in participant, and your credit will be forfeited."
-      },
-      "q9": {
-        "question": "Do you offer private sessions or group bookings?",
-        "answer": "Yes, we offer private sessions and group bookings for special events, corporate wellness programs, and celebrations. Please contact us directly to discuss your needs and pricing."
-      },
-      "q10": {
-        "question": "How do I update my account information?",
-        "answer": "You can update your account information, including contact details and preferences, through your dashboard on our website. Simply log in and navigate to your profile settings."
-      }
-    }
-  },
   "terms": {
     "title": "Terms and Conditions",
-    "lastUpdated": "Last updated: December 2025",
+    "lastUpdated": "Last updated: January 2024",
     "contact": "If you have any questions about these Terms and Conditions, please contact us.",
     "sections": {
       "section1": {
         "title": "Acceptance of Terms",
-        "content": "By accessing and using this website and our services, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service."
+        "content": "By accessing and using Spin8 Studio's services, you accept and agree to be bound by the terms and provision of this agreement."
       },
       "section2": {
         "title": "Use License",
-        "content": "Permission is granted to temporarily access the materials on Spin8 Studio's website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:\n\n- Modify or copy the materials\n- Use the materials for any commercial purpose or for any public display\n- Attempt to decompile or reverse engineer any software\n- Remove any copyright or other proprietary notations from the materials"
+        "content": "Permission is granted to temporarily access the materials on Spin8 Studio's website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title."
       },
       "section3": {
-        "title": "Membership and Bookings",
-        "content": "Memberships and class bookings are subject to availability. We reserve the right to cancel or reschedule classes. Credits purchased are non-refundable but can be used for future bookings. All bookings are subject to our cancellation policy."
+        "title": "Membership",
+        "content": "Membership packages are subject to availability and may be modified or discontinued at any time. All purchases are final unless otherwise stated."
       },
       "section4": {
-        "title": "Health and Safety",
-        "content": "By participating in our classes, you acknowledge that indoor cycling involves physical activity and potential risks. You agree to inform us of any medical conditions or injuries that may affect your participation. We are not liable for any injuries that may occur during classes."
+        "title": "Class Bookings",
+        "content": "Classes must be booked in advance through our booking system. Cancellations must be made at least 12 hours before the scheduled class time to avoid forfeiting credits."
       },
       "section5": {
-        "title": "Payment Terms",
-        "content": "All payments must be made in advance. We accept various payment methods as indicated on our website. Prices are subject to change without notice. Refunds are processed according to our refund policy."
+        "title": "Credits and Packages",
+        "content": "Credits are non-refundable and non-transferable. Package validity periods apply as specified at the time of purchase. Expired credits cannot be reinstated."
       },
       "section6": {
-        "title": "Cancellation and Refund Policy",
-        "content": "Cancellations must be made at least 12 hours before the scheduled class time to avoid credit forfeiture. No refunds will be provided for late cancellations or no-shows. Credit packages are non-refundable but credits do not expire."
+        "title": "Health and Safety",
+        "content": "Participants must inform instructors of any medical conditions, injuries, or limitations before class. Spin8 Studio is not liable for injuries resulting from failure to disclose relevant health information."
       },
       "section7": {
-        "title": "Privacy Policy",
-        "content": "Your privacy is important to us. We collect and use your personal information in accordance with our Privacy Policy. By using our services, you consent to the collection and use of information as described in our Privacy Policy."
+        "title": "Age Requirements",
+        "content": "Participants must be at least 16 years of age. Participants under 18 must have parental consent and supervision."
       },
       "section8": {
-        "title": "Intellectual Property",
-        "content": "All content on this website, including but not limited to text, graphics, logos, images, and software, is the property of Spin8 Studio and is protected by copyright and other intellectual property laws."
+        "title": "Cancellation Policy",
+        "content": "Spin8 Studio reserves the right to cancel classes due to unforeseen circumstances. In such cases, credits will be refunded or alternative arrangements will be made."
       },
       "section9": {
-        "title": "Limitation of Liability",
-        "content": "Spin8 Studio shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use the service."
+        "title": "Refund Policy",
+        "content": "All sales are final. Refunds may be considered on a case-by-case basis for exceptional circumstances, subject to management approval."
       },
       "section10": {
-        "title": "Modifications to Terms",
-        "content": "We reserve the right to modify these terms at any time. Your continued use of the service after any such changes constitutes your acceptance of the new terms."
+        "title": "Code of Conduct",
+        "content": "All members must respect the studio environment, instructors, and fellow participants. Disruptive behavior may result in removal from class and termination of membership."
       },
       "section11": {
-        "title": "Governing Law",
-        "content": "These terms shall be governed by and construed in accordance with the laws of Turkey, without regard to its conflict of law provisions."
+        "title": "Personal Belongings",
+        "content": "Spin8 Studio is not responsible for lost or stolen personal belongings. Lockers are available for use at your own risk."
       },
       "section12": {
-        "title": "Contact Information",
-        "content": "For questions regarding these Terms and Conditions, please contact us through our contact page or email us directly."
+        "title": "Photography and Media",
+        "content": "Photography and video recording during classes may be restricted. Spin8 Studio may use photos and videos for promotional purposes unless you opt out in writing."
+      },
+      "section13": {
+        "title": "Privacy Policy",
+        "content": "Your personal information will be handled in accordance with our Privacy Policy. By using our services, you consent to the collection and use of your information as described."
+      },
+      "section14": {
+        "title": "Modifications",
+        "content": "Spin8 Studio reserves the right to modify these terms at any time. Continued use of services after changes constitutes acceptance of the modified terms."
+      },
+      "section15": {
+        "title": "Governing Law",
+        "content": "These terms shall be governed by and construed in accordance with the laws of Turkey. Any disputes shall be subject to the exclusive jurisdiction of Turkish courts."
+      }
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to common questions about Spin8 Studio",
+    "contact": "Still have questions? Contact us and we'll be happy to help!",
+    "questions": {
+      "q1": {
+        "question": "What should I bring to my first class?",
+        "answer": "Please bring a water bottle, a towel, and wear comfortable workout clothes. We provide cycling shoes, but you're welcome to bring your own if you prefer."
+      },
+      "q2": {
+        "question": "Do I need to book classes in advance?",
+        "answer": "Yes, we recommend booking classes in advance through our online system to secure your spot. Classes can fill up quickly, especially during peak hours."
+      },
+      "q3": {
+        "question": "What is the cancellation policy?",
+        "answer": "You can cancel your class booking up to 12 hours before the scheduled time without losing your credit. Cancellations made less than 12 hours before class will result in credit forfeiture."
+      },
+      "q4": {
+        "question": "Are there different difficulty levels?",
+        "answer": "Our classes are designed to accommodate all fitness levels. Instructors provide modifications and encourage you to work at your own pace. Each class can be adjusted to your fitness level."
+      },
+      "q5": {
+        "question": "How do credits work?",
+        "answer": "Credits are used to book classes. Different packages offer different numbers of credits. Credits are valid for a specific period as stated in your package terms."
+      },
+      "q6": {
+        "question": "Can I transfer my credits to someone else?",
+        "answer": "No, credits are non-transferable and tied to your account. They cannot be shared or transferred to other members."
+      },
+      "q7": {
+        "question": "What happens if I'm late to class?",
+        "answer": "If you arrive more than 5 minutes late, your spot may be given to someone on the waitlist. We recommend arriving 10-15 minutes early to set up your bike."
+      },
+      "q8": {
+        "question": "Do you offer trial classes?",
+        "answer": "Yes, we offer trial classes for first-time visitors. Please contact us to schedule your trial class and experience what Spin8 has to offer."
+      },
+      "q9": {
+        "question": "What age do I need to be to participate?",
+        "answer": "Participants must be at least 16 years old. Participants under 18 require parental consent and may need supervision depending on the circumstances."
+      },
+      "q10": {
+        "question": "How do I purchase a package?",
+        "answer": "You can purchase packages through our website's pricing page. Simply select the package that suits you, add any coupon codes if applicable, and complete your purchase. You'll receive credits immediately after payment."
       }
     }
   }

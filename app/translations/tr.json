@@ -8,10 +8,6 @@
     "contact": "İletişim",
     "joinUs": "Bize Katıl"
   },
-  "footer": {
-    "faq": "SSS",
-    "terms": "Kullanım Şartları"
-  },
   "home": {
     "comingSoon": "YAKINDA",
     "message": "Sizin için harika bir şeyler hazırlıyoruz!",
@@ -194,271 +190,162 @@
       "description": "Açıklama",
       "credit": "Kredi",
       "debit": "Borç",
-      "empty": "Kredi geçmişi bulunmamaktadır.",
-      "noHistoryYet": "İşlemler admin tarafından onaylandıktan sonra kredi geçmişi burada görünecektir.",
-      "currentBalance": "Mevcut bakiye: {balance} kredi"
+      "empty": "Kredi geçmişi bulunmamaktadır."
     },
     "status": {
       "active": "Aktif",
       "inactive": "Pasif",
       "suspended": "Askıya Alındı"
-    },
-    "allAccess": "All Access",
-    "eliteMember": "Elite Üye",
-    "eliteMemberInfo": "Öncelikli rezervasyon ve özel avantajlar",
-    "active": "Aktif",
-    "expired": "Süresi Doldu"
-  },
-  "classes": {
-    "title": "Program",
-    "timetable": "Ders Programı",
-    "filters": {
-      "instructors": "Eğitmenler",
-      "allInstructors": "Tüm Eğitmenler",
-      "workoutType": "Antrenman Türü",
-      "allTypes": "Tüm Türler",
-      "search": "Ara",
-      "searchPlaceholder": "Oturumları ara...",
-      "timeFilter": "Zaman Filtresi",
-      "allDay": "Tüm Gün",
-      "am": "ÖÖ",
-      "pm": "ÖS"
-    },
-    "quickDateSelection": "Hızlı Tarih Seçimi",
-    "previousWeek": "Önceki hafta",
-    "nextWeek": "Sonraki hafta",
-    "noSessions": "Seçilen filtreler için oturum bulunamadı.",
-    "session": {
-      "with": "Eğitmen",
-      "time": "Saat",
-      "date": "Tarih",
-      "duration": "Süre",
-      "minutes": "Dakika",
-      "location": "Konum",
-      "studio": "Stüdyo",
-      "musicGenre": "Müzik Türü",
-      "bookNow": "REZERVASYON YAP",
-      "booking": "Rezervasyon yapılıyor...",
-      "timeTbd": "Saat Belirlenecek",
-      "unknownInstructor": "Bilinmeyen Eğitmen"
-    },
-    "booking": {
-      "success": "Rezervasyon başarılı! Rezervasyonunuz onaylandı.",
-      "error": "Oturum rezerve edilemedi. Lütfen tekrar deneyin.",
-      "loginRequired": "Oturum rezerve etmek için lütfen giriş yapın.",
-      "noMember": "Üye hesabı bulunamadı. Lütfen destek ile iletişime geçin.",
-      "insufficientCredits": "Yetersiz kredi veya ödeme yöntemi mevcut değil.",
-      "selectPaymentMethod": "Ödeme Yöntemi Seç",
-      "selectPaymentMethodDescription": "Bu oturum için nasıl ödeme yapmak istediğinizi seçin:",
-      "credits": "Kredi",
-      "available": "mevcut",
-      "allAccess": "All Access",
-      "friendPass": "Arkadaş Hakkı",
-      "cancel": "İptal",
-      "confirm": "Rezervasyonu Onayla"
-    },
-    "days": {
-      "sun": "Paz",
-      "mon": "Pzt",
-      "tue": "Sal",
-      "wed": "Çar",
-      "thu": "Per",
-      "fri": "Cum",
-      "sat": "Cmt"
-    },
-    "months": {
-      "short": {
-        "jan": "Oca",
-        "feb": "Şub",
-        "mar": "Mar",
-        "apr": "Nis",
-        "may": "May",
-        "jun": "Haz",
-        "jul": "Tem",
-        "aug": "Ağu",
-        "sep": "Eyl",
-        "oct": "Eki",
-        "nov": "Kas",
-        "dec": "Ara"
-      },
-      "long": {
-        "january": "Ocak",
-        "february": "Şubat",
-        "march": "Mart",
-        "april": "Nisan",
-        "may": "Mayıs",
-        "june": "Haziran",
-        "july": "Temmuz",
-        "august": "Ağustos",
-        "september": "Eylül",
-        "october": "Ekim",
-        "november": "Kasım",
-        "december": "Aralık"
-      }
-    },
-    "daySuffix": {
-      "st": ".",
-      "nd": ".",
-      "rd": ".",
-      "th": "."
     }
   },
   "pricing": {
     "title": "Paketlerimiz",
     "subtitle": "Fitness yolculuğunuz için mükemmel paketi seçin",
     "noPackages": "Şu anda paket bulunmamaktadır",
-    "purchase": "Satın Al",
-    "purchasePackage": "Paket Satın Al",
-    "purchaseSuccess": "Paket başarıyla satın alındı!",
-    "purchaseError": "Paket satın alma başarısız oldu",
-    "permissionError": "Paket satın alma izniniz yok. Bunun bir hata olduğunu düşünüyorsanız lütfen destek ile iletişime geçin.",
-    "loginRequired": "Paket satın almak için lütfen giriş yapın",
-    "memberNotFound": "Üye hesabı bulunamadı. Lütfen destek ile iletişime geçin.",
-    "couponCode": "Kupon Kodu",
-    "optional": "İsteğe Bağlı",
-    "couponApplied": "Kupon başarıyla uygulandı",
-    "invalidCoupon": "Geçersiz kupon kodu",
-    "couponNotApplicable": "Kupon bu pakete uygulanamaz",
-    "couponError": "Kupon doğrulama başarısız oldu",
-    "originalPrice": "Orijinal Fiyat",
-    "discount": "İndirim",
     "save": "Tasarruf",
     "credits": "kredi",
     "perCredit": "kredi",
+    "purchase": "Satın Al",
+    "purchasePackage": "Paket Satın Al",
+    "originalPrice": "Orijinal",
+    "discount": "İndirim",
+    "couponCode": "Kupon Kodu",
+    "optional": "İsteğe Bağlı",
     "cancel": "İptal",
     "processing": "İşleniyor...",
+    "loginRequired": "Satın almak için lütfen giriş yapın",
+    "invalidCoupon": "Geçersiz kupon kodu",
+    "couponNotApplicable": "Kupon bu pakete uygulanamaz",
+    "couponApplied": "Kupon başarıyla uygulandı",
+    "couponError": "Kupon doğrulanamadı",
+    "memberNotFound": "Üye hesabı bulunamadı. Lütfen destek ile iletişime geçin.",
+    "purchaseSuccess": "Paket başarıyla satın alındı!",
+    "purchaseError": "Satın alma başarısız oldu",
     "paymentMethod": "Ödeme Yöntemi",
+    "creditCard": "Kredi Kartı",
+    "creditCardDescription": "Kredi kartınızla anında ödeme yapın",
+    "bankTransfer": "Banka Havalesi",
+    "bankTransferDescription": "Banka hesabınızdan doğrudan para transferi yapın",
     "comingSoon": "Yakında",
-    "credits": {
-      "title": "Kredi kartı ile ödeme"
-    },
-    "bankTransfer": {
-      "title": "Banka Havalesi",
-      "pending": "Banka havalesi siparişi oluşturuldu! Lütfen ödeme talimatları için e-postanızı kontrol edin.",
-      "successTitle": "Ödeme Talimatları",
-      "emailSent": "Ödeme talimatları e-posta adresinize gönderildi.",
-      "orderId": "Sipariş No",
-      "orderIdNote": "Lütfen bu Sipariş No'yu banka havalesi referansına ekleyin.",
-      "details": "Banka Havalesi Detayları",
-      "accountName": "Hesap Adı",
-      "bankName": "Banka Adı",
-      "accountNumber": "Hesap Numarası",
-      "iban": "IBAN",
-      "swift": "SWIFT",
-      "branchCode": "Şube Kodu",
-      "amount": "Transfer Edilecek Tutar",
-      "important": "Önemli",
-      "note": "Lütfen Sipariş No'nuzu transfer referansına ekleyin. Ödeme onaylandıktan sonra paketiniz aktifleştirilecektir.",
-      "close": "Kapat"
-    },
     "types": {
-      "singleRide": "Tek Sürüş",
+      "singleRide": "Tek Ders",
       "creditPack": "Kredi Paketi",
       "elite30": "Elite 30",
-      "allAccess": "All Access"
-    }
-  },
-  "faq": {
-    "title": "Sıkça Sorulan Sorular",
-    "subtitle": "Derslerimiz, rezervasyonlar ve üyelik hakkında yaygın soruların yanıtlarını bulun.",
-    "contact": "Hala sorularınız mı var? İletişim sayfamızdan bizimle iletişime geçmekten çekinmeyin.",
-    "questions": {
-      "q1": {
-        "question": "İlk dersime ne getirmeliyim?",
-        "answer": "İlk dersiniz için su şişesi, havlu ve rahat spor kıyafetleri getirmenizi öneririz. Bisikletleri ve gerekli tüm ekipmanları biz sağlıyoruz. Bisiklet ayakkabıları isteğe bağlıdır ancak en iyi deneyim için önerilir."
-      },
-      "q2": {
-        "question": "Dersleri önceden rezerve etmem gerekiyor mu?",
-        "answer": "Evet, yerinizi garanti altına almak için dersleri önceden rezerve etmenizi şiddetle tavsiye ederiz. Dersleri web sitemiz veya mobil uygulamamız üzerinden 2 hafta öncesine kadar rezerve edebilirsiniz. Son dakika katılımlar memnuniyetle karşılanır ancak müsaitlik durumuna bağlıdır."
-      },
-      "q3": {
-        "question": "İptal politikası nedir?",
-        "answer": "Ders başlamadan 12 saat öncesine kadar rezervasyonunuzu kredinizi kaybetmeden iptal edebilirsiniz. Ders başlamadan 12 saatten az bir süre kala yapılan iptaller kredinizin kaybedilmesine neden olur. Geç iptaller ve gelmeme durumları için geri ödeme yapılamaz."
-      },
-      "q4": {
-        "question": "Krediler nasıl çalışır?",
-        "answer": "Krediler ders rezervasyonu için kullanılır. Her ders bir kredi gerektirir. Daha iyi değer sunan kredi paketleri satın alabilirsiniz. Kredilerin süresi dolmaz ve herhangi bir ders türü için kullanılabilir."
-      },
-      "q5": {
-        "question": "Üyeliğe bağlanmadan önce bir ders deneyebilir miyim?",
-        "answer": "Evet! İlk ziyaretçi özel teklifimiz var ve bu sayede bir dersi indirimli fiyatla deneyebilirsiniz. Güncel kampanyalar için bizimle iletişime geçin veya fiyatlandırma sayfamıza bakın."
-      },
-      "q6": {
-        "question": "Ders türleri arasındaki fark nedir?",
-        "answer": "Signature Ride, misafir eğitmenlerle The Takeover ve temalı oturumlar dahil olmak üzere çeşitli ders türleri sunuyoruz. Her dersin farklı müziği, yoğunluk seviyeleri ve eğitmen stilleri vardır. Size en uygun olanı bulmak için rezervasyon yaparken ders açıklamasını kontrol edin."
-      },
-      "q7": {
-        "question": "Yaş gereksinimi var mı?",
-        "answer": "Katılımcılar en az 16 yaşında olmalıdır. 18 yaşın altındaki katılımcılar için ebeveyn onayı gereklidir. Minimum gereksinimin üzerindeki tüm fitness seviyelerini ve yaşları memnuniyetle karşılıyoruz."
-      },
-      "q8": {
-        "question": "Geç kalırsam ne olur?",
-        "answer": "Geç kalıyorsanız, lütfen stüdyoyu arayın. Ders başladıktan sonra 5 dakika yer tutuyoruz. Bundan sonra yeriniz son dakika katılımcıya verilebilir ve krediniz kaybedilir."
-      },
-      "q9": {
-        "question": "Özel oturumlar veya grup rezervasyonları sunuyor musunuz?",
-        "answer": "Evet, özel etkinlikler, kurumsal wellness programları ve kutlamalar için özel oturumlar ve grup rezervasyonları sunuyoruz. İhtiyaçlarınızı ve fiyatlandırmayı görüşmek için lütfen doğrudan bizimle iletişime geçin."
-      },
-      "q10": {
-        "question": "Hesap bilgilerimi nasıl güncelleyebilirim?",
-        "answer": "Hesap bilgilerinizi, iletişim detayları ve tercihleriniz dahil olmak üzere web sitemizdeki panonuz aracılığıyla güncelleyebilirsiniz. Sadece giriş yapın ve profil ayarlarınıza gidin."
-      }
+      "allAccess": "Tam Erişim"
     }
   },
   "terms": {
     "title": "Kullanım Şartları",
-    "lastUpdated": "Son güncelleme: Aralık 2025",
-    "contact": "Bu Kullanım Şartları hakkında herhangi bir sorunuz varsa, lütfen bizimle iletişime geçin.",
+    "lastUpdated": "Son güncelleme: Ocak 2024",
+    "contact": "Bu Kullanım Şartları hakkında sorularınız varsa, lütfen bizimle iletişime geçin.",
     "sections": {
       "section1": {
-        "title": "Şartların Kabulü",
-        "content": "Bu web sitesine erişerek ve hizmetlerimizi kullanarak, bu anlaşmanın şartlarını ve hükümlerini kabul eder ve bunlara bağlı kalmayı kabul edersiniz. Yukarıdakilere uymayı kabul etmiyorsanız, lütfen bu hizmeti kullanmayın."
+        "title": "Şartları Kabul",
+        "content": "Spin8 Studio'nun hizmetlerine erişerek ve kullanarak, bu sözleşmenin şartlarını ve hükümlerini kabul etmiş ve bunlara bağlı kalmayı kabul etmiş olursunuz."
       },
       "section2": {
         "title": "Kullanım Lisansı",
-        "content": "Spin8 Studio web sitesindeki materyallere kişisel, ticari olmayan geçici görüntüleme için geçici olarak erişim izni verilir. Bu bir lisans verilmesidir, başlık transferi değildir ve bu lisans altında şunları yapamazsınız:\n\n- Materyalleri değiştirmek veya kopyalamak\n- Materyalleri herhangi bir ticari amaç için veya herhangi bir kamu gösterimi için kullanmak\n- Herhangi bir yazılımı tersine mühendislik yapmaya veya derlemeyi kaldırmaya çalışmak\n- Materyallerden telif hakkı veya diğer mülkiyet notlarını kaldırmak"
+        "content": "Spin8 Studio web sitesindeki materyallere yalnızca kişisel, ticari olmayan geçici görüntüleme için geçici olarak erişim izni verilir. Bu bir lisans verilmesidir, başlık transferi değildir."
       },
       "section3": {
-        "title": "Üyelik ve Rezervasyonlar",
-        "content": "Üyelikler ve ders rezervasyonları müsaitliğe tabidir. Dersleri iptal etme veya yeniden planlama hakkımız saklıdır. Satın alınan krediler iade edilemez ancak gelecekteki rezervasyonlar için kullanılabilir. Tüm rezervasyonlar iptal politikamıza tabidir."
+        "title": "Üyelik",
+        "content": "Üyelik paketleri müsaitliğe tabidir ve herhangi bir zamanda değiştirilebilir veya durdurulabilir. Aksi belirtilmedikçe tüm satın alımlar kesindir."
       },
       "section4": {
-        "title": "Sağlık ve Güvenlik",
-        "content": "Derslerimize katılarak, kapalı bisiklet sürmenin fiziksel aktivite ve potansiyel riskler içerdiğini kabul edersiniz. Katılımınızı etkileyebilecek herhangi bir tıbbi durum veya yaralanmayı bize bildirmeyi kabul edersiniz. Dersler sırasında meydana gelebilecek yaralanmalardan sorumlu değiliz."
+        "title": "Ders Rezervasyonları",
+        "content": "Dersler rezervasyon sistemimiz aracılığıyla önceden rezerve edilmelidir. Kredilerin kaybedilmemesi için iptaller planlanan ders saatinden en az 12 saat önce yapılmalıdır."
       },
       "section5": {
-        "title": "Ödeme Şartları",
-        "content": "Tüm ödemeler önceden yapılmalıdır. Web sitemizde belirtildiği gibi çeşitli ödeme yöntemlerini kabul ediyoruz. Fiyatlar önceden haber verilmeksizin değiştirilebilir. İadeler iade politikamıza göre işlenir."
+        "title": "Krediler ve Paketler",
+        "content": "Krediler iade edilemez ve devredilemez. Paket geçerlilik süreleri satın alma sırasında belirtildiği gibi geçerlidir. Süresi dolmuş krediler yeniden aktifleştirilemez."
       },
       "section6": {
-        "title": "İptal ve İade Politikası",
-        "content": "Kredi kaybını önlemek için iptaller planlanan ders saatinden en az 12 saat önce yapılmalıdır. Geç iptaller veya gelmeme durumları için geri ödeme yapılmayacaktır. Kredi paketleri iade edilemez ancak kredilerin süresi dolmaz."
+        "title": "Sağlık ve Güvenlik",
+        "content": "Katılımcılar ders öncesi herhangi bir tıbbi durum, yaralanma veya kısıtlama hakkında eğitmenleri bilgilendirmelidir. Spin8 Studio, ilgili sağlık bilgilerini açıklamama nedeniyle oluşan yaralanmalardan sorumlu değildir."
       },
       "section7": {
-        "title": "Gizlilik Politikası",
-        "content": "Gizliliğiniz bizim için önemlidir. Kişisel bilgilerinizi Gizlilik Politikamıza uygun olarak topluyor ve kullanıyoruz. Hizmetlerimizi kullanarak, Gizlilik Politikamızda açıklandığı şekilde bilgilerin toplanmasına ve kullanılmasına izin verirsiniz."
+        "title": "Yaş Gereksinimleri",
+        "content": "Katılımcılar en az 16 yaşında olmalıdır. 18 yaş altı katılımcılar için ebeveyn onayı ve gözetim gerekir."
       },
       "section8": {
-        "title": "Fikri Mülkiyet",
-        "content": "Bu web sitesindeki metin, grafikler, logolar, görüntüler ve yazılım dahil ancak bunlarla sınırlı olmamak üzere tüm içerik Spin8 Studio'nun mülkiyetindedir ve telif hakkı ve diğer fikri mülkiyet yasalarıyla korunmaktadır."
+        "title": "İptal Politikası",
+        "content": "Spin8 Studio, öngörülemeyen durumlar nedeniyle dersleri iptal etme hakkını saklı tutar. Bu durumlarda krediler iade edilir veya alternatif düzenlemeler yapılır."
       },
       "section9": {
-        "title": "Sorumluluk Sınırlaması",
-        "content": "Spin8 Studio, hizmeti kullanmanızdan veya kullanamamanızdan kaynaklanan dolaylı, arızi, özel, sonuçsal veya cezai zararlardan sorumlu değildir."
+        "title": "İade Politikası",
+        "content": "Tüm satışlar kesindir. İstisnai durumlar için iadeler yönetim onayına tabi olarak duruma göre değerlendirilebilir."
       },
       "section10": {
-        "title": "Şartlarda Değişiklikler",
-        "content": "Bu şartları istediğimiz zaman değiştirme hakkımız saklıdır. Bu tür değişikliklerden sonra hizmeti kullanmaya devam etmeniz, yeni şartları kabul ettiğiniz anlamına gelir."
+        "title": "Davranış Kuralları",
+        "content": "Tüm üyeler stüdyo ortamına, eğitmenlere ve diğer katılımcılara saygı göstermelidir. Rahatsız edici davranışlar dersten çıkarılma ve üyeliğin sonlandırılmasıyla sonuçlanabilir."
       },
       "section11": {
-        "title": "Uygulanacak Hukuk",
-        "content": "Bu şartlar, çatışma hukuku hükümlerine bakılmaksızın Türkiye yasalarına göre yönetilir ve yorumlanır."
+        "title": "Kişisel Eşyalar",
+        "content": "Spin8 Studio kayıp veya çalınan kişisel eşyalardan sorumlu değildir. Kilitli dolaplar kendi riskinizle kullanımınıza sunulmaktadır."
       },
       "section12": {
-        "title": "İletişim Bilgileri",
-        "content": "Bu Kullanım Şartları ile ilgili sorularınız için lütfen iletişim sayfamızdan veya doğrudan e-posta ile bizimle iletişime geçin."
+        "title": "Fotoğraf ve Medya",
+        "content": "Dersler sırasında fotoğraf ve video çekimi kısıtlanabilir. Spin8 Studio, yazılı olarak aksini belirtmediğiniz sürece fotoğraf ve videoları tanıtım amaçlı kullanabilir."
+      },
+      "section13": {
+        "title": "Gizlilik Politikası",
+        "content": "Kişisel bilgileriniz Gizlilik Politikamıza uygun olarak işlenecektir. Hizmetlerimizi kullanarak, bilgilerinizin toplanmasına ve açıklandığı şekilde kullanılmasına izin vermiş olursunuz."
+      },
+      "section14": {
+        "title": "Değişiklikler",
+        "content": "Spin8 Studio bu şartları herhangi bir zamanda değiştirme hakkını saklı tutar. Değişikliklerden sonra hizmetlerin kullanılmaya devam edilmesi değiştirilmiş şartların kabul edildiği anlamına gelir."
+      },
+      "section15": {
+        "title": "Uygulanacak Hukuk",
+        "content": "Bu şartlar Türkiye yasalarına göre yönetilir ve yorumlanır. Herhangi bir uyuşmazlık Türk mahkemelerinin münhasır yetkisine tabidir."
+      }
+    }
+  },
+  "faq": {
+    "title": "Sıkça Sorulan Sorular",
+    "subtitle": "Spin8 Studio hakkında sık sorulan soruların cevaplarını bulun",
+    "contact": "Hala sorularınız mı var? Bizimle iletişime geçin, size yardımcı olmaktan mutluluk duyarız!",
+    "questions": {
+      "q1": {
+        "question": "İlk dersime ne getirmeliyim?",
+        "answer": "Lütfen bir su şişesi, havlu getirin ve rahat spor kıyafetleri giyin. Bisiklet ayakkabıları sağlıyoruz, ancak tercih ederseniz kendi ayakkabılarınızı da getirebilirsiniz."
+      },
+      "q2": {
+        "question": "Dersleri önceden rezerve etmem gerekiyor mu?",
+        "answer": "Evet, yerinizi garanti altına almak için dersleri çevrimiçi sistemimiz aracılığıyla önceden rezerve etmenizi öneririz. Özellikle yoğun saatlerde dersler hızla dolabilir."
+      },
+      "q3": {
+        "question": "İptal politikası nedir?",
+        "answer": "Planlanan saatten 12 saat öncesine kadar ders rezervasyonunuzu kredinizi kaybetmeden iptal edebilirsiniz. Ders saatinden 12 saatten az bir süre önce yapılan iptaller kredi kaybıyla sonuçlanır."
+      },
+      "q4": {
+        "question": "Farklı zorluk seviyeleri var mı?",
+        "answer": "Derslerimiz tüm fitness seviyelerine uyacak şekilde tasarlanmıştır. Eğitmenler modifikasyonlar sağlar ve kendi hızınızda çalışmanızı teşvik eder. Her ders fitness seviyenize göre ayarlanabilir."
+      },
+      "q5": {
+        "question": "Krediler nasıl çalışır?",
+        "answer": "Krediler ders rezerve etmek için kullanılır. Farklı paketler farklı sayıda kredi sunar. Krediler paket şartlarınızda belirtilen belirli bir süre için geçerlidir."
+      },
+      "q6": {
+        "question": "Kredilerimi başka birine transfer edebilir miyim?",
+        "answer": "Hayır, krediler devredilemez ve hesabınıza bağlıdır. Paylaşılamaz veya diğer üyelere transfer edilemez."
+      },
+      "q7": {
+        "question": "Derse geç kalırsam ne olur?",
+        "answer": "5 dakikadan fazla geç kalırsanız, yeriniz bekleme listesindeki birine verilebilir. Bisikletinizi kurmak için 10-15 dakika önce gelmenizi öneririz."
+      },
+      "q8": {
+        "question": "Deneme dersi sunuyor musunuz?",
+        "answer": "Evet, ilk kez gelen ziyaretçiler için deneme dersleri sunuyoruz. Deneme dersinizi planlamak ve Spin8'in sunduklarını deneyimlemek için lütfen bizimle iletişime geçin."
+      },
+      "q9": {
+        "question": "Katılmak için kaç yaşında olmam gerekiyor?",
+        "answer": "Katılımcılar en az 16 yaşında olmalıdır. 18 yaş altı katılımcılar için ebeveyn onayı gerekir ve duruma göre gözetim gerekebilir."
+      },
+      "q10": {
+        "question": "Paket nasıl satın alırım?",
+        "answer": "Paketleri web sitemizin fiyatlandırma sayfasından satın alabilirsiniz. Size uygun paketi seçin, varsa kupon kodlarınızı ekleyin ve satın alma işleminizi tamamlayın. Ödeme sonrası kredileriniz hemen hesabınıza yüklenecektir."
       }
     }
   }
 }
-
