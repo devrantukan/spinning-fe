@@ -143,24 +143,26 @@ export async function GET() {
   } catch (error) {
     console.error("Error fetching organization:", error);
     if (error instanceof Error && "cause" in error) {
-      const cause = (error as { code?: string; message?: string }).cause;
-      if (cause?.code === "ECONNREFUSED") {
-        console.error(
-          `Connection refused to tenant backend at ${TENANT_BE_URL}. Please check TENANT_ADMIN_URL environment variable.`
-        );
-      } else if (cause?.code === "ERR_SSL_WRONG_VERSION_NUMBER") {
-        console.error(`SSL protocol mismatch. URL: ${TENANT_BE_URL}`);
-        console.error(
-          "This usually means the URL uses HTTPS but the server is HTTP (or vice versa)."
-        );
-        console.error(
-          `Current TENANT_ADMIN_URL: ${
-            process.env.TENANT_ADMIN_URL || "not set"
-          }`
-        );
-        console.error(
-          "Please check if TENANT_ADMIN_URL should use http:// or https://"
-        );
+      const cause = (error as Error & { cause?: { code?: string } }).cause;
+      if (cause && typeof cause === "object" && "code" in cause) {
+        if (cause.code === "ECONNREFUSED") {
+          console.error(
+            `Connection refused to tenant backend at ${TENANT_BE_URL}. Please check TENANT_ADMIN_URL environment variable.`
+          );
+        } else if (cause.code === "ERR_SSL_WRONG_VERSION_NUMBER") {
+          console.error(`SSL protocol mismatch. URL: ${TENANT_BE_URL}`);
+          console.error(
+            "This usually means the URL uses HTTPS but the server is HTTP (or vice versa)."
+          );
+          console.error(
+            `Current TENANT_ADMIN_URL: ${
+              process.env.TENANT_ADMIN_URL || "not set"
+            }`
+          );
+          console.error(
+            "Please check if TENANT_ADMIN_URL should use http:// or https://"
+          );
+        }
       }
     }
     // Return default organization name on error
