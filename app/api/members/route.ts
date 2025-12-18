@@ -1,6 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { createClient as createServiceClient } from "@supabase/supabase-js";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
+
+const TENANT_BE_URL = process.env.TENANT_BE_URL || "http://localhost:3001";
 
 export async function GET(request: Request) {
   try {
@@ -212,6 +214,107 @@ USING (
     console.error("Error in members API:", error);
     return NextResponse.json(
       { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { supabaseUserId, role = "member" } = body;
+
+    if (!supabaseUserId) {
+      return NextResponse.json(
+        { error: "supabaseUserId is required" },
+        { status: 400 }
+      );
+    }
+
+    // Use service role client to create member (bypasses RLS)
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (!supabaseUrl || !supabaseServiceKey) {
+      return NextResponse.json(
+        { error: "Supabase configuration missing" },
+        { status: 500 }
+      );
+    }
+
+    const supabaseAdmin = createServiceClient(supabaseUrl, supabaseServiceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+    });
+
+    // First, get the user record from users table
+    // If it doesn't exist, try to create it
+    let { data: userRecord, error: userError } = await supabaseAdmin
+      .from("users")
+      .select("id")
+      .eq("supabaseUserId", supabaseUserId)
+      .single();
+
+    if (userError || !userRecord) {
+      console.log(
+        "User record not found - it will be created when TOC is saved"
+      );
+      // User record doesn't exist yet - it will be created when TOC is saved
+      // Return success but indicate that member creation will happen later
+      return NextResponse.json(
+        {
+          message:
+            "User record not found yet. Member will be created after user record is created.",
+          details:
+            "User record will be created when TOC is accepted. Please retry member creation after that.",
+          retry: true,
+        },
+        { status: 200 } // Return 200 so registration doesn't fail
+      );
+    }
+
+    // Check if member already exists
+    const { data: existingMember, error: checkError } = await supabaseAdmin
+      .from("members")
+      .select("id")
+      .eq("userId", userRecord.id)
+      .single();
+
+    if (existingMember) {
+      // Member already exists, return it
+      return NextResponse.json(
+        { message: "Member already exists", member: existingMember },
+        { status: 200 }
+      );
+    }
+
+    // Create member record
+    const { data: member, error: memberError } = await supabaseAdmin
+      .from("members")
+      .insert({
+        userId: userRecord.id,
+        role: role,
+        creditBalance: 0,
+        status: "active",
+      })
+      .select()
+      .single();
+
+    if (memberError) {
+      console.error("Error creating member:", memberError);
+      return NextResponse.json(
+        { error: "Failed to create member", details: memberError.message },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json(member, { status: 201 });
+  } catch (error: any) {
+    console.error("Error in POST members API:", error);
+    return NextResponse.json(
+      { error: "Internal server error", details: error.message },
       { status: 500 }
     );
   }

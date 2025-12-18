@@ -111,20 +111,70 @@
     "passwordPlaceholder": "Şifreniz",
     "loading": "Yükleniyor...",
     "error": "Bir hata oluştu",
+    "validation": {
+      "emailRequired": "E-posta gereklidir",
+      "emailInvalid": "Geçersiz e-posta formatı",
+      "passwordRequired": "Şifre gereklidir",
+      "passwordMinLength": "Şifre en az 6 karakter olmalıdır",
+      "nameRequired": "Ad gereklidir",
+      "nameMinLength": "Ad en az 2 karakter olmalıdır",
+      "dobDayRequired": "Gün gereklidir",
+      "dobMonthRequired": "Ay gereklidir",
+      "dobYearRequired": "Yıl gereklidir",
+      "mobilePhoneRequired": "Cep telefonu gereklidir",
+      "mobilePhoneInvalid": "Cep telefonu sadece rakam içermelidir"
+    },
     "login": {
       "title": "Giriş Yap",
       "submit": "Giriş Yap",
-      "prompt": "Hesabınız yok mu? Kayıt olun"
+      "prompt": "Hesabınız yok mu? Kayıt olun",
+      "success": "Giriş başarılı!"
     },
     "register": {
       "title": "Kayıt Ol",
       "name": "Ad Soyad",
       "namePlaceholder": "Adınız",
+      "dob": "Doğum Tarihi",
+      "day": "Gün",
+      "month": "Ay",
+      "year": "Yıl",
+      "months": {
+        "1": "Ocak",
+        "2": "Şubat",
+        "3": "Mart",
+        "4": "Nisan",
+        "5": "Mayıs",
+        "6": "Haziran",
+        "7": "Temmuz",
+        "8": "Ağustos",
+        "9": "Eylül",
+        "10": "Ekim",
+        "11": "Kasım",
+        "12": "Aralık"
+      },
+      "mobilePhone": "Cep Telefonu",
+      "mobilePhonePlaceholder": "555 123 4567",
       "submit": "Kayıt Ol",
       "prompt": "Zaten hesabınız var mı? Giriş yapın",
       "success": "Kayıt başarılı! Hesabınızı doğrulamak için e-postanızı kontrol edin.",
       "acceptToc": "Kullanım Şartlarını kabul ediyorum",
-      "tocRequired": "Kayıt olmak için Kullanım Şartlarını kabul etmelisiniz"
+      "tocRequired": "Kayıt olmak için Kullanım Şartlarını kabul etmelisiniz",
+      "acceptLiabilityWaiver": "Yukarıdaki sorumluluk feragatnamesini okuduğumu, tam olarak anladığımı ve kabul ettiğimi onaylıyorum",
+      "liabilityWaiverRequired": "Kayıt olmak için sorumluluk feragatnamesini kabul etmelisiniz",
+      "liabilityWaiver": {
+        "title": "BEYAN EDERİM",
+        "declare1": "1. Rekabetçi olmayan spor faaliyetleri için uygunluğumu kanıtlayan tıbbi sertifika sağlamanın gerekliliği konusunda usulüne uygun olarak bilgilendirildiğimi;",
+        "declare2": "2. Faaliyet için yeterli zihinsel ve fiziksel durumda olduğumu;",
+        "declare3": "3. Faaliyetten önceki 48 saat içinde narkotik ve/veya psikotrop madde kullanmadığımı ve kullanmayacağımı, ilaç etkisi altında olmadığımı ve alkol veya yiyecekte aşırıya kaçmadığımı;",
+        "declare4": "4. {organizationName}'de (\"Stüdyo\") gerçekleştireceğim faaliyetlerle ilişkili, öngörülebilir ve öngörülemez risklerin farkında olduğumu, ancak bu faaliyetin doğası gereği tehlikeli olarak kabul edilemeyeceğini;",
+        "declare5": "5. Bir sonraki girişimde yukarıda belirtilen tıbbi sertifikayı sağlayacağımı ve bu belgenin tarihinden itibaren Stüdyo'ya katılmak için izin talep edeceğimi.",
+        "furtherDeclare": "AYRICA BEYAN EDERİM",
+        "furtherDeclare6": "6. Kurallara uygun olmayan davranışlardan kaynaklanan kişisel zararlar ve/veya başkalarına (ve/veya mala) verilen zararlar dahil olmak üzere kendi kişim için tam sorumluluk üstlendiğimi;",
+        "furtherDeclare7": "7. Kendim, mirasçılarım ve/veya vekillerim adına, Stüdyo'da gerçekleştirilen faaliyetler sonucunda kişime gelebilecek yaralanma, ölüm ve/veya her türlü zarar (üçüncü kişilerden kaynaklananlar dahil) için {organizationName}, işbirlikçileri ve/veya çalışanları ile mirasçılarını ve/veya vekillerini her türlü sorumluluktan muaf tuttuğumu;",
+        "furtherDeclare8": "8. Bu belgenin içeriğini dikkatle okuduğumu ve imzalamadan önce her bir noktanın anlamını açıkça anladığımı.",
+        "understanding": "Bu kuralların amacını tam olarak anlıyorum ve kabul ediyorum, güvenliğim için oluşturulduğunu ve bunlara uymamanın beni tehlikeli bir duruma sokabileceğini kabul ediyorum. Medeni Kanun'un 1341 ve 1342. maddelerine uygun olarak, bu sözleşmenin 1, 2, 3, 4, 5, 6 ve 7. maddelerini özellikle onaylıyorum.",
+        "pursuant": "Medeni Kanun'un 1469 bis maddesine uygun olarak, bu feragat Stüdyo ve personelinin fiil ve/veya ihmallerini kapsamaz."
+      }
     },
     "forgotPassword": "Şifremi Unuttum",
     "resetPassword": {

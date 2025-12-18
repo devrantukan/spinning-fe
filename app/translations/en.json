@@ -111,20 +111,70 @@
     "passwordPlaceholder": "Your password",
     "loading": "Loading...",
     "error": "An error occurred",
+    "validation": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email format",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "nameRequired": "Name is required",
+      "nameMinLength": "Name must be at least 2 characters",
+      "dobDayRequired": "Day is required",
+      "dobMonthRequired": "Month is required",
+      "dobYearRequired": "Year is required",
+      "mobilePhoneRequired": "Mobile phone is required",
+      "mobilePhoneInvalid": "Mobile phone must contain only numbers"
+    },
     "login": {
       "title": "Login",
       "submit": "Login",
-      "prompt": "Don't have an account? Register"
+      "prompt": "Don't have an account? Register",
+      "success": "Login successful!"
     },
     "register": {
       "title": "Register",
       "name": "Full Name",
       "namePlaceholder": "Your name",
+      "dob": "Date of Birth",
+      "day": "Day",
+      "month": "Month",
+      "year": "Year",
+      "months": {
+        "1": "January",
+        "2": "February",
+        "3": "March",
+        "4": "April",
+        "5": "May",
+        "6": "June",
+        "7": "July",
+        "8": "August",
+        "9": "September",
+        "10": "October",
+        "11": "November",
+        "12": "December"
+      },
+      "mobilePhone": "Mobile Phone",
+      "mobilePhonePlaceholder": "555 123 4567",
       "submit": "Register",
       "prompt": "Already have an account? Login",
       "success": "Registration successful! Please check your email to verify your account.",
       "acceptToc": "I accept the Terms and Conditions",
-      "tocRequired": "You must accept the Terms and Conditions to register"
+      "tocRequired": "You must accept the Terms and Conditions to register",
+      "acceptLiabilityWaiver": "I acknowledge that I have read, fully understood and accept the above liability waiver",
+      "liabilityWaiverRequired": "You must accept the liability waiver to register",
+      "liabilityWaiver": {
+        "title": "DECLARE",
+        "declare1": "1. that I have been duly informed of the necessity to provide medical certification proving my fitness for non-competitive sports activities;",
+        "declare2": "2. that I am in adequate mental and physical condition for the activity;",
+        "declare3": "3. that I have not used and will not use narcotic and/or psychotropic substances in the 48 hours preceding the activity, am not under the effect of medications, and have not overindulged in alcohol or food;",
+        "declare4": "4. that I am aware of the risks, both foreseeable and unforeseeable, associated with the activities I will perform at {organizationName} (the \"Studio\"), though this activity cannot be considered inherently dangerous;",
+        "declare5": "5. that I will provide the above-mentioned medical certification upon my next entry, requesting permission to attend the Studio from the date of this document.",
+        "furtherDeclare": "I FURTHER DECLARE",
+        "furtherDeclare6": "6. that I assume full responsibility for my own person, including any personal damage and/or damage caused to others (and/or to property) due to behavior that does not conform to the rules;",
+        "furtherDeclare7": "7. for myself and my heirs and/or assigns, to release {organizationName}, its collaborators and/or employees, as well as their heirs and/or assigns, from any liability for injury, death, and/or any kind of damage (including that caused by third parties) that may arise to my person as a result of the activities performed at the Studio;",
+        "furtherDeclare8": "8. that I have carefully read and evaluated the content of this document and have clearly understood the meaning of each individual point before signing it.",
+        "understanding": "I fully understand and agree with the purpose of these rules, established for my safety, and I recognize that failing to comply with them may place me in a dangerous situation. In accordance with articles 1341 and 1342 of the Civil Code, I specifically approve points 1, 2, 3, 4, 5, 6, and 7 of this agreement.",
+        "pursuant": "Pursuant to and in accordance with art. 1469 bis of the Civil Code, this waiver does not extend to acts and/or omissions of the Studio and its staff."
+      }
     },
     "forgotPassword": "Forgot password?",
     "resetPassword": {
