@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import nodemailer from "nodemailer";
 
-const TENANT_BE_URL = process.env.TENANT_BE_URL || "http://localhost:3001";
+const TENANT_BE_URL = process.env.TENANT_ADMIN_URL || "http://localhost:3001";
 
 export async function POST(request: NextRequest) {
   try {

@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
-const TENANT_BE_URL = process.env.TENANT_BE_URL || "http://localhost:3001";
+const TENANT_BE_URL = process.env.TENANT_ADMIN_URL || "http://localhost:3001";
 
 export async function GET(request: NextRequest) {
   try {
@@ -34,7 +34,14 @@ export async function GET(request: NextRequest) {
     }
   } catch (error) {
     console.error("Error in packages API:", error);
+    if (error instanceof Error && "cause" in error) {
+      const cause = (error as any).cause;
+      if (cause?.code === "ECONNREFUSED") {
+        console.error(
+          `Connection refused to tenant backend at ${TENANT_BE_URL}. Please check TENANT_ADMIN_URL environment variable.`
+        );
+      }
+    }
     return NextResponse.json([], { status: 200 });
   }
 }
-

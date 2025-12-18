@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
-const TENANT_BE_URL = process.env.TENANT_BE_URL || "http://localhost:3001";
+const TENANT_BE_URL = process.env.TENANT_ADMIN_URL || "http://localhost:3001";
 
 export async function GET(
   request: NextRequest,
@@ -43,4 +43,3 @@ export async function GET(
     return NextResponse.json([], { status: 200 });
   }
 }
-

@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createClient as createServiceClient } from "@supabase/supabase-js";
 import { NextResponse, NextRequest } from "next/server";
 
-const TENANT_BE_URL = process.env.TENANT_BE_URL || "http://localhost:3001";
+const TENANT_BE_URL = process.env.TENANT_ADMIN_URL || "http://localhost:3001";
 
 export async function GET(request: Request) {
   try {
