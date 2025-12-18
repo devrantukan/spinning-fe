@@ -397,5 +397,9 @@
         "answer": "Paketleri web sitemizin fiyatlandırma sayfasından satın alabilirsiniz. Size uygun paketi seçin, varsa kupon kodlarınızı ekleyin ve satın alma işleminizi tamamlayın. Ödeme sonrası kredileriniz hemen hesabınıza yüklenecektir."
       }
     }
+  },
+  "footer": {
+    "faq": "SSS",
+    "terms": "Kullanım Şartları"
   }
 }

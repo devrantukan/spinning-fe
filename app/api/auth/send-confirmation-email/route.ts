@@ -17,15 +17,62 @@ export async function POST(request: NextRequest) {
     }
 
     // Fetch organization data including SMTP settings
-    // Priority: 1. Environment variables, 2. Organization API with API key, 3. Organization API without auth
+    // Priority: 1. Environment variables (if set), 2. Organization API (if it has SMTP), 3. Fallback to env vars
     let organization: any = {};
 
-    // Check if SMTP is in environment variables (for server-side use)
-    if (
+    // Check if SMTP is in environment variables (highest priority)
+    const hasSmtpInEnv =
       process.env.SMTP_HOST &&
       process.env.SMTP_USER &&
-      process.env.SMTP_PASSWORD
-    ) {
+      process.env.SMTP_PASSWORD;
+
+    // Try to fetch from organization API for additional data (name, email, language, etc.)
+    let apiOrganization: any = null;
+    try {
+      // Use the public organization endpoint (no authentication required)
+      const organizationId =
+        process.env.ORGANIZATION_ID || process.env.TENANT_ORGANIZATION_ID;
+
+      const tenantBeUrl =
+        process.env.TENANT_ADMIN_URL || "http://localhost:3001";
+      const publicOrgUrl = organizationId
+        ? `${tenantBeUrl}/api/organization/public?organizationId=${organizationId}`
+        : `${tenantBeUrl}/api/organization/public`;
+
+      console.log("Fetching organization from public endpoint:", publicOrgUrl);
+
+      const orgResponse = await fetch(publicOrgUrl, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (orgResponse.ok) {
+        apiOrganization = await orgResponse.json();
+        console.log("Organization data fetched from public endpoint:", {
+          hasSmtpHost: !!apiOrganization.smtpHost,
+          hasSmtpUser: !!apiOrganization.smtpUser,
+          hasName: !!apiOrganization.name,
+        });
+      } else {
+        console.warn(
+          "Public organization endpoint returned:",
+          orgResponse.status
+        );
+      }
+    } catch (error) {
+      console.warn("Error fetching organization from public API:", error);
+    }
+
+    // Check if API returned organization with SMTP settings
+    const hasSmtpInApi =
+      apiOrganization &&
+      apiOrganization.smtpHost &&
+      apiOrganization.smtpUser &&
+      apiOrganization.smtpPassword;
+
+    // Build organization object: prioritize SMTP from env vars, but use API for other fields
+    if (hasSmtpInEnv) {
       console.log("Using SMTP settings from environment variables");
       organization = {
         smtpHost: process.env.SMTP_HOST,
@@ -33,41 +80,40 @@ export async function POST(request: NextRequest) {
         smtpUser: process.env.SMTP_USER,
         smtpPassword: process.env.SMTP_PASSWORD,
         smtpFrom: process.env.SMTP_FROM || process.env.SMTP_USER,
-        name: process.env.ORGANIZATION_NAME || "Spin8 Studio",
+        name:
+          apiOrganization?.name ||
+          process.env.ORGANIZATION_NAME ||
+          "Spin8 Studio",
         email:
+          apiOrganization?.email ||
           process.env.ORGANIZATION_EMAIL ||
           process.env.SMTP_FROM ||
           process.env.SMTP_USER,
+        language:
+          apiOrganization?.language ||
+          process.env.ORGANIZATION_LANGUAGE ||
+          "en",
+        ...apiOrganization, // Merge any other fields from API
+      };
+    } else if (hasSmtpInApi) {
+      console.log("Using SMTP settings from organization API");
+      organization = apiOrganization;
+    } else if (apiOrganization) {
+      // API returned data but no SMTP - use API data for name/email but warn about SMTP
+      console.warn(
+        "Organization API returned data but no SMTP settings. SMTP environment variables are also not set. Email will not be sent."
+      );
+      organization = apiOrganization;
+    } else {
+      // No API data and no env vars - use defaults
+      console.warn(
+        "No organization data available from API and no SMTP environment variables set. Email will not be sent."
+      );
+      organization = {
+        name: process.env.ORGANIZATION_NAME || "Spin8 Studio",
+        email: process.env.ORGANIZATION_EMAIL || process.env.SMTP_FROM || "",
         language: process.env.ORGANIZATION_LANGUAGE || "en",
       };
-    } else {
-      // Fetch from organization API
-      // Note: During registration, we don't have a user token, so the tenant backend
-      // will return 401. We should rely on environment variables for SMTP settings.
-      // This API call is attempted but will likely fail during registration.
-      const orgResponse = await fetch(
-        `${
-          process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-        }/api/organization`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (orgResponse.ok) {
-        organization = await orgResponse.json();
-      } else {
-        // Organization API requires authentication (user token)
-        // During registration, we don't have a user token yet
-        // This is expected - SMTP settings should be in environment variables
-        console.warn(
-          "Could not fetch organization data (requires authentication). Using environment variables or defaults."
-        );
-        // Set empty organization - will use environment variables or fail gracefully
-        organization = {};
-      }
     }
 
     // Log organization data to debug SMTP settings

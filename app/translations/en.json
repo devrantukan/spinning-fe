@@ -397,6 +397,10 @@
         "answer": "You can purchase packages through our website's pricing page. Simply select the package that suits you, add any coupon codes if applicable, and complete your purchase. You'll receive credits immediately after payment."
       }
     }
+  },
+  "footer": {
+    "faq": "FAQ",
+    "terms": "Terms & Conditions"
   }
 }
 
