@@ -520,6 +520,7 @@ export default function AuthModal({
           });
 
           // Generate confirmation link and send email using organization SMTP (fire and forget)
+          // Pass the temporary password so it matches what was used during user creation
           fetch("/api/auth/generate-confirmation-link", {
             method: "POST",
             headers: {
@@ -527,6 +528,7 @@ export default function AuthModal({
             },
             body: JSON.stringify({
               email: email,
+              password: tempPassword, // Pass the same password used during user creation
             }),
           })
             .then((linkResponse) => {

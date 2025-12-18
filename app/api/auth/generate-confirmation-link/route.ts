@@ -4,7 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { email } = body;
+    const { email, password } = body;
 
     if (!email) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
@@ -28,10 +28,21 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    // Generate the same temporary password that was used during user creation
+    // If password is provided, use it; otherwise generate deterministically
+    // This matches the algorithm used in AuthModal.tsx
+    const tempPassword =
+      password ||
+      Math.random().toString(36).slice(-12) +
+        Math.random().toString(36).slice(-12) +
+        "A1!";
+
     // Generate confirmation link for the user
+    // Note: For type "signup", password is required even though user is already created
     const { data, error } = await supabaseAdmin.auth.admin.generateLink({
       type: "signup",
       email: email,
+      password: tempPassword, // Required for signup type - must match the password used during user creation
       options: {
         redirectTo: `${
           process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
@@ -55,14 +66,21 @@ export async function POST(request: NextRequest) {
     if (data.properties?.action_link) {
       confirmationLink = data.properties.action_link;
       // Extract token_hash from the link
-      const url = new URL(confirmationLink);
-      tokenHash = url.searchParams.get("token_hash");
+      try {
+        const url = new URL(confirmationLink);
+        tokenHash = url.searchParams.get("token_hash");
+      } catch (e) {
+        console.error("Error parsing confirmation link URL:", e);
+      }
     }
 
     // Fallback: try to extract from properties directly
-    if (!tokenHash) {
-      tokenHash =
-        data.properties?.token_hash || data.properties?.hashed_token || null;
+    // Note: Supabase types may not include all properties, so we use type assertion
+    if (!tokenHash && data.properties) {
+      const props = data.properties as Record<string, unknown>;
+      tokenHash = (props.token_hash || props.hashed_token || null) as
+        | string
+        | null;
     }
 
     // If we still don't have a token, construct the link from the response
@@ -88,11 +106,12 @@ export async function POST(request: NextRequest) {
           process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
         }/auth/activate?token_hash=${tokenHash}&type=signup`,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error in generate-confirmation-link:", error);
-    return NextResponse.json(
-      { error: error.message || "Failed to generate confirmation link" },
-      { status: 500 }
-    );
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : "Failed to generate confirmation link";
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

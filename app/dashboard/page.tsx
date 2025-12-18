@@ -10,6 +10,9 @@ interface MemberData {
   creditBalance?: number;
   credit_balance?: number;
   status: string;
+  hasAllAccess?: boolean;
+  allAccessExpiresAt?: string;
+  isEliteMember?: boolean;
   _count?: {
     bookings: number;
   };
