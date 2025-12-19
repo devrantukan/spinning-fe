@@ -20,6 +20,8 @@ function ResetPasswordContent() {
   const [fieldErrors, setFieldErrors] = useState<
     Record<string, string | undefined>
   >({});
+  const [tokenVerified, setTokenVerified] = useState(false);
+  const [tokenError, setTokenError] = useState<string | null>(null);
   const { t } = useLanguage();
   const supabase = createClient();
 
@@ -61,8 +63,43 @@ function ResetPasswordContent() {
 
     if (token_hash && type === "recovery") {
       setMode("reset");
+      // Verify token once when page loads (don't verify again on submit)
+      const verifyToken = async () => {
+        try {
+          const { error: verifyError } = await supabase.auth.verifyOtp({
+            token_hash,
+            type: "recovery",
+          });
+
+          if (verifyError) {
+            // Check if it's a token expiration error
+            if (
+              verifyError.message?.includes("expired") ||
+              verifyError.message?.includes("invalid") ||
+              verifyError.message?.includes("link")
+            ) {
+              setTokenError(
+                t("auth.resetPassword.linkExpired") ||
+                  "Email link is invalid or has expired. Please request a new password reset link."
+              );
+            } else {
+              setTokenError(verifyError.message);
+            }
+          } else {
+            setTokenVerified(true);
+          }
+        } catch (err: any) {
+          setTokenError(
+            err.message ||
+              t("auth.resetPassword.linkExpired") ||
+              "Email link is invalid or has expired."
+          );
+        }
+      };
+
+      verifyToken();
     }
-  }, [searchParams]);
+  }, [searchParams, supabase.auth, t]);
 
   const handleRequestReset = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -161,30 +198,22 @@ function ResetPasswordContent() {
       return;
     }
 
-    try {
-      const token_hash = searchParams.get("token_hash");
-      if (token_hash) {
-        const { error: verifyError } = await supabase.auth.verifyOtp({
-          token_hash,
-          type: "recovery",
-        });
-
-        if (verifyError) {
-          // Check if it's a token expiration error
-          if (
-            verifyError.message?.includes("expired") ||
-            verifyError.message?.includes("invalid") ||
-            verifyError.message?.includes("link")
-          ) {
-            throw new Error(
-              t("auth.resetPassword.linkExpired") ||
-                "Email link is invalid or has expired. Please request a new password reset link."
-            );
-          }
-          throw verifyError;
-        }
+    // Check if token was verified on page load
+    if (!tokenVerified) {
+      if (tokenError) {
+        setError(tokenError);
+      } else {
+        setError(
+          t("auth.resetPassword.linkExpired") ||
+            "Email link is invalid or has expired. Please request a new password reset link."
+        );
       }
+      setLoading(false);
+      return;
+    }
 
+    try {
+      // Token was already verified on page load, just update the password
       const { error: updateError } = await supabase.auth.updateUser({
         password: password,
       });
