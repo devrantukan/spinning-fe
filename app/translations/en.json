@@ -291,7 +291,11 @@
   },
   "terms": {
     "title": "Terms and Conditions",
-    "lastUpdated": "Last updated: January 2024",
+    "lastUpdated": "Last updated: January 2026",
+    "searchPlaceholder": "Search sections...",
+    "noResults": "No sections found",
+    "clearSearch": "Clear search",
+    "contactTitle": "Have questions?",
     "contact": "If you have any questions about these Terms and Conditions, please contact us.",
     "sections": {
       "section1": {

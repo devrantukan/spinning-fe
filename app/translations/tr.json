@@ -291,7 +291,11 @@
   },
   "terms": {
     "title": "Kullanım Şartları",
-    "lastUpdated": "Son güncelleme: Ocak 2024",
+    "lastUpdated": "Son güncelleme: Ocak 2026",
+    "searchPlaceholder": "Bölümleri ara...",
+    "noResults": "Bölüm bulunamadı",
+    "clearSearch": "Aramayı temizle",
+    "contactTitle": "Sorularınız mı var?",
     "contact": "Bu Kullanım Şartları hakkında sorularınız varsa, lütfen bizimle iletişime geçin.",
     "sections": {
       "section1": {
