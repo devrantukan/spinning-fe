@@ -22,11 +22,8 @@ export const metadata: Metadata = {
   description:
     "Spin Studio - Premium indoor cycling club coming soon to Kuşadası, Aydın, Türkiye. Join us for energizing spin classes in a state-of-the-art facility designed to elevate your fitness journey.",
   icons: {
-    icon: [
-      { url: "/icon.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico", type: "image/x-icon" },
-    ],
-    apple: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    icon: "/icon.svg",
+    apple: "/icon.svg",
   },
 };
 
