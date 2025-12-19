@@ -72,6 +72,21 @@ export async function POST(request: NextRequest) {
       const { randomUUID } = await import("crypto");
       const userId = randomUUID();
 
+      // Get organizationId from environment variables (required for users table)
+      const organizationId =
+        process.env.ORGANIZATION_ID || process.env.TENANT_ORGANIZATION_ID;
+
+      if (!organizationId) {
+        console.warn(
+          "ORGANIZATION_ID or TENANT_ORGANIZATION_ID is not set. User record creation will fail. It will be created via TOC route."
+        );
+      } else {
+        console.log(
+          "[CREATE-USER] Creating user record with organizationId:",
+          organizationId
+        );
+      }
+
       const { data: newUserRecord, error: userRecordError } =
         await supabaseAdmin
           .from("users")
@@ -83,6 +98,7 @@ export async function POST(request: NextRequest) {
             dateOfBirth: dateOfBirth || null,
             mobilePhone: userMetadata?.mobilePhone || null,
             countryCode: userMetadata?.countryCode || null,
+            organizationId: organizationId || null, // Will be set via TOC route if missing
             tocAccepted: userMetadata?.tocAccepted || false,
             tocAcceptedAt: userMetadata?.tocAccepted
               ? new Date().toISOString()

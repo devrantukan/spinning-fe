@@ -509,12 +509,26 @@ export default function AuthModal({
               accepted: acceptToc,
               liabilityWaiverAccepted: acceptLiabilityWaiver,
             }),
-          }).catch((err) => {
-            console.error(
-              "Error saving TOC acceptance and liability waiver:",
-              err
-            );
-          });
+          })
+            .then(async (response) => {
+              if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                console.error(
+                  "Error saving TOC acceptance and liability waiver:",
+                  errorData
+                );
+              } else {
+                console.log(
+                  "TOC acceptance and user record saved successfully"
+                );
+              }
+            })
+            .catch((err) => {
+              console.error(
+                "Error saving TOC acceptance and liability waiver:",
+                err
+              );
+            });
 
           // Generate confirmation link and send email using organization SMTP (fire and forget)
           // Pass the temporary password so it matches what was used during user creation

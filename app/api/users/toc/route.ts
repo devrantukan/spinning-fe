@@ -119,6 +119,28 @@ export async function POST(request: Request) {
       const { randomUUID } = await import("crypto");
       const userId = randomUUID();
 
+      // Get organizationId from environment variables (required for users table)
+      const organizationId =
+        process.env.ORGANIZATION_ID || process.env.TENANT_ORGANIZATION_ID;
+
+      if (!organizationId) {
+        console.error(
+          "ORGANIZATION_ID or TENANT_ORGANIZATION_ID is not set in environment variables"
+        );
+        return NextResponse.json(
+          {
+            error: "Server configuration error",
+            message: "Organization ID is required but not configured",
+          },
+          { status: 500 }
+        );
+      }
+
+      console.log(
+        "[TOC] Creating user record with organizationId:",
+        organizationId
+      );
+
       const { data: createData, error: createError } = await dbClient
         .from("users")
         .insert({
@@ -129,6 +151,7 @@ export async function POST(request: Request) {
           dateOfBirth: dateOfBirth,
           mobilePhone: mobilePhone,
           countryCode: countryCode,
+          organizationId: organizationId,
           tocAccepted: accepted,
           tocAcceptedAt: accepted ? new Date().toISOString() : null,
           liabilityWaiverAccepted: liabilityWaiverAccepted || false,
@@ -141,9 +164,25 @@ export async function POST(request: Request) {
 
       data = createData;
       error = createError;
+
+      if (createError) {
+        console.error("[TOC] Error creating user record:", {
+          code: createError.code,
+          message: createError.message,
+          details: createError.details,
+          hint: createError.hint,
+          organizationId: organizationId,
+        });
+      } else {
+        console.log("[TOC] User record created successfully:", {
+          userId: createData?.id,
+          supabaseUserId: supabaseUserId,
+        });
+      }
     } else if (checkError) {
       // Other error checking for user
       error = checkError;
+      console.error("[TOC] Error checking for existing user:", checkError);
     } else {
       // User exists, update TOC acceptance and liability waiver
       const updateDataObj: any = {
@@ -171,7 +210,12 @@ export async function POST(request: Request) {
     }
 
     if (error) {
-      console.error("Error updating TOC acceptance:", error);
+      console.error("[TOC] Error updating TOC acceptance:", {
+        code: error.code,
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+      });
 
       // If columns don't exist, provide SQL to add them
       if (error.code === "42703") {
@@ -216,6 +260,10 @@ ADD COLUMN IF NOT EXISTS "liabilityWaiverAcceptedAt" TIMESTAMP WITH TIME ZONE;
     // After successfully creating/updating user record, create member record if it doesn't exist
     if (data && data.id) {
       try {
+        console.log(
+          "[TOC] Checking for existing member record for userId:",
+          data.id
+        );
         // Check if member already exists
         const { data: existingMember, error: checkMemberError } = await dbClient
           .from("members")
@@ -225,6 +273,9 @@ ADD COLUMN IF NOT EXISTS "liabilityWaiverAcceptedAt" TIMESTAMP WITH TIME ZONE;
 
         if (checkMemberError && checkMemberError.code === "PGRST116") {
           // Member doesn't exist, create it
+          console.log(
+            "[TOC] Member record not found, creating new member record"
+          );
           const { data: newMember, error: memberError } = await dbClient
             .from("members")
             .insert({
@@ -237,18 +288,44 @@ ADD COLUMN IF NOT EXISTS "liabilityWaiverAcceptedAt" TIMESTAMP WITH TIME ZONE;
             .single();
 
           if (memberError) {
-            console.warn("Failed to create member record:", memberError);
+            console.error("[TOC] Failed to create member record:", {
+              code: memberError.code,
+              message: memberError.message,
+              details: memberError.details,
+              hint: memberError.hint,
+              userId: data.id,
+            });
             // Don't fail the request - member can be created later
           } else {
-            console.log("Member record created successfully:", newMember?.id);
+            console.log("[TOC] Member record created successfully:", {
+              memberId: newMember?.id,
+              userId: data.id,
+            });
           }
+        } else if (checkMemberError) {
+          console.error(
+            "[TOC] Error checking for existing member:",
+            checkMemberError
+          );
         } else if (existingMember) {
-          console.log("Member record already exists:", existingMember.id);
+          console.log("[TOC] Member record already exists:", existingMember.id);
         }
-      } catch (memberErr) {
-        console.warn("Error creating member record:", memberErr);
+      } catch (memberErr: any) {
+        console.error("[TOC] Exception creating member record:", {
+          message: memberErr?.message,
+          stack: memberErr?.stack,
+          userId: data.id,
+        });
         // Don't fail the request - member can be created later
       }
+    } else {
+      console.warn(
+        "[TOC] Cannot create member record - user data or id is missing:",
+        {
+          hasData: !!data,
+          hasId: !!data?.id,
+        }
+      );
     }
 
     return NextResponse.json({
