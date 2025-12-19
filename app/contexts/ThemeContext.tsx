@@ -130,7 +130,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       root.classList.remove("dark");
       html.classList.remove("dark");
 
-      if (newResolvedTheme === "dark") {
+      if (newTheme === "dark") {
         root.classList.add("dark");
         html.classList.add("dark");
         root.setAttribute("data-theme", "dark");
