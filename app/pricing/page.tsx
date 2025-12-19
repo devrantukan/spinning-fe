@@ -257,11 +257,21 @@ export default function Pricing() {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage({
-          type: "success",
-          text:
-            t("pricing.purchaseSuccess") || "Package purchased successfully!",
-        });
+        // Show different message for bank transfer
+        if (paymentMethod === "BANK_TRANSFER") {
+          setMessage({
+            type: "success",
+            text:
+              t("pricing.bankTransferCheckEmail") ||
+              "Package order placed successfully! Please check your email for bank transfer details.",
+          });
+        } else {
+          setMessage({
+            type: "success",
+            text:
+              t("pricing.purchaseSuccess") || "Package purchased successfully!",
+          });
+        }
         setShowModal(false);
         setSelectedPackage(null);
         setCouponCode("");
@@ -270,7 +280,7 @@ export default function Pricing() {
         // Refresh packages and redirect to dashboard
         setTimeout(() => {
           router.push("/dashboard");
-        }, 2000);
+        }, 3000); // Increased timeout to give user time to read the message
       } else {
         setMessage({
           type: "error",

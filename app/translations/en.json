@@ -278,6 +278,7 @@
     "couponError": "Failed to validate coupon",
     "memberNotFound": "Member account not found. Please contact support.",
     "purchaseSuccess": "Package purchased successfully!",
+    "bankTransferCheckEmail": "Package order placed successfully! Please check your email for bank transfer details.",
     "purchaseError": "Failed to purchase",
     "paymentMethod": "Payment Method",
     "creditCard": "Credit Card",

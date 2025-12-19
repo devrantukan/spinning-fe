@@ -278,6 +278,7 @@
     "couponError": "Kupon doğrulanamadı",
     "memberNotFound": "Üye hesabı bulunamadı. Lütfen destek ile iletişime geçin.",
     "purchaseSuccess": "Paket başarıyla satın alındı!",
+    "bankTransferCheckEmail": "Paket siparişi başarıyla oluşturuldu! Banka havalesi detayları için lütfen e-postanızı kontrol edin.",
     "purchaseError": "Satın alma başarısız oldu",
     "paymentMethod": "Ödeme Yöntemi",
     "creditCard": "Kredi Kartı",
