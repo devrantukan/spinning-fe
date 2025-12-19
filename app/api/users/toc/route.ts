@@ -115,9 +115,14 @@ export async function POST(request: Request) {
       }
 
       // Try to create it with TOC acceptance, liability waiver, and all registration data
+      // Generate UUID for the id field (required by database)
+      const { randomUUID } = await import("crypto");
+      const userId = randomUUID();
+
       const { data: createData, error: createError } = await dbClient
         .from("users")
         .insert({
+          id: userId,
           supabaseUserId: supabaseUserId,
           email: userEmail,
           name: userName,

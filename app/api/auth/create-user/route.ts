@@ -68,10 +68,15 @@ export async function POST(request: NextRequest) {
         }
       }
 
+      // Generate UUID for the id field (required by database)
+      const { randomUUID } = await import("crypto");
+      const userId = randomUUID();
+
       const { data: newUserRecord, error: userRecordError } =
         await supabaseAdmin
           .from("users")
           .insert({
+            id: userId,
             supabaseUserId: data.user.id,
             email: data.user.email || email,
             name: userMetadata?.name || "",

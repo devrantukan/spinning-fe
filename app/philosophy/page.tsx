@@ -142,10 +142,10 @@ export default function Philosophy() {
             {values.map((value, index) => (
               <div
                 key={value.key}
-                className="group relative bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 p-5 sm:p-6 md:p-8 lg:p-10 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 md:transform md:hover:-translate-y-2 overflow-hidden"
+                className="group relative bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 p-5 sm:p-6 md:p-8 lg:p-10 rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 md:transform md:hover:-translate-y-2 overflow-hidden"
               >
                 {/* Decorative Background Element */}
-                <div className="absolute top-0 right-0 w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 bg-orange-500/10 dark:bg-orange-500/10 rounded-bl-full transform translate-x-6 -translate-y-6 sm:translate-x-8 sm:-translate-y-8 md:group-hover:scale-150 transition-transform duration-500"></div>
+                <div className="absolute top-0 right-0 w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 bg-orange-500/5 dark:bg-orange-500/10 rounded-bl-full transform translate-x-6 -translate-y-6 sm:translate-x-8 sm:-translate-y-8 md:group-hover:scale-150 transition-transform duration-500"></div>
 
                 <div className="relative z-10 flex flex-col sm:flex-row items-start gap-4 sm:gap-5 md:gap-6">
                   <div className="flex-shrink-0 flex items-center gap-4 sm:block">
