@@ -208,6 +208,44 @@ ADD COLUMN IF NOT EXISTS "liabilityWaiverAcceptedAt" TIMESTAMP WITH TIME ZONE;
       );
     }
 
+    // After successfully creating/updating user record, create member record if it doesn't exist
+    if (data && data.id) {
+      try {
+        // Check if member already exists
+        const { data: existingMember, error: checkMemberError } = await dbClient
+          .from("members")
+          .select("id")
+          .eq("userId", data.id)
+          .single();
+
+        if (checkMemberError && checkMemberError.code === "PGRST116") {
+          // Member doesn't exist, create it
+          const { data: newMember, error: memberError } = await dbClient
+            .from("members")
+            .insert({
+              userId: data.id,
+              role: "member",
+              creditBalance: 0,
+              status: "active",
+            })
+            .select()
+            .single();
+
+          if (memberError) {
+            console.warn("Failed to create member record:", memberError);
+            // Don't fail the request - member can be created later
+          } else {
+            console.log("Member record created successfully:", newMember?.id);
+          }
+        } else if (existingMember) {
+          console.log("Member record already exists:", existingMember.id);
+        }
+      } catch (memberErr) {
+        console.warn("Error creating member record:", memberErr);
+        // Don't fail the request - member can be created later
+      }
+    }
+
     return NextResponse.json({
       success: true,
       data,

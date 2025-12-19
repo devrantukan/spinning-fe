@@ -498,6 +498,7 @@ export default function AuthModal({
         // Save TOC acceptance to database and create member record (non-blocking)
         if (signUpData?.user) {
           // Save TOC acceptance and liability waiver (fire and forget)
+          // This will also create the member record after user record is created/updated
           fetch("/api/users/toc", {
             method: "POST",
             headers: {
@@ -513,20 +514,6 @@ export default function AuthModal({
               "Error saving TOC acceptance and liability waiver:",
               err
             );
-          });
-
-          // Create member record with role "member" (fire and forget)
-          fetch("/api/members", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              supabaseUserId: signUpData.user.id,
-              role: "member",
-            }),
-          }).catch((err) => {
-            console.error("Error creating member record:", err);
           });
 
           // Generate confirmation link and send email using organization SMTP (fire and forget)
