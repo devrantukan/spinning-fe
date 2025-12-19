@@ -292,6 +292,7 @@ ADD COLUMN IF NOT EXISTS "liabilityWaiverAcceptedAt" TIMESTAMP WITH TIME ZONE;
               "[TOC] ORGANIZATION_ID or TENANT_ORGANIZATION_ID is not set. Cannot create member record."
             );
           } else {
+            const now = new Date().toISOString();
             const { data: newMember, error: memberError } = await dbClient
               .from("members")
               .insert({
@@ -300,6 +301,8 @@ ADD COLUMN IF NOT EXISTS "liabilityWaiverAcceptedAt" TIMESTAMP WITH TIME ZONE;
                 organizationId: organizationId,
                 creditBalance: 0,
                 status: "ACTIVE",
+                createdAt: now,
+                updatedAt: now,
               })
               .select()
               .single();

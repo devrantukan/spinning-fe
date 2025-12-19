@@ -310,6 +310,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const now = new Date().toISOString();
     const { data: member, error: memberError } = await supabaseAdmin
       .from("members")
       .insert({
@@ -318,6 +319,8 @@ export async function POST(request: NextRequest) {
         organizationId: organizationId,
         creditBalance: 0,
         status: "ACTIVE",
+        createdAt: now,
+        updatedAt: now,
       })
       .select()
       .single();
