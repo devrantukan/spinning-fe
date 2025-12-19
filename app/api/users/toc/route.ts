@@ -284,7 +284,7 @@ ADD COLUMN IF NOT EXISTS "liabilityWaiverAcceptedAt" TIMESTAMP WITH TIME ZONE;
             .insert({
               userId: data.id,
               creditBalance: 0,
-              status: "active",
+              status: "ACTIVE",
             })
             .select()
             .single();

@@ -181,6 +181,7 @@
       "title": "Şifre Sıfırla",
       "setNewPassword": "Yeni Şifre Belirle",
       "newPassword": "Yeni Şifre",
+      "newPasswordPlaceholder": "Şifrenizi girin",
       "confirmPassword": "Şifreyi Onayla",
       "confirmPasswordPlaceholder": "Şifrenizi onaylayın",
       "sendResetLink": "Sıfırlama Bağlantısı Gönder",

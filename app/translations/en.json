@@ -181,6 +181,7 @@
       "title": "Reset Password",
       "setNewPassword": "Set New Password",
       "newPassword": "New Password",
+      "newPasswordPlaceholder": "Enter your password",
       "confirmPassword": "Confirm Password",
       "confirmPasswordPlaceholder": "Confirm your password",
       "sendResetLink": "Send Reset Link",

@@ -297,7 +297,7 @@ export async function POST(request: NextRequest) {
       .insert({
         userId: userRecord.id,
         creditBalance: 0,
-        status: "active",
+        status: "ACTIVE",
       })
       .select()
       .single();
