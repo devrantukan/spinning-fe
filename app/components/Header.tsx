@@ -156,7 +156,7 @@ export default function Header() {
             isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
           }`}
         >
-          <div className="py-4 space-y-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="py-4 px-4 space-y-4 border-t border-gray-200 dark:border-gray-700">
             {!user &&
               menuItems.map((item) => (
                 <Link
@@ -202,7 +202,7 @@ export default function Header() {
                   setIsMenuOpen(false);
                   handleJoinUsClick(e);
                 }}
-                className="w-full bg-orange-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-orange-600 transition-colors duration-200 text-center mt-4 cursor-pointer"
+                className="w-full bg-orange-500 text-white px-4 py-2.5 sm:px-6 sm:py-3 rounded-full font-semibold hover:bg-orange-600 transition-colors duration-200 text-center mt-4 cursor-pointer text-sm sm:text-base whitespace-nowrap"
               >
                 {t("nav.joinUs")}
               </button>

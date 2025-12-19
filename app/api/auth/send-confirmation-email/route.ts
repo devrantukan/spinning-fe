@@ -184,9 +184,11 @@ export async function POST(request: NextRequest) {
     const emailLanguage = language || organization.language || "en";
 
     // Create confirmation link
-    const confirmationLink = `${
-      process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-    }/auth/activate?token_hash=${confirmationToken}&type=signup`;
+    const baseUrl =
+      process.env.TENANT_FE_URL ||
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      "http://localhost:3000";
+    const confirmationLink = `${baseUrl}/auth/activate?token_hash=${confirmationToken}&type=signup`;
 
     // Email templates
     const emailTemplates = {

@@ -45,7 +45,9 @@ export async function POST(request: NextRequest) {
       password: tempPassword, // Required for signup type - must match the password used during user creation
       options: {
         redirectTo: `${
-          process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+          process.env.TENANT_FE_URL ||
+          process.env.NEXT_PUBLIC_SITE_URL ||
+          "http://localhost:3000"
         }/auth/activate`,
       },
     });
@@ -85,9 +87,11 @@ export async function POST(request: NextRequest) {
 
     // If we still don't have a token, construct the link from the response
     if (!confirmationLink && tokenHash) {
-      confirmationLink = `${
-        process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-      }/auth/activate?token_hash=${tokenHash}&type=signup`;
+      const baseUrl =
+        process.env.TENANT_FE_URL ||
+        process.env.NEXT_PUBLIC_SITE_URL ||
+        "http://localhost:3000";
+      confirmationLink = `${baseUrl}/auth/activate?token_hash=${tokenHash}&type=signup`;
     }
 
     if (!tokenHash) {
@@ -98,13 +102,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const baseUrl =
+      process.env.TENANT_FE_URL ||
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      "http://localhost:3000";
     return NextResponse.json({
       confirmationToken: tokenHash,
       confirmationLink:
         confirmationLink ||
-        `${
-          process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-        }/auth/activate?token_hash=${tokenHash}&type=signup`,
+        `${baseUrl}/auth/activate?token_hash=${tokenHash}&type=signup`,
     });
   } catch (error: unknown) {
     console.error("Error in generate-confirmation-link:", error);
@@ -115,4 +121,3 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
-
