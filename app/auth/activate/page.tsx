@@ -27,18 +27,21 @@ function ActivateContent() {
       const token_hash = searchParams.get("token_hash");
       const type = searchParams.get("type");
 
-      if (token_hash && type) {
+      if (token_hash) {
         try {
-          // Verify the token first
+          // Verify the token - use 'email' type for email confirmations (signup type is deprecated)
+          // The type parameter from URL might be 'signup', but we use 'email' for verification
           const { error: verifyError } = await supabase.auth.verifyOtp({
             token_hash,
-            type: type as any,
+            type: "email", // Always use 'email' type for email confirmations
           });
 
           if (verifyError) {
+            console.error("Token verification error:", verifyError);
             setStatus("error");
             setMessage(
-              t("auth.activate.error") ||
+              verifyError.message ||
+                t("auth.activate.error") ||
                 "Activation failed. The link may have expired."
             );
           } else {
@@ -49,10 +52,13 @@ function ActivateContent() {
                 "Please create a password for your account."
             );
           }
-        } catch (err) {
+        } catch (err: any) {
+          console.error("Activation error:", err);
           setStatus("error");
           setMessage(
-            t("auth.activate.error") || "An error occurred during activation."
+            err.message ||
+              t("auth.activate.error") ||
+              "An error occurred during activation."
           );
         }
       } else {
