@@ -283,7 +283,6 @@ ADD COLUMN IF NOT EXISTS "liabilityWaiverAcceptedAt" TIMESTAMP WITH TIME ZONE;
             .from("members")
             .insert({
               userId: data.id,
-              role: "member",
               creditBalance: 0,
               status: "active",
             })
