@@ -63,7 +63,7 @@ export default function Terms() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 pt-20 pb-16">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-12 animate-fade-in-up">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
