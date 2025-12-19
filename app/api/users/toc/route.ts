@@ -141,6 +141,7 @@ export async function POST(request: Request) {
         organizationId
       );
 
+      const now = new Date().toISOString();
       const { data: createData, error: createError } = await dbClient
         .from("users")
         .insert({
@@ -153,11 +154,11 @@ export async function POST(request: Request) {
           countryCode: countryCode,
           organizationId: organizationId,
           tocAccepted: accepted,
-          tocAcceptedAt: accepted ? new Date().toISOString() : null,
+          tocAcceptedAt: accepted ? now : null,
           liabilityWaiverAccepted: liabilityWaiverAccepted || false,
-          liabilityWaiverAcceptedAt: liabilityWaiverAccepted
-            ? new Date().toISOString()
-            : null,
+          liabilityWaiverAcceptedAt: liabilityWaiverAccepted ? now : null,
+          createdAt: now,
+          updatedAt: now,
         })
         .select()
         .single();
@@ -185,16 +186,18 @@ export async function POST(request: Request) {
       console.error("[TOC] Error checking for existing user:", checkError);
     } else {
       // User exists, update TOC acceptance and liability waiver
+      const now = new Date().toISOString();
       const updateDataObj: any = {
         tocAccepted: accepted,
-        tocAcceptedAt: accepted ? new Date().toISOString() : null,
+        tocAcceptedAt: accepted ? now : null,
+        updatedAt: now, // Always update the updatedAt timestamp
       };
 
       // Only update liability waiver if provided
       if (liabilityWaiverAccepted !== undefined) {
         updateDataObj.liabilityWaiverAccepted = liabilityWaiverAccepted;
         updateDataObj.liabilityWaiverAcceptedAt = liabilityWaiverAccepted
-          ? new Date().toISOString()
+          ? now
           : null;
       }
 

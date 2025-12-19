@@ -87,6 +87,7 @@ export async function POST(request: NextRequest) {
         );
       }
 
+      const now = new Date().toISOString();
       const { data: newUserRecord, error: userRecordError } =
         await supabaseAdmin
           .from("users")
@@ -100,14 +101,14 @@ export async function POST(request: NextRequest) {
             countryCode: userMetadata?.countryCode || null,
             organizationId: organizationId || null, // Will be set via TOC route if missing
             tocAccepted: userMetadata?.tocAccepted || false,
-            tocAcceptedAt: userMetadata?.tocAccepted
-              ? new Date().toISOString()
-              : null,
+            tocAcceptedAt: userMetadata?.tocAccepted ? now : null,
             liabilityWaiverAccepted:
               userMetadata?.liabilityWaiverAccepted || false,
             liabilityWaiverAcceptedAt: userMetadata?.liabilityWaiverAccepted
-              ? new Date().toISOString()
+              ? now
               : null,
+            createdAt: now,
+            updatedAt: now,
           })
           .select()
           .single();
