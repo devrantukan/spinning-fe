@@ -585,8 +585,8 @@ export default function AuthModal({
           onClose={() => setToast(null)}
         />
       )}
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6 md:p-8 relative">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-0 sm:p-4">
+        <div className="bg-white dark:bg-gray-800 rounded-none sm:rounded-lg shadow-xl max-w-md w-full h-full sm:h-auto sm:max-h-[90vh] overflow-y-auto p-4 sm:p-6 md:p-8 relative m-0">
           <button
             onClick={onClose}
             className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
@@ -671,7 +671,7 @@ export default function AuthModal({
                   >
                     {t("auth.register.dob") || "Date of Birth"}
                   </label>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-3 gap-2 sm:gap-3">
                     <select
                       id="dobDay"
                       value={dobDay}
@@ -779,12 +779,12 @@ export default function AuthModal({
                   >
                     {t("auth.register.mobilePhone") || "Mobile Phone"}
                   </label>
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2">
                     <select
                       id="countryCode"
                       value={countryCode}
                       onChange={(e) => setCountryCode(e.target.value)}
-                      className="w-56 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+                      className="w-full sm:w-56 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
                     >
                       {countries.map((country) => (
                         <option
@@ -929,7 +929,7 @@ export default function AuthModal({
                   </p>
                 )}
 
-                <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 max-h-96 overflow-y-auto">
+                <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 max-h-64 sm:max-h-96 overflow-y-auto">
                   <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
                     {t("auth.register.liabilityWaiver.title") || "DECLARE"}
                   </h3>
