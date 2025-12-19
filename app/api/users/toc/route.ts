@@ -279,9 +279,14 @@ ADD COLUMN IF NOT EXISTS "liabilityWaiverAcceptedAt" TIMESTAMP WITH TIME ZONE;
           console.log(
             "[TOC] Member record not found, creating new member record"
           );
+          // Generate UUID for the id field (required by database)
+          const { randomUUID } = await import("crypto");
+          const memberId = randomUUID();
+
           const { data: newMember, error: memberError } = await dbClient
             .from("members")
             .insert({
+              id: memberId,
               userId: data.id,
               creditBalance: 0,
               status: "ACTIVE",

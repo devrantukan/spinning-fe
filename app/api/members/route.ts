@@ -292,9 +292,14 @@ export async function POST(request: NextRequest) {
 
     // Create member record
     // Note: members table doesn't have a 'role' column - role is stored in users table
+    // Generate UUID for the id field (required by database)
+    const { randomUUID } = await import("crypto");
+    const memberId = randomUUID();
+
     const { data: member, error: memberError } = await supabaseAdmin
       .from("members")
       .insert({
+        id: memberId,
         userId: userRecord.id,
         creditBalance: 0,
         status: "ACTIVE",
