@@ -190,6 +190,8 @@
       "success": "Şifre başarıyla sıfırlandı! Yönlendiriliyorsunuz...",
       "passwordMismatch": "Şifreler eşleşmiyor",
       "passwordTooShort": "Şifre en az 6 karakter olmalıdır",
+      "sameAsOld": "Yeni şifre mevcut şifrenizden farklı olmalıdır",
+      "linkExpired": "E-posta bağlantısı geçersiz veya süresi dolmuş. Lütfen yeni bir şifre sıfırlama bağlantısı isteyin.",
       "backToHome": "Ana Sayfaya Dön"
     },
     "activate": {

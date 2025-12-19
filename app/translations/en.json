@@ -190,6 +190,8 @@
       "success": "Password reset successfully! Redirecting...",
       "passwordMismatch": "Passwords do not match",
       "passwordTooShort": "Password must be at least 6 characters",
+      "sameAsOld": "New password must be different from your current password",
+      "linkExpired": "Email link is invalid or has expired. Please request a new password reset link.",
       "backToHome": "Back to Home"
     },
     "activate": {

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useLanguage } from "../../contexts/LanguageContext";
+import { z } from "zod";
 import Link from "next/link";
 
 function ResetPasswordContent() {
@@ -16,8 +17,43 @@ function ResetPasswordContent() {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [mode, setMode] = useState<"request" | "reset">("request");
+  const [fieldErrors, setFieldErrors] = useState<
+    Record<string, string | undefined>
+  >({});
   const { t } = useLanguage();
   const supabase = createClient();
+
+  // Create validation schema with language-specific messages
+  const resetPasswordSchema = useMemo(
+    () =>
+      z
+        .object({
+          password: z
+            .string()
+            .min(
+              1,
+              t("auth.validation.passwordRequired") || "Password is required"
+            )
+            .min(
+              6,
+              t("auth.resetPassword.passwordTooShort") ||
+                "Password must be at least 6 characters"
+            ),
+          confirmPassword: z
+            .string()
+            .min(
+              1,
+              t("auth.validation.passwordRequired") || "Password is required"
+            ),
+        })
+        .refine((data) => data.password === data.confirmPassword, {
+          message:
+            t("auth.resetPassword.passwordMismatch") ||
+            "Passwords do not match",
+          path: ["confirmPassword"],
+        }),
+    [t]
+  );
 
   useEffect(() => {
     const token_hash = searchParams.get("token_hash");
@@ -98,20 +134,29 @@ function ResetPasswordContent() {
     setLoading(true);
     setError(null);
     setMessage(null);
+    setFieldErrors({});
 
-    if (password !== confirmPassword) {
-      setError(
-        t("auth.resetPassword.passwordMismatch") || "Passwords do not match"
-      );
-      setLoading(false);
-      return;
-    }
+    // Validate using Zod schema
+    const validationResult = resetPasswordSchema.safeParse({
+      password,
+      confirmPassword,
+    });
 
-    if (password.length < 6) {
-      setError(
-        t("auth.resetPassword.passwordTooShort") ||
-          "Password must be at least 6 characters"
-      );
+    if (!validationResult.success) {
+      const errors: Record<string, string> = {};
+      validationResult.error.issues.forEach((issue) => {
+        if (issue.path[0]) {
+          errors[issue.path[0] as string] = issue.message;
+        }
+      });
+      setFieldErrors(errors);
+      
+      // Set first error as main error message
+      const firstError = validationResult.error.issues[0];
+      if (firstError) {
+        setError(firstError.message);
+      }
+      
       setLoading(false);
       return;
     }
@@ -119,19 +164,52 @@ function ResetPasswordContent() {
     try {
       const token_hash = searchParams.get("token_hash");
       if (token_hash) {
-        const { error } = await supabase.auth.verifyOtp({
+        const { error: verifyError } = await supabase.auth.verifyOtp({
           token_hash,
           type: "recovery",
         });
 
-        if (error) throw error;
+        if (verifyError) {
+          // Check if it's a token expiration error
+          if (
+            verifyError.message?.includes("expired") ||
+            verifyError.message?.includes("invalid") ||
+            verifyError.message?.includes("link")
+          ) {
+            throw new Error(
+              t("auth.resetPassword.linkExpired") ||
+                "Email link is invalid or has expired. Please request a new password reset link."
+            );
+          }
+          throw verifyError;
+        }
       }
 
       const { error: updateError } = await supabase.auth.updateUser({
         password: password,
       });
 
-      if (updateError) throw updateError;
+      if (updateError) {
+        // Check if it's a "same password" error
+        if (
+          updateError.message?.includes("same") ||
+          updateError.message?.includes("current") ||
+          updateError.message?.includes("old")
+        ) {
+          setFieldErrors({
+            password:
+              t("auth.resetPassword.sameAsOld") ||
+              "New password must be different from your current password",
+          });
+          setError(
+            t("auth.resetPassword.sameAsOld") ||
+              "New password must be different from your current password"
+          );
+          setLoading(false);
+          return;
+        }
+        throw updateError;
+      }
 
       setMessage(
         t("auth.resetPassword.success") ||
@@ -141,7 +219,19 @@ function ResetPasswordContent() {
         router.push("/dashboard");
       }, 2000);
     } catch (err: any) {
-      setError(err.message || t("auth.error") || "An error occurred");
+      // Check for specific error messages
+      if (
+        err.message?.includes("expired") ||
+        err.message?.includes("invalid") ||
+        err.message?.includes("link")
+      ) {
+        setError(
+          t("auth.resetPassword.linkExpired") ||
+            "Email link is invalid or has expired. Please request a new password reset link."
+        );
+      } else {
+        setError(err.message || t("auth.error") || "An error occurred");
+      }
     } finally {
       setLoading(false);
     }
@@ -213,11 +303,41 @@ function ResetPasswordContent() {
                 id="password"
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (fieldErrors.password) {
+                    setFieldErrors((prev) => ({
+                      ...prev,
+                      password: undefined,
+                    }));
+                  }
+                  if (fieldErrors.confirmPassword && confirmPassword) {
+                    // Re-validate confirm password when password changes
+                    const result = resetPasswordSchema.safeParse({
+                      password: e.target.value,
+                      confirmPassword,
+                    });
+                    if (result.success) {
+                      setFieldErrors((prev) => ({
+                        ...prev,
+                        confirmPassword: undefined,
+                      }));
+                    }
+                  }
+                }}
                 required
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white ${
+                  fieldErrors.password
+                    ? "border-red-500 dark:border-red-500"
+                    : "border-gray-300 dark:border-gray-600"
+                }`}
                 placeholder={t("auth.passwordPlaceholder") || "Your password"}
               />
+              {fieldErrors.password && (
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                  {fieldErrors.password}
+                </p>
+              )}
             </div>
 
             <div>
@@ -231,14 +351,49 @@ function ResetPasswordContent() {
                 id="confirmPassword"
                 type="password"
                 value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                  if (fieldErrors.confirmPassword) {
+                    setFieldErrors((prev) => ({
+                      ...prev,
+                      confirmPassword: undefined,
+                    }));
+                  }
+                  // Re-validate when confirm password changes
+                  if (password) {
+                    const result = resetPasswordSchema.safeParse({
+                      password,
+                      confirmPassword: e.target.value,
+                    });
+                    if (!result.success) {
+                      const confirmError = result.error.issues.find(
+                        (issue) => issue.path[0] === "confirmPassword"
+                      );
+                      if (confirmError) {
+                        setFieldErrors((prev) => ({
+                          ...prev,
+                          confirmPassword: confirmError.message,
+                        }));
+                      }
+                    }
+                  }
+                }}
                 required
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white ${
+                  fieldErrors.confirmPassword
+                    ? "border-red-500 dark:border-red-500"
+                    : "border-gray-300 dark:border-gray-600"
+                }`}
                 placeholder={
                   t("auth.resetPassword.confirmPasswordPlaceholder") ||
                   "Confirm your password"
                 }
               />
+              {fieldErrors.confirmPassword && (
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                  {fieldErrors.confirmPassword}
+                </p>
+              )}
             </div>
 
             <button
