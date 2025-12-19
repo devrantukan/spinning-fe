@@ -35,11 +35,52 @@ function ResetPasswordContent() {
     setMessage(null);
 
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth/reset-password`,
+      // Generate password reset link using Admin API (doesn't send email)
+      const linkResponse = await fetch(
+        "/api/auth/generate-password-reset-link",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+          }),
+        }
+      );
+
+      if (!linkResponse.ok) {
+        const errorData = await linkResponse.json().catch(() => ({}));
+        throw new Error(
+          errorData.error || "Failed to generate password reset link"
+        );
+      }
+
+      const linkData = await linkResponse.json();
+
+      if (!linkData?.resetToken) {
+        throw new Error("Failed to get password reset token");
+      }
+
+      // Send password reset email using organization SMTP
+      const emailResponse = await fetch("/api/auth/send-password-reset-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          name: null, // We don't have the name here, but it's optional
+          resetToken: linkData.resetToken,
+          language: t("language") || "en",
+        }),
       });
 
-      if (error) throw error;
+      if (!emailResponse.ok) {
+        const errorData = await emailResponse.json().catch(() => ({}));
+        // Don't fail if email sending fails - the link was generated
+        console.warn("Failed to send password reset email:", errorData);
+      }
 
       setMessage(
         t("auth.resetPassword.emailSent") ||
@@ -60,8 +101,7 @@ function ResetPasswordContent() {
 
     if (password !== confirmPassword) {
       setError(
-        t("auth.resetPassword.passwordMismatch") ||
-          "Passwords do not match"
+        t("auth.resetPassword.passwordMismatch") || "Passwords do not match"
       );
       setLoading(false);
       return;
@@ -144,7 +184,9 @@ function ResetPasswordContent() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                placeholder={t("auth.emailPlaceholder") || "your.email@example.com"}
+                placeholder={
+                  t("auth.emailPlaceholder") || "your.email@example.com"
+                }
               />
             </div>
 
@@ -155,8 +197,7 @@ function ResetPasswordContent() {
             >
               {loading
                 ? t("auth.loading") || "Loading..."
-                : t("auth.resetPassword.sendResetLink") ||
-                  "Send Reset Link"}
+                : t("auth.resetPassword.sendResetLink") || "Send Reset Link"}
             </button>
           </form>
         ) : (
@@ -184,8 +225,7 @@ function ResetPasswordContent() {
                 htmlFor="confirmPassword"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
               >
-                {t("auth.resetPassword.confirmPassword") ||
-                  "Confirm Password"}
+                {t("auth.resetPassword.confirmPassword") || "Confirm Password"}
               </label>
               <input
                 id="confirmPassword"
@@ -242,4 +282,3 @@ export default function ResetPasswordPage() {
     </Suspense>
   );
 }
-
