@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     } = await supabase.auth.getUser();
 
     const body = await request.json();
-    const { supabaseUserId, accepted } = body;
+    const { supabaseUserId, accepted, liabilityWaiverAccepted } = body;
 
     // If user is not authenticated (during registration), use Admin API
     let useAdminAPI = false;
@@ -84,15 +84,52 @@ export async function POST(request: Request) {
         userName = user?.user_metadata?.name || "";
       }
 
-      // Try to create it with TOC acceptance
+      // Get additional user metadata (dob, mobilePhone, countryCode) from auth user
+      let dateOfBirth = null;
+      let mobilePhone = null;
+      let countryCode = null;
+
+      if (useAdminAPI) {
+        const supabaseAdmin = createServiceClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.SUPABASE_SERVICE_ROLE_KEY!,
+          {
+            auth: {
+              autoRefreshToken: false,
+              persistSession: false,
+            },
+          }
+        );
+        const { data: authUser } = await supabaseAdmin.auth.admin.getUserById(
+          supabaseUserId
+        );
+        const metadata = authUser?.user?.user_metadata || {};
+        dateOfBirth = metadata.dob || null;
+        mobilePhone = metadata.mobilePhone || null;
+        countryCode = metadata.countryCode || null;
+      } else {
+        const metadata = user?.user_metadata || {};
+        dateOfBirth = metadata.dob || null;
+        mobilePhone = metadata.mobilePhone || null;
+        countryCode = metadata.countryCode || null;
+      }
+
+      // Try to create it with TOC acceptance, liability waiver, and all registration data
       const { data: createData, error: createError } = await dbClient
         .from("users")
         .insert({
           supabaseUserId: supabaseUserId,
           email: userEmail,
           name: userName,
+          dateOfBirth: dateOfBirth,
+          mobilePhone: mobilePhone,
+          countryCode: countryCode,
           tocAccepted: accepted,
           tocAcceptedAt: accepted ? new Date().toISOString() : null,
+          liabilityWaiverAccepted: liabilityWaiverAccepted || false,
+          liabilityWaiverAcceptedAt: liabilityWaiverAccepted
+            ? new Date().toISOString()
+            : null,
         })
         .select()
         .single();
@@ -103,13 +140,23 @@ export async function POST(request: Request) {
       // Other error checking for user
       error = checkError;
     } else {
-      // User exists, update TOC acceptance
+      // User exists, update TOC acceptance and liability waiver
+      const updateDataObj: any = {
+        tocAccepted: accepted,
+        tocAcceptedAt: accepted ? new Date().toISOString() : null,
+      };
+
+      // Only update liability waiver if provided
+      if (liabilityWaiverAccepted !== undefined) {
+        updateDataObj.liabilityWaiverAccepted = liabilityWaiverAccepted;
+        updateDataObj.liabilityWaiverAcceptedAt = liabilityWaiverAccepted
+          ? new Date().toISOString()
+          : null;
+      }
+
       const { data: updateData, error: updateError } = await dbClient
         .from("users")
-        .update({
-          tocAccepted: accepted,
-          tocAcceptedAt: accepted ? new Date().toISOString() : null,
-        })
+        .update(updateDataObj)
         .eq("supabaseUserId", supabaseUserId)
         .select()
         .single();
@@ -127,12 +174,14 @@ export async function POST(request: Request) {
           {
             error: "Database schema error",
             message:
-              "The tocAccepted and tocAcceptedAt columns need to be added to the users table.",
+              "The tocAccepted, tocAcceptedAt, liabilityWaiverAccepted, and liabilityWaiverAcceptedAt columns need to be added to the users table.",
             sql: `
--- Add TOC acceptance columns to users table
+-- Add TOC acceptance and liability waiver columns to users table
 ALTER TABLE users 
 ADD COLUMN IF NOT EXISTS "tocAccepted" BOOLEAN DEFAULT FALSE,
-ADD COLUMN IF NOT EXISTS "tocAcceptedAt" TIMESTAMP WITH TIME ZONE;
+ADD COLUMN IF NOT EXISTS "tocAcceptedAt" TIMESTAMP WITH TIME ZONE,
+ADD COLUMN IF NOT EXISTS "liabilityWaiverAccepted" BOOLEAN DEFAULT FALSE,
+ADD COLUMN IF NOT EXISTS "liabilityWaiverAcceptedAt" TIMESTAMP WITH TIME ZONE;
             `.trim(),
           },
           { status: 500 }

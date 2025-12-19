@@ -456,6 +456,12 @@ export default function AuthModal({
                   ? `${countryCode}${mobilePhone}`
                   : mobilePhone,
               countryCode: countryCode,
+              tocAccepted: acceptToc,
+              tocAcceptedAt: acceptToc ? new Date().toISOString() : null,
+              liabilityWaiverAccepted: acceptLiabilityWaiver,
+              liabilityWaiverAcceptedAt: acceptLiabilityWaiver
+                ? new Date().toISOString()
+                : null,
             },
           }),
         });
@@ -491,7 +497,7 @@ export default function AuthModal({
 
         // Save TOC acceptance to database and create member record (non-blocking)
         if (signUpData?.user) {
-          // Save TOC acceptance (fire and forget)
+          // Save TOC acceptance and liability waiver (fire and forget)
           fetch("/api/users/toc", {
             method: "POST",
             headers: {
@@ -499,10 +505,14 @@ export default function AuthModal({
             },
             body: JSON.stringify({
               supabaseUserId: signUpData.user.id,
-              accepted: true,
+              accepted: acceptToc,
+              liabilityWaiverAccepted: acceptLiabilityWaiver,
             }),
           }).catch((err) => {
-            console.error("Error saving TOC acceptance:", err);
+            console.error(
+              "Error saving TOC acceptance and liability waiver:",
+              err
+            );
           });
 
           // Create member record with role "member" (fire and forget)

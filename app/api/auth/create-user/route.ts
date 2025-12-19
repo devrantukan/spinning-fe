@@ -54,10 +54,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Try to create user record in users table
+    // Try to create user record in users table with all registration data
     // If it fails due to permissions, it will be created later via TOC route
     let userRecord = null;
     try {
+      // Parse date of birth from userMetadata
+      let dateOfBirth = null;
+      if (userMetadata?.dob) {
+        try {
+          dateOfBirth = userMetadata.dob; // Already in YYYY-MM-DD format from AuthModal
+        } catch (e) {
+          console.warn("Invalid date of birth format:", userMetadata.dob);
+        }
+      }
+
       const { data: newUserRecord, error: userRecordError } =
         await supabaseAdmin
           .from("users")
@@ -65,6 +75,18 @@ export async function POST(request: NextRequest) {
             supabaseUserId: data.user.id,
             email: data.user.email || email,
             name: userMetadata?.name || "",
+            dateOfBirth: dateOfBirth || null,
+            mobilePhone: userMetadata?.mobilePhone || null,
+            countryCode: userMetadata?.countryCode || null,
+            tocAccepted: userMetadata?.tocAccepted || false,
+            tocAcceptedAt: userMetadata?.tocAccepted
+              ? new Date().toISOString()
+              : null,
+            liabilityWaiverAccepted:
+              userMetadata?.liabilityWaiverAccepted || false,
+            liabilityWaiverAcceptedAt: userMetadata?.liabilityWaiverAccepted
+              ? new Date().toISOString()
+              : null,
           })
           .select()
           .single();
@@ -108,4 +130,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-

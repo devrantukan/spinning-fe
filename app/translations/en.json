@@ -201,7 +201,12 @@
       "invalidLink": "Invalid activation link.",
       "goToDashboard": "Go to Dashboard",
       "goHome": "Go to Home",
-      "requestNewLink": "Request a new activation link"
+      "requestNewLink": "Request a new activation link",
+      "setPasswordTitle": "Create Your Password",
+      "setPasswordMessage": "Please create a password for your account.",
+      "setPassword": "Set Password",
+      "settingPassword": "Setting Password...",
+      "passwordError": "Failed to set password. Please try again."
     },
     "invitation": {
       "accepting": "Accepting Invitation...",

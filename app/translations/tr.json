@@ -201,7 +201,12 @@
       "invalidLink": "Geçersiz aktifleştirme bağlantısı.",
       "goToDashboard": "Panele Git",
       "goHome": "Ana Sayfaya Git",
-      "requestNewLink": "Yeni aktifleştirme bağlantısı iste"
+      "requestNewLink": "Yeni aktifleştirme bağlantısı iste",
+      "setPasswordTitle": "Şifrenizi Oluşturun",
+      "setPasswordMessage": "Lütfen hesabınız için bir şifre oluşturun.",
+      "setPassword": "Şifre Belirle",
+      "settingPassword": "Şifre Belirleniyor...",
+      "passwordError": "Şifre oluşturulamadı. Lütfen tekrar deneyin."
     },
     "invitation": {
       "accepting": "Davet Kabul Ediliyor...",
