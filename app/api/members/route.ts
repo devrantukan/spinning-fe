@@ -296,11 +296,26 @@ export async function POST(request: NextRequest) {
     const { randomUUID } = await import("crypto");
     const memberId = randomUUID();
 
+    // Get organizationId from environment variables (required for members table)
+    const organizationId =
+      process.env.ORGANIZATION_ID || process.env.TENANT_ORGANIZATION_ID;
+
+    if (!organizationId) {
+      return NextResponse.json(
+        {
+          error: "Server configuration error",
+          message: "Organization ID is required but not configured",
+        },
+        { status: 500 }
+      );
+    }
+
     const { data: member, error: memberError } = await supabaseAdmin
       .from("members")
       .insert({
         id: memberId,
         userId: userRecord.id,
+        organizationId: organizationId,
         creditBalance: 0,
         status: "ACTIVE",
       })

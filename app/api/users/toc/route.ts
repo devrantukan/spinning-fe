@@ -283,31 +283,42 @@ ADD COLUMN IF NOT EXISTS "liabilityWaiverAcceptedAt" TIMESTAMP WITH TIME ZONE;
           const { randomUUID } = await import("crypto");
           const memberId = randomUUID();
 
-          const { data: newMember, error: memberError } = await dbClient
-            .from("members")
-            .insert({
-              id: memberId,
-              userId: data.id,
-              creditBalance: 0,
-              status: "ACTIVE",
-            })
-            .select()
-            .single();
+          // Get organizationId from environment variables (required for members table)
+          const organizationId =
+            process.env.ORGANIZATION_ID || process.env.TENANT_ORGANIZATION_ID;
 
-          if (memberError) {
-            console.error("[TOC] Failed to create member record:", {
-              code: memberError.code,
-              message: memberError.message,
-              details: memberError.details,
-              hint: memberError.hint,
-              userId: data.id,
-            });
-            // Don't fail the request - member can be created later
+          if (!organizationId) {
+            console.error(
+              "[TOC] ORGANIZATION_ID or TENANT_ORGANIZATION_ID is not set. Cannot create member record."
+            );
           } else {
-            console.log("[TOC] Member record created successfully:", {
-              memberId: newMember?.id,
-              userId: data.id,
-            });
+            const { data: newMember, error: memberError } = await dbClient
+              .from("members")
+              .insert({
+                id: memberId,
+                userId: data.id,
+                organizationId: organizationId,
+                creditBalance: 0,
+                status: "ACTIVE",
+              })
+              .select()
+              .single();
+
+            if (memberError) {
+              console.error("[TOC] Failed to create member record:", {
+                code: memberError.code,
+                message: memberError.message,
+                details: memberError.details,
+                hint: memberError.hint,
+                userId: data.id,
+              });
+              // Don't fail the request - member can be created later
+            } else {
+              console.log("[TOC] Member record created successfully:", {
+                memberId: newMember?.id,
+                userId: data.id,
+              });
+            }
           }
         } else if (checkMemberError) {
           console.error(
