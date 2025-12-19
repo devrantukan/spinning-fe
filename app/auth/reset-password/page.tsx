@@ -150,13 +150,13 @@ function ResetPasswordContent() {
         }
       });
       setFieldErrors(errors);
-      
+
       // Set first error as main error message
       const firstError = validationResult.error.issues[0];
       if (firstError) {
         setError(firstError.message);
       }
-      
+
       setLoading(false);
       return;
     }
