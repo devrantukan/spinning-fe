@@ -359,6 +359,10 @@
   "faq": {
     "title": "Sıkça Sorulan Sorular",
     "subtitle": "Spin8 Studio hakkında sık sorulan soruların cevaplarını bulun",
+    "searchPlaceholder": "Soruları ara...",
+    "noResults": "Soru bulunamadı",
+    "clearSearch": "Aramayı temizle",
+    "contactTitle": "Hala sorularınız mı var?",
     "contact": "Hala sorularınız mı var? Bizimle iletişime geçin, size yardımcı olmaktan mutluluk duyarız!",
     "questions": {
       "q1": {

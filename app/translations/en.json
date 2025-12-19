@@ -359,6 +359,10 @@
   "faq": {
     "title": "Frequently Asked Questions",
     "subtitle": "Find answers to common questions about Spin8 Studio",
+    "searchPlaceholder": "Search questions...",
+    "noResults": "No questions found",
+    "clearSearch": "Clear search",
+    "contactTitle": "Still have questions?",
     "contact": "Still have questions? Contact us and we'll be happy to help!",
     "questions": {
       "q1": {
