@@ -169,3 +169,4 @@ export async function GET() {
     return NextResponse.json({ name: "Spin8 Studio" });
   }
 }
+

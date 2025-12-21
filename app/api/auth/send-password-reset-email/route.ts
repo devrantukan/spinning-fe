@@ -316,3 +316,4 @@ Eğer şifre sıfırlama talebinde bulunmadıysanız, lütfen bu e-postayı yok 
     );
   }
 }
+

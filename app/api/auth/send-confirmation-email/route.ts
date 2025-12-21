@@ -327,3 +327,4 @@ Eğer bir hesap oluşturmadıysanız, lütfen bu e-postayı yok sayın.
     );
   }
 }
+

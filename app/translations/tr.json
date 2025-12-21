@@ -415,6 +415,109 @@
       }
     }
   },
+  "classes": {
+    "title": "Dersler",
+    "timetable": "Program",
+    "quickDateSelection": "Hızlı Tarih Seçimi",
+    "previousWeek": "Önceki Hafta",
+    "nextWeek": "Sonraki Hafta",
+    "noSessions": "Seçilen tarihler için ders bulunmamaktadır.",
+    "filters": {
+      "instructors": "Eğitmenler",
+      "allInstructors": "Tüm Eğitmenler",
+      "workoutType": "Antrenman Türü",
+      "allTypes": "Tüm Türler",
+      "search": "Ara",
+      "searchPlaceholder": "Dersleri ara...",
+      "allDay": "Tüm Gün",
+      "am": "ÖÖ",
+      "pm": "ÖS"
+    },
+    "days": {
+      "sun": "Pazar",
+      "mon": "Pazartesi",
+      "tue": "Salı",
+      "wed": "Çarşamba",
+      "thu": "Perşembe",
+      "fri": "Cuma",
+      "sat": "Cumartesi"
+    },
+    "months": {
+      "short": {
+        "jan": "Oca",
+        "feb": "Şub",
+        "mar": "Mar",
+        "apr": "Nis",
+        "may": "May",
+        "jun": "Haz",
+        "jul": "Tem",
+        "aug": "Ağu",
+        "sep": "Eyl",
+        "oct": "Eki",
+        "nov": "Kas",
+        "dec": "Ara"
+      },
+      "long": {
+        "january": "Ocak",
+        "february": "Şubat",
+        "march": "Mart",
+        "april": "Nisan",
+        "may": "Mayıs",
+        "june": "Haziran",
+        "july": "Temmuz",
+        "august": "Ağustos",
+        "september": "Eylül",
+        "october": "Ekim",
+        "november": "Kasım",
+        "december": "Aralık"
+      }
+    },
+    "daySuffix": {
+      "st": ".",
+      "nd": ".",
+      "rd": ".",
+      "th": "."
+    },
+    "session": {
+      "date": "Tarih",
+      "time": "Saat",
+      "timeTbd": "Saat Belirlenecek",
+      "with": "Eğitmen",
+      "unknownInstructor": "Bilinmeyen Eğitmen",
+      "duration": "Süre",
+      "minutes": "dakika",
+      "location": "Konum",
+      "studio": "Stüdyo",
+      "musicGenre": "Müzik Türü",
+      "booking": "Rezervasyon yapılıyor...",
+      "bookNow": "Rezervasyon Yap",
+      "notFound": "Ders bulunamadı"
+    },
+    "seatLayout": {
+      "title": "Koltuk Seçin",
+      "available": "Müsait",
+      "selected": "Seçili",
+      "occupied": "Dolu",
+      "stage": "Sahne / Eğitmen",
+      "selectedSeats": "Seçili Koltuklar"
+    },
+    "backToClasses": "Derslere Dön",
+    "booking": {
+      "loginRequired": "Ders rezervasyonu yapmak için lütfen giriş yapın.",
+      "insufficientCredits": "Yetersiz kredi veya ödeme yöntemi bulunmamaktadır.",
+      "noMember": "Üye hesabı bulunamadı. Lütfen destek ile iletişime geçin.",
+      "success": "Rezervasyon başarılı!",
+      "error": "Ders rezervasyonu başarısız oldu. Lütfen tekrar deneyin.",
+      "selectPaymentMethod": "Ödeme Yöntemi Seçin",
+      "selectPaymentMethodDescription": "Bu ders için nasıl ödeme yapmak istediğinizi seçin:",
+      "credits": "Krediler",
+      "available": "mevcut",
+      "allAccess": "Tam Erişim",
+      "friendPass": "Arkadaş Geçişi",
+      "cancel": "İptal",
+      "confirm": "Rezervasyonu Onayla"
+    }
+  },
   "footer": {
     "faq": "SSS",
     "terms": "Kullanım Şartları"

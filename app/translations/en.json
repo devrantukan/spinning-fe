@@ -415,6 +415,109 @@
       }
     }
   },
+  "classes": {
+    "title": "Classes",
+    "timetable": "Timetable",
+    "quickDateSelection": "Quick Date Selection",
+    "previousWeek": "Previous Week",
+    "nextWeek": "Next Week",
+    "noSessions": "No sessions available for the selected dates.",
+    "filters": {
+      "instructors": "Instructors",
+      "allInstructors": "All Instructors",
+      "workoutType": "Workout Type",
+      "allTypes": "All Types",
+      "search": "Search",
+      "searchPlaceholder": "Search sessions...",
+      "allDay": "All Day",
+      "am": "AM",
+      "pm": "PM"
+    },
+    "days": {
+      "sun": "Sunday",
+      "mon": "Monday",
+      "tue": "Tuesday",
+      "wed": "Wednesday",
+      "thu": "Thursday",
+      "fri": "Friday",
+      "sat": "Saturday"
+    },
+    "months": {
+      "short": {
+        "jan": "Jan",
+        "feb": "Feb",
+        "mar": "Mar",
+        "apr": "Apr",
+        "may": "May",
+        "jun": "Jun",
+        "jul": "Jul",
+        "aug": "Aug",
+        "sep": "Sep",
+        "oct": "Oct",
+        "nov": "Nov",
+        "dec": "Dec"
+      },
+      "long": {
+        "january": "January",
+        "february": "February",
+        "march": "March",
+        "april": "April",
+        "may": "May",
+        "june": "June",
+        "july": "July",
+        "august": "August",
+        "september": "September",
+        "october": "October",
+        "november": "November",
+        "december": "December"
+      }
+    },
+    "daySuffix": {
+      "st": "st",
+      "nd": "nd",
+      "rd": "rd",
+      "th": "th"
+    },
+    "session": {
+      "date": "Date",
+      "time": "Time",
+      "timeTbd": "Time TBD",
+      "with": "With",
+      "unknownInstructor": "Unknown Instructor",
+      "duration": "Duration",
+      "minutes": "minutes",
+      "location": "Location",
+      "studio": "Studio",
+      "musicGenre": "Music Genre",
+      "booking": "Booking...",
+      "bookNow": "Book Now",
+      "notFound": "Session not found"
+    },
+    "seatLayout": {
+      "title": "Select Your Seats",
+      "available": "Available",
+      "selected": "Selected",
+      "occupied": "Occupied",
+      "stage": "Stage / Instructor",
+      "selectedSeats": "Selected Seats"
+    },
+    "backToClasses": "Back to Classes",
+    "booking": {
+      "loginRequired": "Please log in to book a session.",
+      "insufficientCredits": "Insufficient credits or no payment method available.",
+      "noMember": "Member account not found. Please contact support.",
+      "success": "Booking successful!",
+      "error": "Failed to book session. Please try again.",
+      "selectPaymentMethod": "Select Payment Method",
+      "selectPaymentMethodDescription": "Choose how you want to pay for this session:",
+      "credits": "Credits",
+      "available": "available",
+      "allAccess": "All Access",
+      "friendPass": "Friend Pass",
+      "cancel": "Cancel",
+      "confirm": "Confirm Booking"
+    }
+  },
   "footer": {
     "faq": "FAQ",
     "terms": "Terms & Conditions"
