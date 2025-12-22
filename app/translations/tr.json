@@ -374,44 +374,52 @@
     "contact": "Hala sorularınız mı var? Bizimle iletişime geçin, size yardımcı olmaktan mutluluk duyarız!",
     "questions": {
       "q1": {
-        "question": "İlk dersime ne getirmeliyim?",
-        "answer": "Lütfen bir su şişesi, havlu getirin ve rahat spor kıyafetleri giyin. Bisiklet ayakkabıları sağlıyoruz, ancak tercih ederseniz kendi ayakkabılarınızı da getirebilirsiniz."
+        "question": "İlk dersimi nasıl rezerve ederim?",
+        "answer": "Spin8 Studio'nun web sitesine kayıt olarak.\nBilgilerini giriyorsun ve ardından ders paketlerini satın alabiliyorsun. Bu paketler, derslerini farklı zamanlarda rezerve etmene olanak tanıyor."
       },
       "q2": {
-        "question": "Dersleri önceden rezerve etmem gerekiyor mu?",
-        "answer": "Evet, yerinizi garanti altına almak için dersleri çevrimiçi sistemimiz aracılığıyla önceden rezerve etmenizi öneririz. Özellikle yoğun saatlerde dersler hızla dolabilir."
+        "question": "Dersler ne kadar sürüyor?",
+        "answer": "Derslerimiz 50 dakika sürer.\nProgramımızın düzgün ilerlemesi için her zaman zamanında başlarız."
       },
       "q3": {
-        "question": "İptal politikası nedir?",
-        "answer": "Planlanan saatten 12 saat öncesine kadar ders rezervasyonunuzu kredinizi kaybetmeden iptal edebilirsiniz. Ders saatinden 12 saatten az bir süre önce yapılan iptaller kredi kaybıyla sonuçlanır."
+        "question": "Derse zamanında gelmezsem ne olur?",
+        "answer": "Bir şarkılık gecikme toleransı sunuyoruz — yani kapılar yalnızca ilk ısınma şarkısı bitene kadar tekrar açılır.\nOndan sonra derse girişe izin verilmez."
       },
       "q4": {
-        "question": "Farklı zorluk seviyeleri var mı?",
-        "answer": "Derslerimiz tüm fitness seviyelerine uyacak şekilde tasarlanmıştır. Eğitmenler modifikasyonlar sağlar ve kendi hızınızda çalışmanızı teşvik eder. Her ders fitness seviyenize göre ayarlanabilir."
+        "question": "Tüm dersler aynı mı, yoksa farklı yoğunluk seviyeleri var mı?",
+        "answer": "Derslerimiz yoğunluk seviyelerine göre ayrılmaz.\nTüm dersler, vücudu dengeli ve etkili şekilde çalıştırmak üzere tasarlanmış ortak bir yapıya sahiptir.\nHer koç, kendi enerjisini ve tarzını derse katar; bu da her sürüşü benzersiz kılar.\n\nYoğunluk yönlendirmeleri koçlar tarafından verilir; ancak sürüş temposunu her zaman kendi seviyene göre ayarlayabilirsin."
       },
       "q5": {
-        "question": "Krediler nasıl çalışır?",
-        "answer": "Krediler ders rezerve etmek için kullanılır. Farklı paketler farklı sayıda kredi sunar. Krediler paket şartlarınızda belirtilen belirli bir süre için geçerlidir."
+        "question": "Ders paketim ne zaman aktif olur?",
+        "answer": "Satın aldığın ders paketi, ödeme tamamlandığı anda aktif hale gelir.\nPaketin geçerlilik süresi, seçilen pakete göre değişiklik gösterebilir.\nDetaylı bilgiye web sitemiz üzerinden ulaşabilirsin."
       },
       "q6": {
-        "question": "Kredilerimi başka birine transfer edebilir miyim?",
-        "answer": "Hayır, krediler devredilemez ve hesabınıza bağlıdır. Paylaşılamaz veya diğer üyelere transfer edilemez."
+        "question": "Spin8 Studio'daki bir derse gelirken yanımda ne getirmeliyim?",
+        "answer": "Nefes alabilen spor kıyafetleri giymeni öneririz.\nBisiklete uygun kendi spor ayakkabılarını ve temiz havlunu yanında getirmen gerekmektedir.\nStüdyoda (sadece) derslerde kullanılmak üzere uygun ayakkabı ile sürüş yapılmaktadır.\nDilersen, Spin8 Studio için özel olarak üretilmiş havlularımızı stüdyomuzdan satın alabilirsin.\nDers sonrası ferahlamak için duş ve kilitli dolaplarımız mevcuttur."
       },
       "q7": {
-        "question": "Derse geç kalırsam ne olur?",
-        "answer": "5 dakikadan fazla geç kalırsanız, yeriniz bekleme listesindeki birine verilebilir. Bisikletinizi kurmak için 10-15 dakika önce gelmenizi öneririz."
+        "question": "Rezervasyonumu nasıl iptal edebilirim?",
+        "answer": "Ders başlangıç saatinden 12 saat öncesine kadar rezervasyonunu iptal edebilirsin.\nDerse 6 saatten daha az bir süre kala yapılan iptallerde, ders kredisi iade edilmez."
       },
       "q8": {
-        "question": "Deneme dersi sunuyor musunuz?",
-        "answer": "Evet, ilk kez gelen ziyaretçiler için deneme dersleri sunuyoruz. Deneme dersinizi planlamak ve Spin8'in sunduklarını deneyimlemek için lütfen bizimle iletişime geçin."
+        "question": "Hamileyken derse katılabilir miyim?",
+        "answer": "Evet. Doktorunun onayı olduğu ve ekibi önceden bilgilendirdiğin sürece derse katılabilirsin."
       },
       "q9": {
-        "question": "Katılmak için kaç yaşında olmam gerekiyor?",
-        "answer": "Katılımcılar en az 16 yaşında olmalıdır. 18 yaş altı katılımcılar için ebeveyn onayı gerekir ve duruma göre gözetim gerekebilir."
+        "question": "Bir cycling dersinde kaç kalori yakabilirim?",
+        "answer": "Bu, fitness seviyene ve derste gösterdiğin efora bağlıdır.\nAncak araştırmalar, tek bir derste ortalama 500–700 kalori yakılabileceğini göstermektedir."
       },
       "q10": {
-        "question": "Paket nasıl satın alırım?",
-        "answer": "Paketleri web sitemizin fiyatlandırma sayfasından satın alabilirsiniz. Size uygun paketi seçin, varsa kupon kodlarınızı ekleyin ve satın alma işleminizi tamamlayın. Ödeme sonrası kredileriniz hemen hesabınıza yüklenecektir."
+        "question": "Soyunma odalarınız var mı?",
+        "answer": "Evet.\nDuş, kilitli dolaplar, şampuan, sabun, saç kremi ve saç kurutma makineleriyle donatılmış soyunma odalarımız mevcuttur."
+      },
+      "q11": {
+        "question": "Kendi suyumu mu getirmeli miyim?",
+        "answer": "Su satın alabileceğin, kahve ve çeşitli içeceklerin yer aldığı bir alanımız mevcuttur.\nAyrıca BigJoy markasına ait protein tozu saşeleri, L-carnitine ve pre-workout ürünlerini de bu alandan temin edebilirsin."
+      },
+      "q12": {
+        "question": "Stüdyoya geldiğimde ne yapmalıyım?",
+        "answer": "Stüdyoya giriş yaptığında check-in yapman yeterlidir.\nEkibimiz seni karşılayacak ve ihtiyacın olan her konuda yardımcı olacaktır."
       }
     }
   },

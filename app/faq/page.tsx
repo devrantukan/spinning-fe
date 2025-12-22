@@ -18,7 +18,7 @@ export default function FAQ() {
   // Get all FAQ items
   const faqItems = useMemo(() => {
     const items: FAQItem[] = [];
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 20; i++) {
       const questionKey = `faq.questions.q${i}.question`;
       const answerKey = `faq.questions.q${i}.answer`;
       const question = t(questionKey);
@@ -237,4 +237,3 @@ export default function FAQ() {
     </div>
   );
 }
-
