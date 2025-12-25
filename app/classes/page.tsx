@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 interface Session {
   id: string;
   title: string;
+  titleTr?: string;
   instructor:
     | string
     | { id?: string; name?: string; user?: { name?: string; email?: string } };
@@ -17,6 +18,7 @@ interface Session {
   location: string;
   studio: string;
   musicGenre?: string;
+  musicGenreTr?: string;
   workoutType?: string;
 }
 
@@ -48,7 +50,7 @@ function getInstructorName(
 }
 
 export default function Classes() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { user, session } = useAuth();
   const router = useRouter();
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -126,6 +128,7 @@ export default function Classes() {
           startDate?: string | Date;
           time?: string;
           title?: string;
+          titleTr?: string;
           name?: string;
           instructor?: unknown;
           instructorId?: unknown;
@@ -134,16 +137,19 @@ export default function Classes() {
           studio?: string | { name?: string; address?: string };
           workoutType?: string;
           musicGenre?: string;
+          musicGenreTr?: string;
           class?: {
             date?: string | Date;
             time?: string;
             name?: string;
+            nameTr?: string;
             instructor?: unknown;
             duration?: number | string;
             location?: string | LocationObject;
             studio?: string | { name?: string };
             workoutType?: string;
             musicGenre?: string;
+            musicGenreTr?: string;
           };
         }
 
@@ -194,12 +200,14 @@ export default function Classes() {
             sessionTime = String(session.class.time);
           }
 
-          // Extract title from various possible fields
+          // Extract title from various possible fields (with Turkish fallback)
           const sessionTitle =
             session.title ||
             session.name ||
             session.class?.name ||
             "Untitled Session";
+          const sessionTitleTr =
+            session.titleTr || session.class?.nameTr || sessionTitle; // Fallback to English if Turkish not available
 
           // Extract instructor
           const sessionInstructor =
@@ -254,9 +262,13 @@ export default function Classes() {
           const sessionWorkoutType =
             session.workoutType || session.class?.workoutType;
 
-          // Extract music genre
+          // Extract music genre (with Turkish fallback)
           const sessionMusicGenre =
             session.musicGenre || session.class?.musicGenre;
+          const sessionMusicGenreTr =
+            session.musicGenreTr ||
+            session.class?.musicGenreTr ||
+            sessionMusicGenre;
 
           // Ensure date is a valid date string (YYYY-MM-DD format to avoid timezone issues)
           let finalDate: string;
@@ -337,6 +349,7 @@ export default function Classes() {
           const transformed: Session = {
             id: (session.id || session._id || String(Math.random())) as string,
             title: sessionTitle,
+            titleTr: sessionTitleTr,
             instructor: sessionInstructor as
               | string
               | {
@@ -353,6 +366,7 @@ export default function Classes() {
             location: sessionLocation,
             studio: sessionStudio,
             musicGenre: sessionMusicGenre,
+            musicGenreTr: sessionMusicGenreTr,
             workoutType: sessionWorkoutType,
           };
 
@@ -1192,7 +1206,9 @@ export default function Classes() {
                             className="bg-[#222222] dark:bg-[#222222] text-gray-100 dark:text-gray-100 rounded-lg p-4 md:p-5 shadow-lg hover:shadow-xl transition-shadow"
                           >
                             <h4 className="text-base md:text-lg font-bold mb-2 md:mb-3 text-gray-100 dark:text-gray-100 uppercase tracking-wide">
-                              {session.title}
+                              {language === "tr" && session.titleTr
+                                ? session.titleTr
+                                : session.title}
                             </h4>
                             <div className="space-y-1.5 md:space-y-2 text-xs md:text-sm text-gray-200 dark:text-gray-200 mb-3 md:mb-4">
                               <p className="text-gray-200 dark:text-gray-300">
@@ -1240,7 +1256,9 @@ export default function Classes() {
                               {session.musicGenre && (
                                 <p>
                                   {t("classes.session.musicGenre")}{" "}
-                                  {session.musicGenre}
+                                  {language === "tr" && session.musicGenreTr
+                                    ? session.musicGenreTr
+                                    : session.musicGenre}
                                 </p>
                               )}
                             </div>
