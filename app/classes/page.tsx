@@ -248,18 +248,19 @@ export default function Classes() {
           let finalDate: string;
           if (sessionDate) {
             try {
-              let dateObj: Date;
               if (typeof sessionDate === "string") {
-                // If it's already a date string like "2024-12-27", use it directly
+                // Always extract date part from string first (handles both "2024-12-27" and "2024-12-27T12:00:00Z")
+                // This preserves the original date regardless of timezone
                 const dateMatch = sessionDate.match(/^(\d{4})-(\d{2})-(\d{2})/);
                 if (dateMatch) {
-                  // Already in YYYY-MM-DD format, use as-is
+                  // Extract the date part (YYYY-MM-DD) and use it directly
+                  // This avoids timezone issues by ignoring the time component
                   finalDate = dateMatch[0];
                 } else {
-                  // Parse and convert to date-only string
-                  dateObj = new Date(sessionDate);
+                  // If no date pattern found, try to parse and extract
+                  const dateObj = new Date(sessionDate);
                   if (!isNaN(dateObj.getTime())) {
-                    // Use local date components to avoid timezone shift
+                    // Use local date components
                     const year = dateObj.getFullYear();
                     const month = String(dateObj.getMonth() + 1).padStart(
                       2,
@@ -273,7 +274,7 @@ export default function Classes() {
                 }
               } else {
                 // It's a Date object, extract local date components
-                dateObj = sessionDate;
+                const dateObj = sessionDate;
                 if (!isNaN(dateObj.getTime())) {
                   const year = dateObj.getFullYear();
                   const month = String(dateObj.getMonth() + 1).padStart(2, "0");
