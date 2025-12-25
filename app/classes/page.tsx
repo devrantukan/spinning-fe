@@ -744,13 +744,13 @@ export default function Classes() {
         )}
 
         {/* Page Title */}
-        <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 tracking-wide uppercase">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             {t("classes.title")}
           </h1>
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400">
             {t("classes.timetable")}
-          </h2>
+          </p>
         </div>
 
         {/* Filter Controls */}
