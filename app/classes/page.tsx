@@ -1203,15 +1203,15 @@ export default function Classes() {
                         return (
                           <div
                             key={session.id}
-                            className="bg-[#222222] dark:bg-[#222222] text-gray-100 dark:text-gray-100 rounded-lg p-4 md:p-5 shadow-lg hover:shadow-xl transition-shadow"
+                            className="bg-[#1a1a1a] dark:bg-[#222222] text-white dark:text-gray-100 rounded-lg p-4 md:p-5 shadow-lg hover:shadow-xl transition-all border border-gray-800 dark:border-gray-700"
                           >
-                            <h4 className="text-base md:text-lg font-bold mb-2 md:mb-3 text-gray-100 dark:text-gray-100 uppercase tracking-wide">
+                            <h4 className="text-base md:text-lg font-bold mb-2 md:mb-3 text-white dark:text-gray-100 uppercase tracking-wide">
                               {language === "tr" && session.titleTr
                                 ? session.titleTr
                                 : session.title}
                             </h4>
-                            <div className="space-y-1.5 md:space-y-2 text-xs md:text-sm text-gray-200 dark:text-gray-200 mb-3 md:mb-4">
-                              <p className="text-gray-200 dark:text-gray-300">
+                            <div className="space-y-1.5 md:space-y-2 text-xs md:text-sm text-gray-300 dark:text-gray-200 mb-3 md:mb-4">
+                              <p className="text-gray-300 dark:text-gray-300">
                                 {t("classes.session.with")}{" "}
                                 <span className="font-semibold">
                                   {getInstructorName(
@@ -1231,30 +1231,30 @@ export default function Classes() {
                                   ).toUpperCase()}
                                 </span>
                               </p>
-                              <p>
+                              <p className="text-gray-300 dark:text-gray-300">
                                 {t("classes.session.time")} {formattedTime}
                               </p>
-                              <p>
+                              <p className="text-gray-300 dark:text-gray-300">
                                 {t("classes.session.date")} {formattedDate}
                               </p>
-                              <p>
+                              <p className="text-gray-300 dark:text-gray-300">
                                 {t("classes.session.duration")}{" "}
                                 {session.duration}{" "}
                                 {t("classes.session.minutes")}
                               </p>
                               {session.location && (
-                                <p>
+                                <p className="text-gray-300 dark:text-gray-300">
                                   {t("classes.session.location")}{" "}
                                   {session.location}
                                 </p>
                               )}
                               {session.studio && (
-                                <p>
+                                <p className="text-gray-300 dark:text-gray-300">
                                   {t("classes.session.studio")} {session.studio}
                                 </p>
                               )}
                               {session.musicGenre && (
-                                <p>
+                                <p className="text-gray-300 dark:text-gray-300">
                                   {t("classes.session.musicGenre")}{" "}
                                   {language === "tr" && session.musicGenreTr
                                     ? session.musicGenreTr
