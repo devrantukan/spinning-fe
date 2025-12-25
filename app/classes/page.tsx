@@ -718,6 +718,15 @@ export default function Classes() {
     }
   }
 
+  // Check if left arrow should be disabled (can't go to past dates)
+  const isLeftArrowDisabled = (() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const weekStart = new Date(currentWeekStart);
+    weekStart.setHours(0, 0, 0, 0);
+    return weekStart <= today;
+  })();
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 pt-20 pb-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -735,17 +744,17 @@ export default function Classes() {
         )}
 
         {/* Page Title */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+        <div className="mb-8">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-2 tracking-wide uppercase">
             {t("classes.title")}
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
             {t("classes.timetable")}
-          </p>
+          </h2>
         </div>
 
         {/* Filter Controls */}
-        <div className="flex flex-wrap items-end gap-4 mb-6">
+        <div className="flex flex-wrap items-end gap-4 mb-6 justify-between">
           <div className="flex flex-col min-w-[180px]">
             <label
               htmlFor="instructor-select"
@@ -831,13 +840,13 @@ export default function Classes() {
             <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 invisible">
               Time Filter
             </label>
-            <div className="flex gap-2">
+            <div className="flex gap-2 ml-auto">
               <button
                 onClick={() => setTimeFilter("all")}
                 className={`h-10 px-4 rounded-lg font-medium transition-colors ${
                   timeFilter === "all"
                     ? "bg-orange-500 text-white"
-                    : "bg-gray-200 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-700"
+                    : "bg-gray-900 dark:bg-gray-800 text-gray-200 dark:text-white hover:bg-gray-800 dark:hover:bg-gray-700"
                 }`}
               >
                 {t("classes.filters.allDay")}
@@ -847,7 +856,7 @@ export default function Classes() {
                 className={`h-10 px-4 rounded-lg font-medium transition-colors ${
                   timeFilter === "am"
                     ? "bg-orange-500 text-white"
-                    : "bg-gray-200 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-700"
+                    : "bg-gray-900 dark:bg-gray-800 text-gray-200 dark:text-white hover:bg-gray-800 dark:hover:bg-gray-700"
                 }`}
               >
                 {t("classes.filters.am")}
@@ -857,7 +866,7 @@ export default function Classes() {
                 className={`h-10 px-4 rounded-lg font-medium transition-colors ${
                   timeFilter === "pm"
                     ? "bg-orange-500 text-white"
-                    : "bg-gray-200 dark:bg-gray-800 text-gray-900 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-700"
+                    : "bg-gray-900 dark:bg-gray-800 text-gray-200 dark:text-white hover:bg-gray-800 dark:hover:bg-gray-700"
                 }`}
               >
                 {t("classes.filters.pm")}
@@ -866,13 +875,43 @@ export default function Classes() {
           </div>
         </div>
 
-        {/* Date Display - 7 Days with Navigation (7th day half visible) */}
+        {/* Quick Date Selection */}
         <div className="mb-8">
-          <div className="flex items-center gap-2 justify-center pb-2 relative max-w-full">
-            <div className="flex items-center gap-2 relative overflow-hidden">
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+            {t("classes.quickDateSelection")}
+          </p>
+          <div className="flex items-center gap-2 pb-2 relative max-w-full overflow-x-auto">
+            <div className="flex items-center gap-2 relative">
               {sevenDays.map((date, index) => {
                 const isFirstThree = index < 3;
                 const isSeventh = index === 6;
+                const dayKeys = [
+                  "sun",
+                  "mon",
+                  "tue",
+                  "wed",
+                  "thu",
+                  "fri",
+                  "sat",
+                ];
+                const monthKeys = [
+                  "jan",
+                  "feb",
+                  "mar",
+                  "apr",
+                  "may",
+                  "jun",
+                  "jul",
+                  "aug",
+                  "sep",
+                  "oct",
+                  "nov",
+                  "dec",
+                ];
+                const day = t(`classes.days.${dayKeys[date.getDay()]}`);
+                const month = t(
+                  `classes.months.short.${monthKeys[date.getMonth()]}`
+                );
                 return (
                   <button
                     key={index}
@@ -884,7 +923,7 @@ export default function Classes() {
                       newStartDate.setHours(0, 0, 0, 0);
                       setCurrentWeekStart(newStartDate);
                     }}
-                    className={`px-4 py-2 rounded-lg font-medium whitespace-nowrap shadow-md flex-shrink-0 transition-all cursor-pointer ${
+                    className={`flex flex-col items-center justify-center rounded-lg font-medium whitespace-nowrap shadow-md shrink-0 transition-all cursor-pointer min-w-[60px] py-3 ${
                       isFirstThree
                         ? "bg-orange-500 text-white hover:bg-orange-600"
                         : "bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-2 border-gray-300 dark:border-gray-600 hover:border-orange-400 dark:hover:border-orange-500 hover:bg-gray-50 dark:hover:bg-gray-700"
@@ -897,20 +936,43 @@ export default function Classes() {
                         : {}
                     }
                   >
-                    {formatDateButton(date)}
+                    <span
+                      className={`text-2xl font-bold ${
+                        isFirstThree
+                          ? "text-white"
+                          : "text-gray-900 dark:text-gray-200"
+                      }`}
+                    >
+                      {date.getDate()}
+                    </span>
+                    <span
+                      className={`text-xs ${
+                        isFirstThree
+                          ? "text-white"
+                          : "text-gray-700 dark:text-gray-300"
+                      }`}
+                    >
+                      {month} {day}
+                    </span>
                   </button>
                 );
               })}
             </div>
             <button
               onClick={() => {
+                if (isLeftArrowDisabled) return;
                 setCurrentWeekStart((prev) => {
                   const newDate = new Date(prev);
                   newDate.setDate(prev.getDate() - 3);
                   return newDate;
                 });
               }}
-              className="px-3 py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400 transition-all font-bold text-lg shadow-sm hover:shadow-md flex-shrink-0"
+              disabled={isLeftArrowDisabled}
+              className={`px-3 py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg transition-all font-bold text-lg shadow-sm shrink-0 ${
+                isLeftArrowDisabled
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400"
+              }`}
               aria-label={t("classes.previousWeek")}
             >
               ←
@@ -923,7 +985,7 @@ export default function Classes() {
                   return newDate;
                 });
               }}
-              className="px-3 py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400 transition-all font-bold text-lg shadow-sm hover:shadow-md flex-shrink-0"
+              className="px-3 py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400 transition-all font-bold text-lg shadow-sm hover:shadow-md shrink-0"
               aria-label={t("classes.nextWeek")}
             >
               →
@@ -943,7 +1005,7 @@ export default function Classes() {
               const daySessions = sessionsByDate[dateKey] || [];
               return (
                 <div key={dateKey} className="flex flex-col">
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 pb-2 border-b-2 border-orange-500">
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 tracking-wider uppercase">
                     {formatDayHeader(date)}
                   </h3>
                   <div className="space-y-4 flex-1">
@@ -952,57 +1014,132 @@ export default function Classes() {
                         {t("classes.noSessions")}
                       </p>
                     ) : (
-                      daySessions.map((session) => (
-                        <div
-                          key={session.id}
-                          className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow"
-                        >
-                          <h4 className="text-lg font-bold mb-2 text-gray-900 dark:text-white">
-                            {session.title}
-                          </h4>
-                          <div className="space-y-1 text-sm text-gray-700 dark:text-gray-300">
-                            <p>
-                              {t("classes.session.with")}{" "}
-                              {getInstructorName(
-                                session.instructor as
-                                  | string
-                                  | {
-                                      id?: string;
-                                      name?: string;
-                                      user?: { name?: string; email?: string };
-                                    }
-                                  | null
-                                  | undefined,
-                                t("classes.session.unknownInstructor")
-                              )}
-                            </p>
-                            <p>{formatTime(session.time)}</p>
-                            <p>
-                              {t("classes.session.duration")} {session.duration}{" "}
-                              {t("classes.session.minutes")}
-                            </p>
-                            {session.location && (
-                              <p>
-                                {t("classes.session.location")}{" "}
-                                {session.location}
-                              </p>
-                            )}
-                          </div>
-                          <button
-                            onClick={() => handleBookNow(session)}
-                            disabled={bookingSessionId === session.id}
-                            className={`mt-3 w-full px-4 py-2 text-sm font-semibold rounded-lg transition-colors ${
-                              bookingSessionId === session.id
-                                ? "bg-gray-400 dark:bg-gray-600 text-white cursor-not-allowed"
-                                : "bg-orange-500 text-white hover:bg-orange-600"
-                            }`}
+                      daySessions.map((session) => {
+                        // Format date for display
+                        const sessionDate = new Date(session.date);
+                        const dayKeys = [
+                          "sun",
+                          "mon",
+                          "tue",
+                          "wed",
+                          "thu",
+                          "fri",
+                          "sat",
+                        ];
+                        const monthKeys = [
+                          "jan",
+                          "feb",
+                          "mar",
+                          "apr",
+                          "may",
+                          "jun",
+                          "jul",
+                          "aug",
+                          "sep",
+                          "oct",
+                          "nov",
+                          "dec",
+                        ];
+                        const daySuffixes = ["th", "st", "nd", "rd"];
+                        const dayNum = sessionDate.getDate();
+                        const daySuffix =
+                          dayNum % 10 <= 3 && dayNum % 100 > 10
+                            ? daySuffixes[dayNum % 10] || "th"
+                            : "th";
+                        const formattedDate = `${t(
+                          `classes.days.${dayKeys[sessionDate.getDay()]}`
+                        )} ${dayNum}${daySuffix} ${t(
+                          `classes.months.long.${
+                            monthKeys[sessionDate.getMonth()]
+                          }`
+                        )} ${sessionDate.getFullYear()}`;
+
+                        // Format time
+                        const timeMatch = session.time.match(
+                          /(\d{1,2}):?(\d{2})?\s*(am|pm)?/i
+                        );
+                        let formattedTime = session.time;
+                        if (timeMatch) {
+                          let hours = parseInt(timeMatch[1]);
+                          const minutes = timeMatch[2] || "00";
+                          const period = timeMatch[3]?.toLowerCase();
+                          if (period === "pm" && hours !== 12) hours += 12;
+                          if (period === "am" && hours === 12) hours = 0;
+                          const displayHours = hours % 12 || 12;
+                          const periodText =
+                            period ||
+                            (hours >= 12
+                              ? t("classes.filters.pm").toLowerCase()
+                              : t("classes.filters.am").toLowerCase());
+                          formattedTime = `${displayHours}:${minutes.padStart(
+                            2,
+                            "0"
+                          )} ${periodText}`;
+                        }
+
+                        return (
+                          <div
+                            key={session.id}
+                            className="bg-[#222222] dark:bg-[#222222] text-gray-100 dark:text-gray-100 rounded-lg p-5 shadow-lg hover:shadow-xl transition-shadow"
                           >
-                            {bookingSessionId === session.id
-                              ? t("classes.session.booking")
-                              : t("classes.session.bookNow")}
-                          </button>
-                        </div>
-                      ))
+                            <h4 className="text-lg font-bold mb-3 text-gray-100 dark:text-gray-100 uppercase tracking-wide">
+                              {session.title}
+                            </h4>
+                            <div className="space-y-2 text-sm text-gray-200 dark:text-gray-200 mb-4">
+                              <p className="text-gray-300 dark:text-gray-300">
+                                {t("classes.session.with")}{" "}
+                                <span className="font-semibold">
+                                  {getInstructorName(
+                                    session.instructor as
+                                      | string
+                                      | {
+                                          id?: string;
+                                          name?: string;
+                                          user?: {
+                                            name?: string;
+                                            email?: string;
+                                          };
+                                        }
+                                      | null
+                                      | undefined,
+                                    t("classes.session.unknownInstructor")
+                                  ).toUpperCase()}
+                                </span>
+                              </p>
+                              <p>Time {formattedTime}</p>
+                              <p>Date {formattedDate}</p>
+                              <p>
+                                {t("classes.session.duration")}{" "}
+                                {session.duration}{" "}
+                                {t("classes.session.minutes")}
+                              </p>
+                              {session.location && (
+                                <p>
+                                  {t("classes.session.location")}{" "}
+                                  {session.location}
+                                </p>
+                              )}
+                              {session.studio && <p>Studio {session.studio}</p>}
+                              {session.musicGenre && (
+                                <p>Music Genre {session.musicGenre}</p>
+                              )}
+                            </div>
+                            <button
+                              onClick={() => handleBookNow(session)}
+                              disabled={bookingSessionId === session.id}
+                              className={`mt-3 w-full px-4 py-3 text-sm font-bold rounded-lg transition-colors uppercase tracking-wide ${
+                                bookingSessionId === session.id
+                                  ? "bg-gray-600 text-white cursor-not-allowed"
+                                  : "bg-orange-500 text-white hover:bg-orange-600"
+                              }`}
+                            >
+                              {bookingSessionId === session.id
+                                ? t("classes.session.booking")
+                                : t("classes.session.bookNow") || "BOOK NOW"}
+                            </button>
+                          </div>
+                        );
+                      })
                     )}
                   </div>
                 </div>
