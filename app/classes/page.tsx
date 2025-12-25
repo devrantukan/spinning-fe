@@ -900,7 +900,7 @@ export default function Classes() {
             >
               ←
             </button>
-            <div className="flex items-center gap-2 flex-1 justify-center overflow-x-auto">
+            <div className="flex items-center gap-1 flex-1 w-full">
               {sevenDays.map((date, index) => {
                 const isFirstThree = index < 3;
                 const isSeventh = index === 6;
@@ -942,7 +942,7 @@ export default function Classes() {
                       newStartDate.setHours(0, 0, 0, 0);
                       setCurrentWeekStart(newStartDate);
                     }}
-                    className={`flex flex-col items-center justify-center rounded-lg font-medium whitespace-nowrap shadow-md shrink-0 transition-all cursor-pointer min-w-[60px] py-3 flex-1 max-w-[100px] ${
+                    className={`flex flex-col items-center justify-center rounded-lg font-medium whitespace-nowrap shadow-md transition-all cursor-pointer py-3 flex-1 ${
                       isFirstThree
                         ? "bg-orange-500 text-white hover:bg-orange-600"
                         : "bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-2 border-gray-300 dark:border-gray-600 hover:border-orange-400 dark:hover:border-orange-500 hover:bg-gray-50 dark:hover:bg-gray-700"
@@ -1040,6 +1040,20 @@ export default function Classes() {
                           "nov",
                           "dec",
                         ];
+                        const monthKeysLong = [
+                          "january",
+                          "february",
+                          "march",
+                          "april",
+                          "may",
+                          "june",
+                          "july",
+                          "august",
+                          "september",
+                          "october",
+                          "november",
+                          "december",
+                        ];
                         const daySuffixes = ["th", "st", "nd", "rd"];
                         const dayNum = sessionDate.getDate();
                         const daySuffix =
@@ -1050,7 +1064,7 @@ export default function Classes() {
                           `classes.days.${dayKeys[sessionDate.getDay()]}`
                         )} ${dayNum}${daySuffix} ${t(
                           `classes.months.long.${
-                            monthKeys[sessionDate.getMonth()]
+                            monthKeysLong[sessionDate.getMonth()]
                           }`
                         )} ${sessionDate.getFullYear()}`;
 
