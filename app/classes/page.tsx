@@ -244,31 +244,62 @@ export default function Classes() {
           const sessionMusicGenre =
             session.musicGenre || session.class?.musicGenre;
 
-          // Ensure date is a valid ISO string
+          // Ensure date is a valid date string (YYYY-MM-DD format to avoid timezone issues)
           let finalDate: string;
           if (sessionDate) {
             try {
-              const dateObj =
-                typeof sessionDate === "string"
-                  ? new Date(sessionDate)
-                  : sessionDate;
-              if (!isNaN(dateObj.getTime())) {
-                finalDate = dateObj.toISOString();
+              let dateObj: Date;
+              if (typeof sessionDate === "string") {
+                // If it's already a date string like "2024-12-27", use it directly
+                const dateMatch = sessionDate.match(/^(\d{4})-(\d{2})-(\d{2})/);
+                if (dateMatch) {
+                  // Already in YYYY-MM-DD format, use as-is
+                  finalDate = dateMatch[0];
+                } else {
+                  // Parse and convert to date-only string
+                  dateObj = new Date(sessionDate);
+                  if (!isNaN(dateObj.getTime())) {
+                    // Use local date components to avoid timezone shift
+                    const year = dateObj.getFullYear();
+                    const month = String(dateObj.getMonth() + 1).padStart(
+                      2,
+                      "0"
+                    );
+                    const day = String(dateObj.getDate()).padStart(2, "0");
+                    finalDate = `${year}-${month}-${day}`;
+                  } else {
+                    throw new Error("Invalid date");
+                  }
+                }
               } else {
-                console.warn(
-                  "Invalid date for session:",
-                  sessionDate,
-                  "using current date"
-                );
-                finalDate = new Date().toISOString();
+                // It's a Date object, extract local date components
+                dateObj = sessionDate;
+                if (!isNaN(dateObj.getTime())) {
+                  const year = dateObj.getFullYear();
+                  const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+                  const day = String(dateObj.getDate()).padStart(2, "0");
+                  finalDate = `${year}-${month}-${day}`;
+                } else {
+                  throw new Error("Invalid date");
+                }
               }
             } catch (e) {
               console.warn("Error parsing date:", sessionDate, e);
-              finalDate = new Date().toISOString();
+              // Use current local date
+              const today = new Date();
+              const year = today.getFullYear();
+              const month = String(today.getMonth() + 1).padStart(2, "0");
+              const day = String(today.getDate()).padStart(2, "0");
+              finalDate = `${year}-${month}-${day}`;
             }
           } else {
             console.warn("No date found for session:", session);
-            finalDate = new Date().toISOString();
+            // Use current local date
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, "0");
+            const day = String(today.getDate()).padStart(2, "0");
+            finalDate = `${year}-${month}-${day}`;
           }
 
           const transformed: Session = {
