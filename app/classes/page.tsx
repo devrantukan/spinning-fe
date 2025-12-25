@@ -1017,8 +1017,26 @@ export default function Classes() {
                       </p>
                     ) : (
                       daySessions.map((session) => {
-                        // Format date for display
-                        const sessionDate = new Date(session.date);
+                        // Format date for display - use local date parsing to avoid timezone issues
+                        let sessionDate: Date;
+                        if (typeof session.date === "string") {
+                          // If it's a date string like "2024-12-27", parse it as local date
+                          const dateParts = session.date
+                            .split("T")[0]
+                            .split("-");
+                          if (dateParts.length === 3) {
+                            sessionDate = new Date(
+                              parseInt(dateParts[0]),
+                              parseInt(dateParts[1]) - 1,
+                              parseInt(dateParts[2])
+                            );
+                          } else {
+                            sessionDate = new Date(session.date);
+                          }
+                        } else {
+                          sessionDate = new Date(session.date);
+                        }
+
                         const dayKeys = [
                           "sun",
                           "mon",
