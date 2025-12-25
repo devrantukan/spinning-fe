@@ -817,8 +817,8 @@ export default function Classes() {
         </div>
 
         {/* Filter Controls */}
-        <div className="flex flex-wrap items-end gap-4 mb-6">
-          <div className="flex flex-col min-w-[160px]">
+        <div className="flex flex-col md:flex-row md:flex-wrap md:items-end gap-4 mb-6">
+          <div className="flex flex-col w-full md:min-w-[160px] md:w-auto">
             <label
               htmlFor="instructor-select"
               className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5"
@@ -829,13 +829,13 @@ export default function Classes() {
               id="instructor-select"
               value={selectedInstructor}
               onChange={(e) => setSelectedInstructor(e.target.value)}
-              className={`h-10 px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all ${
+              className={`h-10 px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all text-base md:text-sm ${
                 selectedInstructor
                   ? "text-gray-900 dark:text-white border-orange-500 dark:border-orange-400 bg-orange-100 dark:bg-orange-900/30 font-medium"
-                  : "text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
+                  : "text-gray-900 dark:text-gray-400 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
               }`}
             >
-              <option value="" className="text-gray-600 dark:text-gray-400">
+              <option value="" className="text-gray-900 dark:text-gray-400">
                 {t("classes.filters.allInstructors")}
               </option>
               {instructors.map((instructor) => (
@@ -850,7 +850,7 @@ export default function Classes() {
             </select>
           </div>
 
-          <div className="flex flex-col min-w-[160px]">
+          <div className="flex flex-col w-full md:min-w-[160px] md:w-auto">
             <label
               htmlFor="workout-type-select"
               className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5"
@@ -861,13 +861,13 @@ export default function Classes() {
               id="workout-type-select"
               value={selectedWorkoutType}
               onChange={(e) => setSelectedWorkoutType(e.target.value)}
-              className={`h-10 px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all ${
+              className={`h-10 px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all text-base md:text-sm ${
                 selectedWorkoutType
                   ? "text-gray-900 dark:text-white border-orange-500 dark:border-orange-400 bg-orange-100 dark:bg-orange-900/30 font-medium"
-                  : "text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
+                  : "text-gray-900 dark:text-gray-400 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
               }`}
             >
-              <option value="" className="text-gray-600 dark:text-gray-400">
+              <option value="" className="text-gray-900 dark:text-gray-400">
                 {t("classes.filters.allTypes")}
               </option>
               {workoutTypes.map((type) => (
@@ -882,7 +882,7 @@ export default function Classes() {
             </select>
           </div>
 
-          <div className="flex flex-col min-w-[200px] flex-1">
+          <div className="flex flex-col w-full md:min-w-[200px] md:flex-1">
             <label
               htmlFor="search-input"
               className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5"
@@ -895,41 +895,41 @@ export default function Classes() {
               placeholder={t("classes.filters.searchPlaceholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-10 px-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:focus:border-orange-500 placeholder:text-gray-500 dark:placeholder:text-gray-400 placeholder:italic"
+              className="h-10 px-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:focus:border-orange-500 placeholder:text-gray-500 dark:placeholder:text-gray-400 placeholder:italic text-base md:text-sm"
             />
           </div>
 
-          <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 invisible">
+          <div className="flex flex-col w-full md:w-auto">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 invisible md:visible md:h-0">
               Time Filter
             </label>
             <div className="flex gap-2">
               <button
                 onClick={() => setTimeFilter("all")}
-                className={`h-10 px-4 rounded-lg font-medium transition-colors ${
+                className={`h-10 px-3 md:px-4 rounded-lg font-medium transition-colors text-sm md:text-base flex-1 md:flex-none ${
                   timeFilter === "all"
                     ? "bg-orange-500 text-white"
-                    : "bg-gray-900 dark:bg-gray-800 text-gray-200 dark:text-white hover:bg-gray-800 dark:hover:bg-gray-700"
+                    : "bg-gray-800 dark:bg-gray-800 text-gray-100 dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700"
                 }`}
               >
                 {t("classes.filters.allDay")}
               </button>
               <button
                 onClick={() => setTimeFilter("am")}
-                className={`h-10 px-4 rounded-lg font-medium transition-colors ${
+                className={`h-10 px-3 md:px-4 rounded-lg font-medium transition-colors text-sm md:text-base flex-1 md:flex-none ${
                   timeFilter === "am"
                     ? "bg-orange-500 text-white"
-                    : "bg-gray-900 dark:bg-gray-800 text-gray-200 dark:text-white hover:bg-gray-800 dark:hover:bg-gray-700"
+                    : "bg-gray-800 dark:bg-gray-800 text-gray-100 dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700"
                 }`}
               >
                 {t("classes.filters.am")}
               </button>
               <button
                 onClick={() => setTimeFilter("pm")}
-                className={`h-10 px-4 rounded-lg font-medium transition-colors ${
+                className={`h-10 px-3 md:px-4 rounded-lg font-medium transition-colors text-sm md:text-base flex-1 md:flex-none ${
                   timeFilter === "pm"
                     ? "bg-orange-500 text-white"
-                    : "bg-gray-900 dark:bg-gray-800 text-gray-200 dark:text-white hover:bg-gray-800 dark:hover:bg-gray-700"
+                    : "bg-gray-800 dark:bg-gray-800 text-gray-100 dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700"
                 }`}
               >
                 {t("classes.filters.pm")}
@@ -943,8 +943,8 @@ export default function Classes() {
           <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
             {t("classes.quickDateSelection")}
           </p>
-          <div className="flex items-center gap-2 w-full">
-            <div className="flex items-center gap-1 flex-1 w-full">
+          <div className="flex items-center gap-1 md:gap-2 w-full overflow-x-auto">
+            <div className="flex items-center gap-0.5 md:gap-1 flex-1 w-full min-w-0">
               {sevenDays.map((date, index) => {
                 const isFirstThree = index < 3;
                 const isSeventh = index === 6;
@@ -986,10 +986,10 @@ export default function Classes() {
                       newStartDate.setHours(0, 0, 0, 0);
                       setCurrentWeekStart(newStartDate);
                     }}
-                    className={`flex flex-col items-center justify-center rounded-lg font-medium whitespace-nowrap shadow-md transition-all cursor-pointer py-3 flex-1 ${
+                    className={`flex flex-col items-center justify-center rounded-lg font-medium whitespace-nowrap shadow-md transition-all cursor-pointer py-2 md:py-3 flex-1 min-w-[50px] md:min-w-0 ${
                       isFirstThree
                         ? "bg-orange-500 text-white hover:bg-orange-600"
-                        : "bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-2 border-gray-300 dark:border-gray-600 hover:border-orange-400 dark:hover:border-orange-500 hover:bg-gray-50 dark:hover:bg-gray-700"
+                        : "bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 border-2 border-gray-300 dark:border-gray-600 hover:border-orange-400 dark:hover:border-orange-500 hover:bg-gray-50 dark:hover:bg-gray-700"
                     }`}
                     style={
                       isSeventh
@@ -1000,7 +1000,7 @@ export default function Classes() {
                     }
                   >
                     <span
-                      className={`text-2xl font-bold ${
+                      className={`text-xl md:text-2xl font-bold ${
                         isFirstThree
                           ? "text-white"
                           : "text-gray-900 dark:text-gray-200"
@@ -1009,7 +1009,7 @@ export default function Classes() {
                       {date.getDate()}
                     </span>
                     <span
-                      className={`text-xs ${
+                      className={`text-[10px] md:text-xs leading-tight text-center ${
                         isFirstThree
                           ? "text-white"
                           : "text-gray-700 dark:text-gray-300"
@@ -1021,7 +1021,7 @@ export default function Classes() {
                 );
               })}
             </div>
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-1 md:gap-2 shrink-0">
               <button
                 onClick={() => {
                   if (isLeftArrowDisabled) return;
@@ -1032,7 +1032,7 @@ export default function Classes() {
                   });
                 }}
                 disabled={isLeftArrowDisabled}
-                className={`px-3 py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg transition-all font-bold text-lg shadow-sm shrink-0 ${
+                className={`px-2 md:px-3 py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg transition-all font-bold text-base md:text-lg shadow-sm shrink-0 ${
                   isLeftArrowDisabled
                     ? "opacity-50 cursor-not-allowed"
                     : "hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400"
@@ -1049,7 +1049,7 @@ export default function Classes() {
                     return newDate;
                   });
                 }}
-                className="px-3 py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400 transition-all font-bold text-lg shadow-sm hover:shadow-md shrink-0"
+                className="px-2 md:px-3 py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400 transition-all font-bold text-base md:text-lg shadow-sm hover:shadow-md shrink-0"
                 aria-label={t("classes.nextWeek")}
               >
                 →
@@ -1064,18 +1064,18 @@ export default function Classes() {
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             {firstThreeDays.map((date) => {
               const dateKey = formatDateKey(date);
               const daySessions = sessionsByDate[dateKey] || [];
               return (
                 <div key={dateKey} className="flex flex-col">
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 tracking-wider uppercase">
+                  <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4 tracking-wider uppercase">
                     {formatDayHeader(date)}
                   </h3>
-                  <div className="space-y-4 flex-1">
+                  <div className="space-y-3 md:space-y-4 flex-1">
                     {daySessions.length === 0 ? (
-                      <p className="text-gray-500 dark:text-gray-400 text-sm">
+                      <p className="text-gray-500 dark:text-gray-400 text-xs md:text-sm">
                         {t("classes.noSessions")}
                       </p>
                     ) : (
@@ -1189,13 +1189,13 @@ export default function Classes() {
                         return (
                           <div
                             key={session.id}
-                            className="bg-[#222222] dark:bg-[#222222] text-gray-100 dark:text-gray-100 rounded-lg p-5 shadow-lg hover:shadow-xl transition-shadow"
+                            className="bg-[#222222] dark:bg-[#222222] text-gray-100 dark:text-gray-100 rounded-lg p-4 md:p-5 shadow-lg hover:shadow-xl transition-shadow"
                           >
-                            <h4 className="text-lg font-bold mb-3 text-gray-100 dark:text-gray-100 uppercase tracking-wide">
+                            <h4 className="text-base md:text-lg font-bold mb-2 md:mb-3 text-gray-100 dark:text-gray-100 uppercase tracking-wide">
                               {session.title}
                             </h4>
-                            <div className="space-y-2 text-sm text-gray-200 dark:text-gray-200 mb-4">
-                              <p className="text-gray-300 dark:text-gray-300">
+                            <div className="space-y-1.5 md:space-y-2 text-xs md:text-sm text-gray-200 dark:text-gray-200 mb-3 md:mb-4">
+                              <p className="text-gray-200 dark:text-gray-300">
                                 {t("classes.session.with")}{" "}
                                 <span className="font-semibold">
                                   {getInstructorName(
@@ -1247,7 +1247,7 @@ export default function Classes() {
                             <button
                               onClick={() => handleBookNow(session)}
                               disabled={bookingSessionId === session.id}
-                              className={`mt-3 w-full px-4 py-3 text-sm font-bold rounded-lg transition-colors uppercase tracking-wide ${
+                              className={`mt-2 md:mt-3 w-full px-4 py-2.5 md:py-3 text-xs md:text-sm font-bold rounded-lg transition-colors uppercase tracking-wide ${
                                 bookingSessionId === session.id
                                   ? "bg-gray-600 text-white cursor-not-allowed"
                                   : "bg-orange-500 text-white hover:bg-orange-600"
