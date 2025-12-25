@@ -744,11 +744,11 @@ export default function Classes() {
         )}
 
         {/* Page Title */}
-        <div className="mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-2 tracking-wide uppercase">
+        <div className="mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 tracking-wide uppercase">
             {t("classes.title")}
           </h1>
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
             {t("classes.timetable")}
           </h2>
         </div>
@@ -895,22 +895,22 @@ export default function Classes() {
                   "sat",
                 ];
                 const monthKeys = [
-                  "jan",
-                  "feb",
-                  "mar",
-                  "apr",
+                  "january",
+                  "february",
+                  "march",
+                  "april",
                   "may",
-                  "jun",
-                  "jul",
-                  "aug",
-                  "sep",
-                  "oct",
-                  "nov",
-                  "dec",
+                  "june",
+                  "july",
+                  "august",
+                  "september",
+                  "october",
+                  "november",
+                  "december",
                 ];
                 const day = t(`classes.days.${dayKeys[date.getDay()]}`);
                 const month = t(
-                  `classes.months.short.${monthKeys[date.getMonth()]}`
+                  `classes.months.long.${monthKeys[date.getMonth()]}`
                 );
                 return (
                   <button
