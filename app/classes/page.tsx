@@ -20,6 +20,47 @@ interface Session {
   musicGenre?: string;
   musicGenreTr?: string;
   workoutType?: string;
+  amPm?: string; // "AM" or "PM" from database
+}
+
+// Helper function to convert text to uppercase (handles Turkish characters correctly)
+function toUpperCaseTurkish(text: string): string {
+  if (!text) return text;
+
+  // Normalize the text first: trim whitespace, collapse multiple spaces
+  let normalized = text.trim().replace(/\s+/g, " ");
+
+  // Convert to lowercase, handling Turkish characters properly
+  // First, manually convert Turkish uppercase characters to their lowercase equivalents
+  normalized = normalized
+    .replace(/İ/g, "i") // Turkish İ -> lowercase i (dotted)
+    .replace(/I/g, "ı") // Regular I -> dotless ı
+    .toLowerCase();
+
+  // Turkish uppercase mappings
+  const turkishUpper: Record<string, string> = {
+    ı: "I", // dotless i -> regular I
+    i: "İ", // dotted i -> Turkish İ
+    ş: "Ş",
+    ğ: "Ğ",
+    ü: "Ü",
+    ö: "Ö",
+    ç: "Ç",
+  };
+
+  let result = normalized
+    .split("")
+    .map((char) => {
+      return turkishUpper[char] || char.toUpperCase();
+    })
+    .join("");
+
+  // Special case: "ISIN" should use regular I, not Turkish İ
+  // This handles words that should use regular I instead of Turkish İ
+  result = result.replace(/İSİN\b/g, "ISIN");
+  result = result.replace(/İSIN\b/g, "ISIN");
+
+  return result;
 }
 
 // Helper function to extract instructor name
@@ -65,11 +106,65 @@ export default function Classes() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [timeFilter, setTimeFilter] = useState<"all" | "am" | "pm">("all");
   const [currentWeekStart, setCurrentWeekStart] = useState<Date>(() => {
+    // Try to restore from sessionStorage first
+    const savedWeekStart = sessionStorage.getItem("selectedWeekStart");
+    if (savedWeekStart) {
+      try {
+        const weekStartDate = new Date(savedWeekStart);
+        if (!isNaN(weekStartDate.getTime())) {
+          return weekStartDate;
+        }
+      } catch (e) {
+        console.error("Error parsing saved week start:", e);
+      }
+    }
+    // Default to current week
     const today = new Date();
     const day = today.getDay();
     const diff = today.getDate() - day + (day === 0 ? -6 : 1); // Monday
     return new Date(today.setDate(diff));
   });
+
+  // Scroll to quick date selection when returning from session detail
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash === "#quick-date-selection") {
+      // Restore the selected week from sessionStorage if not already restored
+      const savedWeekStart = sessionStorage.getItem("selectedWeekStart");
+      if (savedWeekStart) {
+        try {
+          const weekStartDate = new Date(savedWeekStart);
+          if (!isNaN(weekStartDate.getTime())) {
+            // Only update if different from current
+            setCurrentWeekStart((prev) => {
+              if (prev.getTime() !== weekStartDate.getTime()) {
+                return weekStartDate;
+              }
+              return prev;
+            });
+          }
+          // Keep it in sessionStorage - don't remove it
+          // It will persist and be used if the component re-mounts
+        } catch (e) {
+          console.error("Error restoring week start:", e);
+        }
+      }
+
+      setTimeout(() => {
+        const element = document.getElementById("quick-date-selection");
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+          // Remove hash from URL without scrolling
+          window.history.replaceState(null, "", window.location.pathname);
+        }
+      }, 100);
+    }
+  }, []);
+
+  // Persist currentWeekStart to sessionStorage whenever it changes
+  useEffect(() => {
+    sessionStorage.setItem("selectedWeekStart", currentWeekStart.toISOString());
+  }, [currentWeekStart]);
 
   // Fetch sessions from API
   useEffect(() => {
@@ -77,12 +172,13 @@ export default function Classes() {
       setLoading(true);
       try {
         // Build query parameters for backend filtering
+        // Note: timeFilter and searchQuery are handled client-side, not sent to API
         const params = new URLSearchParams();
         if (selectedInstructor) params.append("instructor", selectedInstructor);
         if (selectedWorkoutType)
           params.append("workoutType", selectedWorkoutType);
-        if (searchQuery) params.append("search", searchQuery);
-        if (timeFilter !== "all") params.append("timeFilter", timeFilter);
+        // searchQuery is filtered client-side
+        // timeFilter is filtered client-side based on amPm field
 
         // Always use first 3 days from current week
         const weekDates = getWeekDates(currentWeekStart);
@@ -138,6 +234,7 @@ export default function Classes() {
           workoutType?: string;
           musicGenre?: string;
           musicGenreTr?: string;
+          amPm?: string; // "AM" or "PM" from database
           class?: {
             date?: string | Date;
             time?: string;
@@ -150,6 +247,7 @@ export default function Classes() {
             workoutType?: string;
             musicGenre?: string;
             musicGenreTr?: string;
+            amPm?: string;
           };
         }
 
@@ -270,6 +368,9 @@ export default function Classes() {
             session.class?.musicGenreTr ||
             sessionMusicGenre;
 
+          // Extract amPm field from database
+          const sessionAmpm = session.amPm || session.class?.amPm;
+
           // Ensure date is a valid date string (YYYY-MM-DD format to avoid timezone issues)
           let finalDate: string;
           if (sessionDate) {
@@ -368,6 +469,7 @@ export default function Classes() {
             musicGenre: sessionMusicGenre,
             musicGenreTr: sessionMusicGenreTr,
             workoutType: sessionWorkoutType,
+            amPm: sessionAmpm,
           };
 
           console.log("Transformed session:", transformed);
@@ -375,7 +477,50 @@ export default function Classes() {
         });
 
         console.log(`Transformed ${transformedSessions.length} sessions`);
-        setSessions(transformedSessions);
+
+        // Apply client-side filtering for searchQuery
+        let filteredSessions = transformedSessions;
+        if (searchQuery.trim()) {
+          const searchLower = searchQuery.toLowerCase().trim();
+          filteredSessions = transformedSessions.filter((session) => {
+            // Search in title (English and Turkish)
+            const titleMatch =
+              session.title?.toLowerCase().includes(searchLower) ||
+              session.titleTr?.toLowerCase().includes(searchLower);
+
+            // Search in instructor name
+            const instructorName = getInstructorName(
+              session.instructor,
+              ""
+            ).toLowerCase();
+            const instructorMatch = instructorName.includes(searchLower);
+
+            // Search in music genre (English and Turkish)
+            const musicGenreMatch =
+              session.musicGenre?.toLowerCase().includes(searchLower) ||
+              session.musicGenreTr?.toLowerCase().includes(searchLower);
+
+            // Search in workout type
+            const workoutTypeMatch = session.workoutType
+              ?.toLowerCase()
+              .includes(searchLower);
+
+            // Search in location/studio
+            const locationMatch =
+              session.location?.toLowerCase().includes(searchLower) ||
+              session.studio?.toLowerCase().includes(searchLower);
+
+            return (
+              titleMatch ||
+              instructorMatch ||
+              musicGenreMatch ||
+              workoutTypeMatch ||
+              locationMatch
+            );
+          });
+        }
+
+        setSessions(filteredSessions);
       } catch (error) {
         console.error("Error fetching sessions:", error);
         setSessions([]);
@@ -489,23 +634,23 @@ export default function Classes() {
   function formatDayHeader(date: Date): string {
     const dayKeys = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
     const monthKeys = [
-      "jan",
-      "feb",
-      "mar",
-      "apr",
+      "january",
+      "february",
+      "march",
+      "april",
       "may",
-      "jun",
-      "jul",
-      "aug",
-      "sep",
-      "oct",
-      "nov",
-      "dec",
+      "june",
+      "july",
+      "august",
+      "september",
+      "october",
+      "november",
+      "december",
     ];
-    const day = t(`classes.days.${dayKeys[date.getDay()]}`).toUpperCase();
-    const month = t(
-      `classes.months.short.${monthKeys[date.getMonth()]}`
-    ).toUpperCase();
+    const day = toUpperCaseTurkish(t(`classes.days.${dayKeys[date.getDay()]}`));
+    const month = toUpperCaseTurkish(
+      t(`classes.months.long.${monthKeys[date.getMonth()]}`)
+    );
     return `${day} ${date.getDate()} ${month}`;
   }
 
@@ -703,6 +848,8 @@ export default function Classes() {
   };
 
   async function handleBookNow(session: Session) {
+    // Store the current week start before navigating
+    sessionStorage.setItem("selectedWeekStart", currentWeekStart.toISOString());
     // Redirect to session detail page - public access, no login required
     router.push(`/classes/${session.id}`);
   }
@@ -887,17 +1034,17 @@ export default function Classes() {
     return (
       <div
         key={session.id}
-        className="bg-[#222222] dark:bg-gray-800 text-gray-100 dark:text-gray-100 rounded-lg p-4 md:p-5 shadow-lg hover:shadow-xl transition-all"
+        className="bg-white dark:bg-[#222222] rounded-lg p-4 md:p-5 shadow-lg hover:shadow-xl transition-all border border-gray-200 dark:border-gray-700"
       >
-        <h4 className="text-base md:text-lg font-bold mb-2 md:mb-3 text-gray-100 dark:text-gray-100 uppercase tracking-wide">
+        <h4 className="text-base md:text-lg font-bold mb-2 md:mb-3 text-gray-900 dark:text-white tracking-wide uppercase">
           {language === "tr" && session.titleTr
-            ? session.titleTr
-            : session.title}
+            ? toUpperCaseTurkish(session.titleTr)
+            : toUpperCaseTurkish(session.title)}
         </h4>
-        <div className="space-y-1.5 md:space-y-2 text-xs md:text-sm text-gray-200 dark:text-gray-300 mb-3 md:mb-4">
-          <p className="text-gray-300 dark:text-gray-300">
+        <div className="space-y-1.5 md:space-y-2 text-xs md:text-sm text-gray-700 dark:text-gray-200 mb-3 md:mb-4">
+          <p className="text-gray-700 dark:text-gray-200">
             {t("classes.session.with")}{" "}
-            <span className="font-semibold text-gray-200 dark:text-gray-200">
+            <span className="font-semibold text-gray-900 dark:text-white">
               {getInstructorName(
                 session.instructor as
                   | string
@@ -909,31 +1056,31 @@ export default function Classes() {
                   | null
                   | undefined,
                 t("classes.session.unknownInstructor")
-              ).toUpperCase()}
+              )}
             </span>
           </p>
-          <p className="text-gray-300 dark:text-gray-300">
+          <p className="text-gray-700 dark:text-gray-200">
             {t("classes.session.time")} {formattedTime}
           </p>
-          <p className="text-gray-300 dark:text-gray-300">
+          <p className="text-gray-700 dark:text-gray-200">
             {t("classes.session.date")} {formattedDate}
           </p>
-          <p className="text-gray-300 dark:text-gray-300">
+          <p className="text-gray-700 dark:text-gray-200">
             {t("classes.session.duration")} {session.duration}{" "}
             {t("classes.session.minutes")}
           </p>
           {session.location && (
-            <p className="text-gray-300 dark:text-gray-300">
+            <p className="text-gray-700 dark:text-gray-200">
               {t("classes.session.location")} {session.location}
             </p>
           )}
           {session.studio && (
-            <p className="text-gray-300 dark:text-gray-300">
+            <p className="text-gray-700 dark:text-gray-200">
               {t("classes.session.studio")} {session.studio}
             </p>
           )}
           {session.musicGenre && (
-            <p className="text-gray-300 dark:text-gray-300">
+            <p className="text-gray-700 dark:text-gray-200">
               {t("classes.session.musicGenre")}{" "}
               {language === "tr" && session.musicGenreTr
                 ? session.musicGenreTr
@@ -1107,12 +1254,13 @@ export default function Classes() {
         </div>
 
         {/* Quick Date Selection */}
-        <div className="mb-8">
-          <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+        <div id="quick-date-selection" className="mb-6 md:mb-8">
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 px-1">
             {t("classes.quickDateSelection")}
           </p>
-          <div className="flex items-center gap-1 md:gap-2 w-full overflow-x-auto">
-            <div className="flex items-center gap-0.5 md:gap-1 flex-1 w-full min-w-0">
+          <div className="flex items-center gap-2 md:gap-2 w-full">
+            {/* Scrollable date buttons container */}
+            <div className="flex items-center gap-1.5 md:gap-1 flex-1 w-full min-w-0 overflow-x-auto scrollbar-hide pb-1 -mx-1 px-1 md:mx-0 md:px-0">
               {sevenDays.map((date, index) => {
                 const isFirstThree = index < 3;
                 const isSeventh = index === 6;
@@ -1124,6 +1272,20 @@ export default function Classes() {
                   "thu",
                   "fri",
                   "sat",
+                ];
+                const monthKeysShort = [
+                  "jan",
+                  "feb",
+                  "mar",
+                  "apr",
+                  "may",
+                  "jun",
+                  "jul",
+                  "aug",
+                  "sep",
+                  "oct",
+                  "nov",
+                  "dec",
                 ];
                 const monthKeys = [
                   "january",
@@ -1140,6 +1302,9 @@ export default function Classes() {
                   "december",
                 ];
                 const day = t(`classes.days.${dayKeys[date.getDay()]}`);
+                const monthShort = t(
+                  `classes.months.short.${monthKeysShort[date.getMonth()]}`
+                );
                 const month = t(
                   `classes.months.long.${monthKeys[date.getMonth()]}`
                 );
@@ -1154,10 +1319,10 @@ export default function Classes() {
                       newStartDate.setHours(0, 0, 0, 0);
                       setCurrentWeekStart(newStartDate);
                     }}
-                    className={`flex flex-col items-center justify-center rounded-lg font-medium whitespace-nowrap shadow-md transition-all cursor-pointer py-2 md:py-3 flex-1 min-w-[50px] md:min-w-0 ${
+                    className={`flex flex-col items-center justify-center rounded-lg font-medium whitespace-nowrap shadow-md transition-all cursor-pointer py-2.5 md:py-3 px-2 md:px-0 min-w-[60px] md:min-w-0 shrink-0 md:flex-1 touch-manipulation ${
                       isFirstThree
-                        ? "bg-orange-500 text-white hover:bg-orange-600"
-                        : "bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 border-2 border-gray-300 dark:border-gray-600 hover:border-orange-400 dark:hover:border-orange-500 hover:bg-gray-50 dark:hover:bg-gray-700"
+                        ? "bg-orange-500 text-white hover:bg-orange-600 active:bg-orange-700"
+                        : "bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 border-2 border-gray-300 dark:border-gray-600 hover:border-orange-400 dark:hover:border-orange-500 hover:bg-gray-50 dark:hover:bg-gray-700 active:bg-gray-100 dark:active:bg-gray-600"
                     }`}
                     style={
                       isSeventh
@@ -1168,7 +1333,7 @@ export default function Classes() {
                     }
                   >
                     <span
-                      className={`text-xl md:text-2xl font-bold ${
+                      className={`text-lg md:text-2xl font-bold ${
                         isFirstThree
                           ? "text-white"
                           : "text-gray-900 dark:text-gray-200"
@@ -1177,19 +1342,26 @@ export default function Classes() {
                       {date.getDate()}
                     </span>
                     <span
-                      className={`text-[10px] md:text-xs leading-tight text-center ${
+                      className={`text-[9px] md:text-xs leading-tight text-center mt-0.5 md:mt-1 ${
                         isFirstThree
                           ? "text-white"
                           : "text-gray-700 dark:text-gray-300"
                       }`}
                     >
-                      {month} {day}
+                      {/* Show short format on mobile, long format on desktop */}
+                      <span className="md:hidden">
+                        {monthShort} {day.substring(0, 3)}
+                      </span>
+                      <span className="hidden md:inline">
+                        {month} {day}
+                      </span>
                     </span>
                   </button>
                 );
               })}
             </div>
-            <div className="flex items-center gap-1 md:gap-2 shrink-0">
+            {/* Navigation arrows */}
+            <div className="flex items-center gap-1.5 md:gap-2 shrink-0">
               <button
                 onClick={() => {
                   if (isLeftArrowDisabled) return;
@@ -1200,10 +1372,10 @@ export default function Classes() {
                   });
                 }}
                 disabled={isLeftArrowDisabled}
-                className={`px-2 md:px-3 py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg transition-all font-bold text-base md:text-lg shadow-sm shrink-0 ${
+                className={`px-3 md:px-3 py-2.5 md:py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg transition-all font-bold text-lg md:text-lg shadow-sm shrink-0 touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center ${
                   isLeftArrowDisabled
                     ? "opacity-50 cursor-not-allowed"
-                    : "hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400"
+                    : "hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400 active:bg-gray-100 dark:active:bg-gray-600"
                 }`}
                 aria-label={t("classes.previousWeek")}
               >
@@ -1217,7 +1389,7 @@ export default function Classes() {
                     return newDate;
                   });
                 }}
-                className="px-2 md:px-3 py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400 transition-all font-bold text-base md:text-lg shadow-sm hover:shadow-md shrink-0"
+                className="px-3 md:px-3 py-2.5 md:py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400 active:bg-gray-100 dark:active:bg-gray-600 transition-all font-bold text-lg md:text-lg shadow-sm hover:shadow-md shrink-0 touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center"
                 aria-label={t("classes.nextWeek")}
               >
                 →
@@ -1233,78 +1405,260 @@ export default function Classes() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+            {/* Day Headers */}
             {firstThreeDays.map((date) => {
               const dateKey = formatDateKey(date);
-              const daySessions = sessionsByDate[dateKey] || [];
               return (
-                <div key={dateKey} className="flex flex-col">
+                <div key={`header-${dateKey}`} className="flex flex-col">
                   <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4 tracking-wider uppercase">
                     {formatDayHeader(date)}
                   </h3>
+                </div>
+              );
+            })}
+
+            {/* AM Sessions */}
+            {firstThreeDays.map((date) => {
+              const dateKey = formatDateKey(date);
+              const daySessions = sessionsByDate[dateKey] || [];
+
+              // Group sessions by AM/PM
+              const amSessions: Session[] = [];
+              const pmSessions: Session[] = [];
+
+              daySessions.forEach((session) => {
+                // Use amPm field from database if available, otherwise parse from time
+                if (session.amPm) {
+                  // Use the amPm field directly from database (always AM or PM, even for Turkish sessions)
+                  const ampmUpper = String(session.amPm).toUpperCase().trim();
+                  if (ampmUpper === "AM") {
+                    amSessions.push(session);
+                  } else if (ampmUpper === "PM") {
+                    pmSessions.push(session);
+                  }
+                } else {
+                  // Fallback: Parse time - could be 24-hour format (HH:mm) or 12-hour format with AM/PM/öö/ös
+                  let hours = 12;
+                  // Match both English (am/pm) and Turkish (öö/ös) indicators
+                  const timeMatch = session.time.match(
+                    /(\d{1,2}):?(\d{2})?\s*(am|pm|öö|ös)?/i
+                  );
+
+                  if (timeMatch) {
+                    hours = parseInt(timeMatch[1]);
+                    const period = timeMatch[3]?.toLowerCase();
+                    if (period) {
+                      // 12-hour format with AM/PM indicator (English or Turkish)
+                      if (
+                        (period === "pm" || period === "ös") &&
+                        hours !== 12
+                      ) {
+                        hours += 12;
+                      }
+                      if (
+                        (period === "am" || period === "öö") &&
+                        hours === 12
+                      ) {
+                        hours = 0;
+                      }
+                    }
+                    // If no period, it's 24-hour format - hours are already correct
+                  } else {
+                    // Try to parse time string as HH:mm (24-hour format)
+                    const timeParts = session.time.split(":");
+                    if (timeParts.length >= 1) {
+                      hours = parseInt(timeParts[0]) || 12;
+                    }
+                  }
+
+                  // Classify as AM (0-11) or PM (12-23)
+                  if (hours < 12) {
+                    amSessions.push(session);
+                  } else {
+                    pmSessions.push(session);
+                  }
+                }
+              });
+
+              // Apply time filter
+              const shouldShowAm = timeFilter === "all" || timeFilter === "am";
+
+              // Don't render AM section at all if filter is "pm"
+              if (timeFilter === "pm") {
+                return null;
+              }
+
+              return (
+                <div key={`am-${dateKey}`} className="flex flex-col">
                   <div className="space-y-3 md:space-y-4 flex-1">
                     {daySessions.length === 0 ? (
                       <p className="text-gray-500 dark:text-gray-400 text-xs md:text-sm">
                         {t("classes.noSessions")}
                       </p>
+                    ) : shouldShowAm && amSessions.length > 0 ? (
+                      <div className="space-y-3 md:space-y-4">
+                        {amSessions.map((session) =>
+                          renderSessionCard(session)
+                        )}
+                      </div>
                     ) : (
-                      (() => {
-                        // Group sessions by AM/PM
-                        const amSessions: Session[] = [];
-                        const pmSessions: Session[] = [];
+                      <div className="h-0"></div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
 
-                        daySessions.forEach((session) => {
-                          const timeMatch = session.time.match(
-                            /(\d{1,2}):?(\d{2})?\s*(am|pm)?/i
-                          );
-                          let hours = 12;
-                          if (timeMatch) {
-                            hours = parseInt(timeMatch[1]);
-                            const period = timeMatch[3]?.toLowerCase();
-                            if (period === "pm" && hours !== 12) hours += 12;
-                            if (period === "am" && hours === 12) hours = 0;
-                          } else {
-                            // Try to parse time string as HH:mm
-                            const timeParts = session.time.split(":");
-                            if (timeParts.length >= 1) {
-                              hours = parseInt(timeParts[0]) || 12;
-                            }
+            {/* Horizontal Ruler - spans all columns (only show when both AM and PM are visible) */}
+            {timeFilter === "all" &&
+              (() => {
+                const hasAmAndPm = firstThreeDays.some((date) => {
+                  const dateKey = formatDateKey(date);
+                  const daySessions = sessionsByDate[dateKey] || [];
+                  const amSessions: Session[] = [];
+                  const pmSessions: Session[] = [];
+
+                  daySessions.forEach((session) => {
+                    // Use amPm field from database if available, otherwise parse from time
+                    if (session.amPm) {
+                      // Use the amPm field directly from database (always AM or PM, even for Turkish sessions)
+                      const ampmUpper = String(session.amPm)
+                        .toUpperCase()
+                        .trim();
+                      if (ampmUpper === "AM") {
+                        amSessions.push(session);
+                      } else if (ampmUpper === "PM") {
+                        pmSessions.push(session);
+                      }
+                    } else {
+                      // Fallback: Parse time - could be 24-hour format (HH:mm) or 12-hour format with AM/PM/öö/ös
+                      let hours = 12;
+                      // Match both English (am/pm) and Turkish (öö/ös) indicators
+                      const timeMatch = session.time.match(
+                        /(\d{1,2}):?(\d{2})?\s*(am|pm|öö|ös)?/i
+                      );
+
+                      if (timeMatch) {
+                        hours = parseInt(timeMatch[1]);
+                        const period = timeMatch[3]?.toLowerCase();
+                        if (period) {
+                          // 12-hour format with AM/PM indicator (English or Turkish)
+                          if (
+                            (period === "pm" || period === "ös") &&
+                            hours !== 12
+                          ) {
+                            hours += 12;
                           }
-
-                          if (hours < 12) {
-                            amSessions.push(session);
-                          } else {
-                            pmSessions.push(session);
+                          if (
+                            (period === "am" || period === "öö") &&
+                            hours === 12
+                          ) {
+                            hours = 0;
                           }
-                        });
+                        }
+                        // If no period, it's 24-hour format - hours are already correct
+                      } else {
+                        // Try to parse time string as HH:mm (24-hour format)
+                        const timeParts = session.time.split(":");
+                        if (timeParts.length >= 1) {
+                          hours = parseInt(timeParts[0]) || 12;
+                        }
+                      }
 
-                        return (
-                          <>
-                            {/* AM Sessions Row */}
-                            {amSessions.length > 0 && (
-                              <div className="space-y-3 md:space-y-4">
-                                <h4 className="text-sm md:text-base font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
-                                  {t("classes.filters.am")}
-                                </h4>
-                                {amSessions.map((session) =>
-                                  renderSessionCard(session)
-                                )}
-                              </div>
-                            )}
+                      // Classify as AM (0-11) or PM (12-23)
+                      if (hours < 12) {
+                        amSessions.push(session);
+                      } else {
+                        pmSessions.push(session);
+                      }
+                    }
+                  });
 
-                            {/* PM Sessions Row */}
-                            {pmSessions.length > 0 && (
-                              <div className="space-y-3 md:space-y-4">
-                                <h4 className="text-sm md:text-base font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
-                                  {t("classes.filters.pm")}
-                                </h4>
-                                {pmSessions.map((session) =>
-                                  renderSessionCard(session)
-                                )}
-                              </div>
-                            )}
-                          </>
-                        );
-                      })()
+                  return amSessions.length > 0 && pmSessions.length > 0;
+                });
+
+                return hasAmAndPm ? (
+                  <hr className="col-span-1 md:col-span-3 border-gray-600 dark:border-gray-600 my-4 md:my-6" />
+                ) : null;
+              })()}
+
+            {/* PM Sessions */}
+            {firstThreeDays.map((date) => {
+              const dateKey = formatDateKey(date);
+              const daySessions = sessionsByDate[dateKey] || [];
+
+              // Group sessions by AM/PM
+              const pmSessions: Session[] = [];
+
+              daySessions.forEach((session) => {
+                // Use amPm field from database if available, otherwise parse from time
+                if (session.amPm) {
+                  // Use the amPm field directly from database (always AM or PM, even for Turkish sessions)
+                  const ampmUpper = String(session.amPm).toUpperCase().trim();
+                  if (ampmUpper === "PM") {
+                    pmSessions.push(session);
+                  }
+                } else {
+                  // Fallback: Parse time - could be 24-hour format (HH:mm) or 12-hour format with AM/PM/öö/ös
+                  let hours = 12;
+                  // Match both English (am/pm) and Turkish (öö/ös) indicators
+                  const timeMatch = session.time.match(
+                    /(\d{1,2}):?(\d{2})?\s*(am|pm|öö|ös)?/i
+                  );
+
+                  if (timeMatch) {
+                    hours = parseInt(timeMatch[1]);
+                    const period = timeMatch[3]?.toLowerCase();
+                    if (period) {
+                      // 12-hour format with AM/PM indicator (English or Turkish)
+                      if (
+                        (period === "pm" || period === "ös") &&
+                        hours !== 12
+                      ) {
+                        hours += 12;
+                      }
+                      if (
+                        (period === "am" || period === "öö") &&
+                        hours === 12
+                      ) {
+                        hours = 0;
+                      }
+                    }
+                    // If no period, it's 24-hour format - hours are already correct
+                  } else {
+                    // Try to parse time string as HH:mm (24-hour format)
+                    const timeParts = session.time.split(":");
+                    if (timeParts.length >= 1) {
+                      hours = parseInt(timeParts[0]) || 12;
+                    }
+                  }
+
+                  // Classify as PM (12-23)
+                  if (hours >= 12) {
+                    pmSessions.push(session);
+                  }
+                }
+              });
+
+              // Apply time filter
+              const shouldShowPm = timeFilter === "all" || timeFilter === "pm";
+
+              // Don't render PM section at all if filter is "am"
+              if (timeFilter === "am") {
+                return null;
+              }
+
+              return (
+                <div key={`pm-${dateKey}`} className="flex flex-col">
+                  <div className="space-y-3 md:space-y-4 flex-1">
+                    {shouldShowPm && pmSessions.length > 0 ? (
+                      <div className="space-y-3 md:space-y-4">
+                        {pmSessions.map((session) =>
+                          renderSessionCard(session)
+                        )}
+                      </div>
+                    ) : (
+                      <div className="h-0"></div>
                     )}
                   </div>
                 </div>

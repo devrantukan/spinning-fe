@@ -30,17 +30,26 @@ export async function GET(request: NextRequest) {
     // Get query parameters from request
     const { searchParams } = new URL(request.url);
     const locationId = searchParams.get("locationId");
+    const seatLayoutId = searchParams.get("seatLayoutId");
 
-    if (!locationId) {
+    if (!locationId && !seatLayoutId) {
       return NextResponse.json(
-        { error: "locationId is required" },
+        { error: "locationId or seatLayoutId is required" },
         { status: 400 }
       );
     }
 
     // Build query parameters
     const queryParams = new URLSearchParams();
-    queryParams.append("locationId", locationId);
+    if (locationId) {
+      queryParams.append("locationId", locationId);
+    }
+    if (seatLayoutId) {
+      queryParams.append("seatLayoutId", seatLayoutId);
+    }
+    // Request seats to be included in the response
+    queryParams.append("includeSeats", "true");
+    queryParams.append("include", "seats");
 
     // Add organization ID to query params if not already present
     if (organizationId && !queryParams.has("organizationId")) {
@@ -61,6 +70,59 @@ export async function GET(request: NextRequest) {
       // Check if response is JSON
       if (contentType && contentType.includes("application/json")) {
         const data = await response.json();
+        
+        // Always try to fetch seats if we have a seat layout ID
+        if (data && data.id) {
+          // If seats are not included or empty, fetch them separately
+          if (!data.seats || !Array.isArray(data.seats) || data.seats.length === 0) {
+            try {
+              const seatsUrl = `${TENANT_BE_URL}/api/seat-layouts/${data.id}/seats`;
+              console.log("Fetching seats from:", seatsUrl);
+              
+              // Try with auth first
+              let seatsResponse = await fetch(seatsUrl, { headers });
+              
+              // If unauthorized, try without auth (public access)
+              if (seatsResponse.status === 401 || seatsResponse.status === 403) {
+                console.log("Seats endpoint requires auth, trying public access");
+                const publicHeaders: HeadersInit = {
+                  "Content-Type": "application/json",
+                };
+                if (organizationId) {
+                  publicHeaders["X-Organization-Id"] = organizationId;
+                }
+                seatsResponse = await fetch(seatsUrl, { headers: publicHeaders });
+              }
+              
+              if (seatsResponse.ok) {
+                const seatsData = await seatsResponse.json();
+                if (Array.isArray(seatsData)) {
+                  data.seats = seatsData;
+                  console.log(`Fetched ${seatsData.length} seats`);
+                } else if (seatsData.seats && Array.isArray(seatsData.seats)) {
+                  data.seats = seatsData.seats;
+                  console.log(`Fetched ${seatsData.seats.length} seats`);
+                } else if (seatsData.data && Array.isArray(seatsData.data)) {
+                  data.seats = seatsData.data;
+                  console.log(`Fetched ${seatsData.data.length} seats`);
+                }
+              } else {
+                const errorText = await seatsResponse.text();
+                console.error("Error fetching seats:", {
+                  status: seatsResponse.status,
+                  statusText: seatsResponse.statusText,
+                  body: errorText.substring(0, 200),
+                });
+              }
+            } catch (seatsError) {
+              console.error("Error fetching seats:", seatsError);
+              // Continue without seats - grid will be generated
+            }
+          } else {
+            console.log(`Seat layout already has ${data.seats.length} seats`);
+          }
+        }
+        
         return NextResponse.json(data);
       } else {
         // If not JSON, might be HTML error page
@@ -119,6 +181,7 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+
 
 
 

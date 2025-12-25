@@ -277,3 +277,18 @@ footer {
 .animate-shimmer-sweep {
   animation: shimmer-sweep 2s infinite;
 }
+
+/* Hide scrollbar for mobile date selection */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+/* Touch manipulation for better mobile interaction */
+.touch-manipulation {
+  touch-action: manipulation;
+}

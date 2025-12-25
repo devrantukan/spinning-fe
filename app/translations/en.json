@@ -437,6 +437,7 @@
       "allTypes": "All Types",
       "search": "Search",
       "searchPlaceholder": "Search sessions...",
+      "timeFilter": "Time Filter",
       "allDay": "All Day",
       "am": "AM",
       "pm": "PM"
@@ -497,6 +498,10 @@
       "location": "Location",
       "studio": "Studio",
       "musicGenre": "Music Genre",
+      "workoutType": "Workout Type",
+      "cycling": "Cycling",
+      "spacesLeft": "spaces left",
+      "credits": "Credits",
       "booking": "Booking...",
       "bookNow": "Book Now",
       "notFound": "Session not found"
@@ -507,7 +512,16 @@
       "selected": "Selected",
       "occupied": "Occupied",
       "stage": "Stage / Instructor",
-      "selectedSeats": "Selected Seats"
+      "selectedSeats": "Selected Seats",
+      "selectedSeat": "Selected Seat",
+      "clickToBook": "Click a slot to book into the event",
+      "yourBooking": "Your booking(s)",
+      "taken": "Taken",
+      "podium": "Podium",
+      "column": "Column",
+      "instructor": "Instructor",
+      "exclusive": "Exclusive",
+      "unavailable": "Unavailable"
     },
     "backToClasses": "Back to Classes",
     "booking": {

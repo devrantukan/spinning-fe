@@ -13,6 +13,7 @@ interface AuthModalProps {
   onClose: () => void;
   onLoginSuccess?: () => void;
   redirectAfterLogin?: boolean;
+  initialMode?: "login" | "register";
 }
 
 export default function AuthModal({
@@ -20,8 +21,9 @@ export default function AuthModal({
   onClose,
   onLoginSuccess,
   redirectAfterLogin = true,
+  initialMode = "login",
 }: AuthModalProps) {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(initialMode === "login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -30,6 +32,13 @@ export default function AuthModal({
   const [dobYear, setDobYear] = useState("");
   const [countryCode, setCountryCode] = useState("+90");
   const [mobilePhone, setMobilePhone] = useState("");
+
+  // Update isLogin when initialMode changes
+  useEffect(() => {
+    if (isOpen) {
+      setIsLogin(initialMode === "login");
+    }
+  }, [isOpen, initialMode]);
 
   // Country codes with flags and names - sorted alphabetically
   const countries = [
@@ -600,7 +609,7 @@ export default function AuthModal({
         <div className="bg-white dark:bg-gray-800 rounded-none sm:rounded-lg shadow-xl max-w-md w-full h-full sm:h-auto sm:max-h-[90vh] overflow-y-auto p-4 sm:p-6 md:p-8 relative m-0">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full p-1 transition-colors"
             aria-label="Close"
           >
             <svg

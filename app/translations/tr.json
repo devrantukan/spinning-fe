@@ -437,6 +437,7 @@
       "allTypes": "Tüm Türler",
       "search": "Ara",
       "searchPlaceholder": "Dersleri ara...",
+      "timeFilter": "Zaman Filtresi",
       "allDay": "Tüm Gün",
       "am": "ÖÖ",
       "pm": "ÖS"
@@ -497,6 +498,10 @@
       "location": "Konum",
       "studio": "Stüdyo",
       "musicGenre": "Müzik Türü",
+      "workoutType": "Antrenman Türü",
+      "cycling": "Bisiklet",
+      "spacesLeft": "boş yer kaldı",
+      "credits": "Kredi",
       "booking": "Rezervasyon yapılıyor...",
       "bookNow": "Rezervasyon Yap",
       "notFound": "Ders bulunamadı"
@@ -507,7 +512,16 @@
       "selected": "Seçili",
       "occupied": "Dolu",
       "stage": "Sahne / Eğitmen",
-      "selectedSeats": "Seçili Koltuklar"
+      "selectedSeats": "Seçili Koltuklar",
+      "selectedSeat": "Seçili Koltuk",
+      "clickToBook": "Etkinliğe rezervasyon yapmak için bir slot'a tıklayın",
+      "yourBooking": "Rezervasyonunuz",
+      "taken": "Dolu",
+      "podium": "Podyum",
+      "column": "Kolon",
+      "instructor": "Eğitmen",
+      "exclusive": "Özel",
+      "unavailable": "Müsait Değil"
     },
     "backToClasses": "Derslere Dön",
     "booking": {
