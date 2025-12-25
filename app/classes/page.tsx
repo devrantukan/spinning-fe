@@ -149,9 +149,23 @@ export default function Classes() {
 
         const transformedSessions = rawSessions.map((session: RawSession) => {
           // Extract date from various possible fields (prioritize startTime for date)
+          // For startTime, we need to use the LOCAL date, not the UTC date from the timestamp
           let sessionDate: string | Date | null = null;
           if (session.startTime) {
-            sessionDate = session.startTime as string | Date;
+            // startTime is a UTC timestamp, but we want the local date
+            const startTimeDate = new Date(session.startTime as string);
+            if (!isNaN(startTimeDate.getTime())) {
+              // Create a date string using local date components
+              const year = startTimeDate.getFullYear();
+              const month = String(startTimeDate.getMonth() + 1).padStart(
+                2,
+                "0"
+              );
+              const day = String(startTimeDate.getDate()).padStart(2, "0");
+              sessionDate = `${year}-${month}-${day}`;
+            } else {
+              sessionDate = session.startTime as string | Date;
+            }
           } else if (session.date) {
             sessionDate = session.date as string | Date;
           } else if (session.startDate) {
@@ -256,9 +270,6 @@ export default function Classes() {
                   // Extract the date part (YYYY-MM-DD) and use it directly
                   // This avoids timezone issues by ignoring the time component
                   finalDate = dateMatch[0];
-                  console.log(
-                    `Extracted date from string "${sessionDate}": ${finalDate}`
-                  );
                 } else {
                   // If no date pattern found, try to parse and extract
                   // For ISO strings, use UTC methods to preserve the original date
@@ -278,9 +289,6 @@ export default function Classes() {
                       );
                       const day = String(dateObj.getUTCDate()).padStart(2, "0");
                       finalDate = `${year}-${month}-${day}`;
-                      console.log(
-                        `Extracted UTC date from "${sessionDate}": ${finalDate}`
-                      );
                     } else {
                       // Use local date components for non-ISO strings
                       const year = dateObj.getFullYear();
@@ -290,9 +298,6 @@ export default function Classes() {
                       );
                       const day = String(dateObj.getDate()).padStart(2, "0");
                       finalDate = `${year}-${month}-${day}`;
-                      console.log(
-                        `Extracted local date from "${sessionDate}": ${finalDate}`
-                      );
                     }
                   } else {
                     throw new Error("Invalid date");
@@ -306,7 +311,6 @@ export default function Classes() {
                   const month = String(dateObj.getMonth() + 1).padStart(2, "0");
                   const day = String(dateObj.getDate()).padStart(2, "0");
                   finalDate = `${year}-${month}-${day}`;
-                  console.log(`Extracted date from Date object: ${finalDate}`);
                 } else {
                   throw new Error("Invalid date");
                 }
