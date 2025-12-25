@@ -881,25 +881,6 @@ export default function Classes() {
             {t("classes.quickDateSelection")}
           </p>
           <div className="flex items-center gap-2 w-full">
-            <button
-              onClick={() => {
-                if (isLeftArrowDisabled) return;
-                setCurrentWeekStart((prev) => {
-                  const newDate = new Date(prev);
-                  newDate.setDate(prev.getDate() - 3);
-                  return newDate;
-                });
-              }}
-              disabled={isLeftArrowDisabled}
-              className={`px-3 py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg transition-all font-bold text-lg shadow-sm shrink-0 ${
-                isLeftArrowDisabled
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400"
-              }`}
-              aria-label={t("classes.previousWeek")}
-            >
-              ←
-            </button>
             <div className="flex items-center gap-1 flex-1 w-full">
               {sevenDays.map((date, index) => {
                 const isFirstThree = index < 3;
@@ -977,19 +958,40 @@ export default function Classes() {
                 );
               })}
             </div>
-            <button
-              onClick={() => {
-                setCurrentWeekStart((prev) => {
-                  const newDate = new Date(prev);
-                  newDate.setDate(prev.getDate() + 3);
-                  return newDate;
-                });
-              }}
-              className="px-3 py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400 transition-all font-bold text-lg shadow-sm hover:shadow-md shrink-0"
-              aria-label={t("classes.nextWeek")}
-            >
-              →
-            </button>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                onClick={() => {
+                  if (isLeftArrowDisabled) return;
+                  setCurrentWeekStart((prev) => {
+                    const newDate = new Date(prev);
+                    newDate.setDate(prev.getDate() - 3);
+                    return newDate;
+                  });
+                }}
+                disabled={isLeftArrowDisabled}
+                className={`px-3 py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg transition-all font-bold text-lg shadow-sm shrink-0 ${
+                  isLeftArrowDisabled
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400"
+                }`}
+                aria-label={t("classes.previousWeek")}
+              >
+                ←
+              </button>
+              <button
+                onClick={() => {
+                  setCurrentWeekStart((prev) => {
+                    const newDate = new Date(prev);
+                    newDate.setDate(prev.getDate() + 3);
+                    return newDate;
+                  });
+                }}
+                className="px-3 py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400 transition-all font-bold text-lg shadow-sm hover:shadow-md shrink-0"
+                aria-label={t("classes.nextWeek")}
+              >
+                →
+              </button>
+            </div>
           </div>
         </div>
 
@@ -1054,12 +1056,24 @@ export default function Classes() {
                           "november",
                           "december",
                         ];
-                        const daySuffixes = ["th", "st", "nd", "rd"];
                         const dayNum = sessionDate.getDate();
-                        const daySuffix =
-                          dayNum % 10 <= 3 && dayNum % 100 > 10
-                            ? daySuffixes[dayNum % 10] || "th"
-                            : "th";
+                        // Get day suffix - 11th, 12th, 13th are special cases
+                        let daySuffix;
+                        const lastTwoDigits = dayNum % 100;
+                        const lastDigit = dayNum % 10;
+
+                        if (lastTwoDigits >= 11 && lastTwoDigits <= 13) {
+                          daySuffix = t("classes.daySuffix.th") || "th";
+                        } else if (lastDigit === 1) {
+                          daySuffix = t("classes.daySuffix.st") || "st";
+                        } else if (lastDigit === 2) {
+                          daySuffix = t("classes.daySuffix.nd") || "nd";
+                        } else if (lastDigit === 3) {
+                          daySuffix = t("classes.daySuffix.rd") || "rd";
+                        } else {
+                          daySuffix = t("classes.daySuffix.th") || "th";
+                        }
+
                         const formattedDate = `${t(
                           `classes.days.${dayKeys[sessionDate.getDay()]}`
                         )} ${dayNum}${daySuffix} ${t(
@@ -1120,8 +1134,12 @@ export default function Classes() {
                                   ).toUpperCase()}
                                 </span>
                               </p>
-                              <p>Time {formattedTime}</p>
-                              <p>Date {formattedDate}</p>
+                              <p>
+                                {t("classes.session.time")} {formattedTime}
+                              </p>
+                              <p>
+                                {t("classes.session.date")} {formattedDate}
+                              </p>
                               <p>
                                 {t("classes.session.duration")}{" "}
                                 {session.duration}{" "}
@@ -1133,9 +1151,16 @@ export default function Classes() {
                                   {session.location}
                                 </p>
                               )}
-                              {session.studio && <p>Studio {session.studio}</p>}
+                              {session.studio && (
+                                <p>
+                                  {t("classes.session.studio")} {session.studio}
+                                </p>
+                              )}
                               {session.musicGenre && (
-                                <p>Music Genre {session.musicGenre}</p>
+                                <p>
+                                  {t("classes.session.musicGenre")}{" "}
+                                  {session.musicGenre}
+                                </p>
                               )}
                             </div>
                             <button
