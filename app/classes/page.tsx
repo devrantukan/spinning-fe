@@ -256,18 +256,44 @@ export default function Classes() {
                   // Extract the date part (YYYY-MM-DD) and use it directly
                   // This avoids timezone issues by ignoring the time component
                   finalDate = dateMatch[0];
+                  console.log(
+                    `Extracted date from string "${sessionDate}": ${finalDate}`
+                  );
                 } else {
                   // If no date pattern found, try to parse and extract
+                  // For ISO strings, use UTC methods to preserve the original date
                   const dateObj = new Date(sessionDate);
                   if (!isNaN(dateObj.getTime())) {
-                    // Use local date components
-                    const year = dateObj.getFullYear();
-                    const month = String(dateObj.getMonth() + 1).padStart(
-                      2,
-                      "0"
-                    );
-                    const day = String(dateObj.getDate()).padStart(2, "0");
-                    finalDate = `${year}-${month}-${day}`;
+                    // Check if it's an ISO string with timezone info
+                    if (
+                      sessionDate.includes("T") ||
+                      sessionDate.includes("Z") ||
+                      /[+-]\d{2}:\d{2}$/.test(sessionDate)
+                    ) {
+                      // Use UTC methods to get the date from the ISO string
+                      const year = dateObj.getUTCFullYear();
+                      const month = String(dateObj.getUTCMonth() + 1).padStart(
+                        2,
+                        "0"
+                      );
+                      const day = String(dateObj.getUTCDate()).padStart(2, "0");
+                      finalDate = `${year}-${month}-${day}`;
+                      console.log(
+                        `Extracted UTC date from "${sessionDate}": ${finalDate}`
+                      );
+                    } else {
+                      // Use local date components for non-ISO strings
+                      const year = dateObj.getFullYear();
+                      const month = String(dateObj.getMonth() + 1).padStart(
+                        2,
+                        "0"
+                      );
+                      const day = String(dateObj.getDate()).padStart(2, "0");
+                      finalDate = `${year}-${month}-${day}`;
+                      console.log(
+                        `Extracted local date from "${sessionDate}": ${finalDate}`
+                      );
+                    }
                   } else {
                     throw new Error("Invalid date");
                   }
@@ -280,6 +306,7 @@ export default function Classes() {
                   const month = String(dateObj.getMonth() + 1).padStart(2, "0");
                   const day = String(dateObj.getDate()).padStart(2, "0");
                   finalDate = `${year}-${month}-${day}`;
+                  console.log(`Extracted date from Date object: ${finalDate}`);
                 } else {
                   throw new Error("Invalid date");
                 }
