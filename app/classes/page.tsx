@@ -754,8 +754,8 @@ export default function Classes() {
         </div>
 
         {/* Filter Controls */}
-        <div className="flex flex-wrap items-end gap-4 mb-6 justify-between">
-          <div className="flex flex-col min-w-[180px]">
+        <div className="flex flex-wrap items-end gap-4 mb-6">
+          <div className="flex flex-col min-w-[160px]">
             <label
               htmlFor="instructor-select"
               className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5"
@@ -787,7 +787,7 @@ export default function Classes() {
             </select>
           </div>
 
-          <div className="flex flex-col min-w-[180px]">
+          <div className="flex flex-col min-w-[160px]">
             <label
               htmlFor="workout-type-select"
               className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5"
@@ -819,7 +819,7 @@ export default function Classes() {
             </select>
           </div>
 
-          <div className="flex flex-col min-w-[200px] flex-1 max-w-md">
+          <div className="flex flex-col min-w-[200px] flex-1">
             <label
               htmlFor="search-input"
               className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5"
@@ -840,7 +840,7 @@ export default function Classes() {
             <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 invisible">
               Time Filter
             </label>
-            <div className="flex gap-2 ml-auto">
+            <div className="flex gap-2">
               <button
                 onClick={() => setTimeFilter("all")}
                 className={`h-10 px-4 rounded-lg font-medium transition-colors ${
@@ -880,8 +880,27 @@ export default function Classes() {
           <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
             {t("classes.quickDateSelection")}
           </p>
-          <div className="flex items-center gap-2 pb-2 relative max-w-full overflow-x-auto">
-            <div className="flex items-center gap-2 relative">
+          <div className="flex items-center gap-2 w-full">
+            <button
+              onClick={() => {
+                if (isLeftArrowDisabled) return;
+                setCurrentWeekStart((prev) => {
+                  const newDate = new Date(prev);
+                  newDate.setDate(prev.getDate() - 3);
+                  return newDate;
+                });
+              }}
+              disabled={isLeftArrowDisabled}
+              className={`px-3 py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg transition-all font-bold text-lg shadow-sm shrink-0 ${
+                isLeftArrowDisabled
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400"
+              }`}
+              aria-label={t("classes.previousWeek")}
+            >
+              ←
+            </button>
+            <div className="flex items-center gap-2 flex-1 justify-center overflow-x-auto">
               {sevenDays.map((date, index) => {
                 const isFirstThree = index < 3;
                 const isSeventh = index === 6;
@@ -923,7 +942,7 @@ export default function Classes() {
                       newStartDate.setHours(0, 0, 0, 0);
                       setCurrentWeekStart(newStartDate);
                     }}
-                    className={`flex flex-col items-center justify-center rounded-lg font-medium whitespace-nowrap shadow-md shrink-0 transition-all cursor-pointer min-w-[60px] py-3 ${
+                    className={`flex flex-col items-center justify-center rounded-lg font-medium whitespace-nowrap shadow-md shrink-0 transition-all cursor-pointer min-w-[60px] py-3 flex-1 max-w-[100px] ${
                       isFirstThree
                         ? "bg-orange-500 text-white hover:bg-orange-600"
                         : "bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-2 border-gray-300 dark:border-gray-600 hover:border-orange-400 dark:hover:border-orange-500 hover:bg-gray-50 dark:hover:bg-gray-700"
@@ -958,25 +977,6 @@ export default function Classes() {
                 );
               })}
             </div>
-            <button
-              onClick={() => {
-                if (isLeftArrowDisabled) return;
-                setCurrentWeekStart((prev) => {
-                  const newDate = new Date(prev);
-                  newDate.setDate(prev.getDate() - 3);
-                  return newDate;
-                });
-              }}
-              disabled={isLeftArrowDisabled}
-              className={`px-3 py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg transition-all font-bold text-lg shadow-sm shrink-0 ${
-                isLeftArrowDisabled
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400"
-              }`}
-              aria-label={t("classes.previousWeek")}
-            >
-              ←
-            </button>
             <button
               onClick={() => {
                 setCurrentWeekStart((prev) => {
