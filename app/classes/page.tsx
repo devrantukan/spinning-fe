@@ -806,7 +806,7 @@ export default function Classes() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 pt-20 pb-12">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 max-w-7xl">
         {/* Booking Message */}
         {bookingMessage && (
           <div
@@ -1203,17 +1203,17 @@ export default function Classes() {
                         return (
                           <div
                             key={session.id}
-                            className="bg-[#1a1a1a] dark:bg-[#222222] text-white dark:text-gray-100 rounded-lg p-4 md:p-5 shadow-lg hover:shadow-xl transition-all border border-gray-800 dark:border-gray-700"
+                            className="bg-[#222222] dark:bg-gray-800 text-gray-100 dark:text-gray-100 rounded-lg p-4 md:p-5 shadow-lg hover:shadow-xl transition-all"
                           >
-                            <h4 className="text-base md:text-lg font-bold mb-2 md:mb-3 text-white dark:text-gray-100 uppercase tracking-wide">
+                            <h4 className="text-base md:text-lg font-bold mb-2 md:mb-3 text-gray-100 dark:text-gray-100 uppercase tracking-wide">
                               {language === "tr" && session.titleTr
                                 ? session.titleTr
                                 : session.title}
                             </h4>
-                            <div className="space-y-1.5 md:space-y-2 text-xs md:text-sm text-gray-300 dark:text-gray-200 mb-3 md:mb-4">
+                            <div className="space-y-1.5 md:space-y-2 text-xs md:text-sm text-gray-200 dark:text-gray-300 mb-3 md:mb-4">
                               <p className="text-gray-300 dark:text-gray-300">
                                 {t("classes.session.with")}{" "}
-                                <span className="font-semibold">
+                                <span className="font-semibold text-gray-200 dark:text-gray-200">
                                   {getInstructorName(
                                     session.instructor as
                                       | string
