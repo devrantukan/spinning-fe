@@ -804,6 +804,160 @@ export default function Classes() {
     return weekStart <= today;
   })();
 
+  // Helper function to render a session card
+  const renderSessionCard = (session: Session) => {
+    // Format date for display - use local date parsing to avoid timezone issues
+    let sessionDate: Date;
+    if (typeof session.date === "string") {
+      // If it's a date string like "2024-12-27", parse it as local date
+      const dateParts = session.date.split("T")[0].split("-");
+      if (dateParts.length === 3) {
+        sessionDate = new Date(
+          parseInt(dateParts[0]),
+          parseInt(dateParts[1]) - 1,
+          parseInt(dateParts[2])
+        );
+      } else {
+        sessionDate = new Date(session.date);
+      }
+    } else {
+      sessionDate = new Date(session.date);
+    }
+
+    const dayKeys = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+    const monthKeysLong = [
+      "january",
+      "february",
+      "march",
+      "april",
+      "may",
+      "june",
+      "july",
+      "august",
+      "september",
+      "october",
+      "november",
+      "december",
+    ];
+    const dayNum = sessionDate.getDate();
+    // Get day suffix - 11th, 12th, 13th are special cases
+    let daySuffix;
+    const lastTwoDigits = dayNum % 100;
+    const lastDigit = dayNum % 10;
+
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 13) {
+      daySuffix = t("classes.daySuffix.th") || "th";
+    } else if (lastDigit === 1) {
+      daySuffix = t("classes.daySuffix.st") || "st";
+    } else if (lastDigit === 2) {
+      daySuffix = t("classes.daySuffix.nd") || "nd";
+    } else if (lastDigit === 3) {
+      daySuffix = t("classes.daySuffix.rd") || "rd";
+    } else {
+      daySuffix = t("classes.daySuffix.th") || "th";
+    }
+
+    const formattedDate = `${t(
+      `classes.days.${dayKeys[sessionDate.getDay()]}`
+    )} ${dayNum}${daySuffix} ${t(
+      `classes.months.long.${monthKeysLong[sessionDate.getMonth()]}`
+    )} ${sessionDate.getFullYear()}`;
+
+    // Format time
+    const timeMatch = session.time.match(/(\d{1,2}):?(\d{2})?\s*(am|pm)?/i);
+    let formattedTime = session.time;
+    if (timeMatch) {
+      let hours = parseInt(timeMatch[1]);
+      const minutes = timeMatch[2] || "00";
+      const period = timeMatch[3]?.toLowerCase();
+      if (period === "pm" && hours !== 12) hours += 12;
+      if (period === "am" && hours === 12) hours = 0;
+      const displayHours = hours % 12 || 12;
+      const periodText =
+        period ||
+        (hours >= 12
+          ? t("classes.filters.pm").toLowerCase()
+          : t("classes.filters.am").toLowerCase());
+      formattedTime = `${displayHours}:${minutes.padStart(
+        2,
+        "0"
+      )} ${periodText}`;
+    }
+
+    return (
+      <div
+        key={session.id}
+        className="bg-[#222222] dark:bg-gray-800 text-gray-100 dark:text-gray-100 rounded-lg p-4 md:p-5 shadow-lg hover:shadow-xl transition-all"
+      >
+        <h4 className="text-base md:text-lg font-bold mb-2 md:mb-3 text-gray-100 dark:text-gray-100 uppercase tracking-wide">
+          {language === "tr" && session.titleTr
+            ? session.titleTr
+            : session.title}
+        </h4>
+        <div className="space-y-1.5 md:space-y-2 text-xs md:text-sm text-gray-200 dark:text-gray-300 mb-3 md:mb-4">
+          <p className="text-gray-300 dark:text-gray-300">
+            {t("classes.session.with")}{" "}
+            <span className="font-semibold text-gray-200 dark:text-gray-200">
+              {getInstructorName(
+                session.instructor as
+                  | string
+                  | {
+                      id?: string;
+                      name?: string;
+                      user?: { name?: string; email?: string };
+                    }
+                  | null
+                  | undefined,
+                t("classes.session.unknownInstructor")
+              ).toUpperCase()}
+            </span>
+          </p>
+          <p className="text-gray-300 dark:text-gray-300">
+            {t("classes.session.time")} {formattedTime}
+          </p>
+          <p className="text-gray-300 dark:text-gray-300">
+            {t("classes.session.date")} {formattedDate}
+          </p>
+          <p className="text-gray-300 dark:text-gray-300">
+            {t("classes.session.duration")} {session.duration}{" "}
+            {t("classes.session.minutes")}
+          </p>
+          {session.location && (
+            <p className="text-gray-300 dark:text-gray-300">
+              {t("classes.session.location")} {session.location}
+            </p>
+          )}
+          {session.studio && (
+            <p className="text-gray-300 dark:text-gray-300">
+              {t("classes.session.studio")} {session.studio}
+            </p>
+          )}
+          {session.musicGenre && (
+            <p className="text-gray-300 dark:text-gray-300">
+              {t("classes.session.musicGenre")}{" "}
+              {language === "tr" && session.musicGenreTr
+                ? session.musicGenreTr
+                : session.musicGenre}
+            </p>
+          )}
+        </div>
+        <button
+          onClick={() => handleBookNow(session)}
+          disabled={bookingSessionId === session.id}
+          className={`mt-2 md:mt-3 w-full px-4 py-2.5 md:py-3 text-xs md:text-sm font-bold rounded-lg transition-colors uppercase tracking-wide ${
+            bookingSessionId === session.id
+              ? "bg-gray-600 text-white cursor-not-allowed"
+              : "bg-orange-500 text-white hover:bg-orange-600"
+          }`}
+        >
+          {bookingSessionId === session.id
+            ? t("classes.session.booking")
+            : t("classes.session.bookNow") || "BOOK NOW"}
+        </button>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 pt-20 pb-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 max-w-7xl">
@@ -914,8 +1068,8 @@ export default function Classes() {
           </div>
 
           <div className="flex flex-col w-full md:w-auto">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 invisible md:visible md:h-0">
-              Time Filter
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 hidden md:block">
+              {t("classes.filters.timeFilter") || "Time Filter"}
             </label>
             <div className="flex gap-2">
               <button
@@ -1093,191 +1247,64 @@ export default function Classes() {
                         {t("classes.noSessions")}
                       </p>
                     ) : (
-                      daySessions.map((session) => {
-                        // Format date for display - use local date parsing to avoid timezone issues
-                        let sessionDate: Date;
-                        if (typeof session.date === "string") {
-                          // If it's a date string like "2024-12-27", parse it as local date
-                          const dateParts = session.date
-                            .split("T")[0]
-                            .split("-");
-                          if (dateParts.length === 3) {
-                            sessionDate = new Date(
-                              parseInt(dateParts[0]),
-                              parseInt(dateParts[1]) - 1,
-                              parseInt(dateParts[2])
-                            );
+                      (() => {
+                        // Group sessions by AM/PM
+                        const amSessions: Session[] = [];
+                        const pmSessions: Session[] = [];
+
+                        daySessions.forEach((session) => {
+                          const timeMatch = session.time.match(
+                            /(\d{1,2}):?(\d{2})?\s*(am|pm)?/i
+                          );
+                          let hours = 12;
+                          if (timeMatch) {
+                            hours = parseInt(timeMatch[1]);
+                            const period = timeMatch[3]?.toLowerCase();
+                            if (period === "pm" && hours !== 12) hours += 12;
+                            if (period === "am" && hours === 12) hours = 0;
                           } else {
-                            sessionDate = new Date(session.date);
+                            // Try to parse time string as HH:mm
+                            const timeParts = session.time.split(":");
+                            if (timeParts.length >= 1) {
+                              hours = parseInt(timeParts[0]) || 12;
+                            }
                           }
-                        } else {
-                          sessionDate = new Date(session.date);
-                        }
 
-                        const dayKeys = [
-                          "sun",
-                          "mon",
-                          "tue",
-                          "wed",
-                          "thu",
-                          "fri",
-                          "sat",
-                        ];
-                        const monthKeys = [
-                          "jan",
-                          "feb",
-                          "mar",
-                          "apr",
-                          "may",
-                          "jun",
-                          "jul",
-                          "aug",
-                          "sep",
-                          "oct",
-                          "nov",
-                          "dec",
-                        ];
-                        const monthKeysLong = [
-                          "january",
-                          "february",
-                          "march",
-                          "april",
-                          "may",
-                          "june",
-                          "july",
-                          "august",
-                          "september",
-                          "october",
-                          "november",
-                          "december",
-                        ];
-                        const dayNum = sessionDate.getDate();
-                        // Get day suffix - 11th, 12th, 13th are special cases
-                        let daySuffix;
-                        const lastTwoDigits = dayNum % 100;
-                        const lastDigit = dayNum % 10;
-
-                        if (lastTwoDigits >= 11 && lastTwoDigits <= 13) {
-                          daySuffix = t("classes.daySuffix.th") || "th";
-                        } else if (lastDigit === 1) {
-                          daySuffix = t("classes.daySuffix.st") || "st";
-                        } else if (lastDigit === 2) {
-                          daySuffix = t("classes.daySuffix.nd") || "nd";
-                        } else if (lastDigit === 3) {
-                          daySuffix = t("classes.daySuffix.rd") || "rd";
-                        } else {
-                          daySuffix = t("classes.daySuffix.th") || "th";
-                        }
-
-                        const formattedDate = `${t(
-                          `classes.days.${dayKeys[sessionDate.getDay()]}`
-                        )} ${dayNum}${daySuffix} ${t(
-                          `classes.months.long.${
-                            monthKeysLong[sessionDate.getMonth()]
-                          }`
-                        )} ${sessionDate.getFullYear()}`;
-
-                        // Format time
-                        const timeMatch = session.time.match(
-                          /(\d{1,2}):?(\d{2})?\s*(am|pm)?/i
-                        );
-                        let formattedTime = session.time;
-                        if (timeMatch) {
-                          let hours = parseInt(timeMatch[1]);
-                          const minutes = timeMatch[2] || "00";
-                          const period = timeMatch[3]?.toLowerCase();
-                          if (period === "pm" && hours !== 12) hours += 12;
-                          if (period === "am" && hours === 12) hours = 0;
-                          const displayHours = hours % 12 || 12;
-                          const periodText =
-                            period ||
-                            (hours >= 12
-                              ? t("classes.filters.pm").toLowerCase()
-                              : t("classes.filters.am").toLowerCase());
-                          formattedTime = `${displayHours}:${minutes.padStart(
-                            2,
-                            "0"
-                          )} ${periodText}`;
-                        }
+                          if (hours < 12) {
+                            amSessions.push(session);
+                          } else {
+                            pmSessions.push(session);
+                          }
+                        });
 
                         return (
-                          <div
-                            key={session.id}
-                            className="bg-[#222222] dark:bg-gray-800 text-gray-100 dark:text-gray-100 rounded-lg p-4 md:p-5 shadow-lg hover:shadow-xl transition-all"
-                          >
-                            <h4 className="text-base md:text-lg font-bold mb-2 md:mb-3 text-gray-100 dark:text-gray-100 uppercase tracking-wide">
-                              {language === "tr" && session.titleTr
-                                ? session.titleTr
-                                : session.title}
-                            </h4>
-                            <div className="space-y-1.5 md:space-y-2 text-xs md:text-sm text-gray-200 dark:text-gray-300 mb-3 md:mb-4">
-                              <p className="text-gray-300 dark:text-gray-300">
-                                {t("classes.session.with")}{" "}
-                                <span className="font-semibold text-gray-200 dark:text-gray-200">
-                                  {getInstructorName(
-                                    session.instructor as
-                                      | string
-                                      | {
-                                          id?: string;
-                                          name?: string;
-                                          user?: {
-                                            name?: string;
-                                            email?: string;
-                                          };
-                                        }
-                                      | null
-                                      | undefined,
-                                    t("classes.session.unknownInstructor")
-                                  ).toUpperCase()}
-                                </span>
-                              </p>
-                              <p className="text-gray-300 dark:text-gray-300">
-                                {t("classes.session.time")} {formattedTime}
-                              </p>
-                              <p className="text-gray-300 dark:text-gray-300">
-                                {t("classes.session.date")} {formattedDate}
-                              </p>
-                              <p className="text-gray-300 dark:text-gray-300">
-                                {t("classes.session.duration")}{" "}
-                                {session.duration}{" "}
-                                {t("classes.session.minutes")}
-                              </p>
-                              {session.location && (
-                                <p className="text-gray-300 dark:text-gray-300">
-                                  {t("classes.session.location")}{" "}
-                                  {session.location}
-                                </p>
-                              )}
-                              {session.studio && (
-                                <p className="text-gray-300 dark:text-gray-300">
-                                  {t("classes.session.studio")} {session.studio}
-                                </p>
-                              )}
-                              {session.musicGenre && (
-                                <p className="text-gray-300 dark:text-gray-300">
-                                  {t("classes.session.musicGenre")}{" "}
-                                  {language === "tr" && session.musicGenreTr
-                                    ? session.musicGenreTr
-                                    : session.musicGenre}
-                                </p>
-                              )}
-                            </div>
-                            <button
-                              onClick={() => handleBookNow(session)}
-                              disabled={bookingSessionId === session.id}
-                              className={`mt-2 md:mt-3 w-full px-4 py-2.5 md:py-3 text-xs md:text-sm font-bold rounded-lg transition-colors uppercase tracking-wide ${
-                                bookingSessionId === session.id
-                                  ? "bg-gray-600 text-white cursor-not-allowed"
-                                  : "bg-orange-500 text-white hover:bg-orange-600"
-                              }`}
-                            >
-                              {bookingSessionId === session.id
-                                ? t("classes.session.booking")
-                                : t("classes.session.bookNow") || "BOOK NOW"}
-                            </button>
-                          </div>
+                          <>
+                            {/* AM Sessions Row */}
+                            {amSessions.length > 0 && (
+                              <div className="space-y-3 md:space-y-4">
+                                <h4 className="text-sm md:text-base font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+                                  {t("classes.filters.am")}
+                                </h4>
+                                {amSessions.map((session) =>
+                                  renderSessionCard(session)
+                                )}
+                              </div>
+                            )}
+
+                            {/* PM Sessions Row */}
+                            {pmSessions.length > 0 && (
+                              <div className="space-y-3 md:space-y-4">
+                                <h4 className="text-sm md:text-base font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+                                  {t("classes.filters.pm")}
+                                </h4>
+                                {pmSessions.map((session) =>
+                                  renderSessionCard(session)
+                                )}
+                              </div>
+                            )}
+                          </>
                         );
-                      })
+                      })()
                     )}
                   </div>
                 </div>
