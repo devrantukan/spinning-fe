@@ -106,16 +106,18 @@ export default function Classes() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [timeFilter, setTimeFilter] = useState<"all" | "am" | "pm">("all");
   const [currentWeekStart, setCurrentWeekStart] = useState<Date>(() => {
-    // Try to restore from sessionStorage first
-    const savedWeekStart = sessionStorage.getItem("selectedWeekStart");
-    if (savedWeekStart) {
-      try {
-        const weekStartDate = new Date(savedWeekStart);
-        if (!isNaN(weekStartDate.getTime())) {
-          return weekStartDate;
+    // Try to restore from sessionStorage first (only in browser)
+    if (typeof window !== "undefined") {
+      const savedWeekStart = sessionStorage.getItem("selectedWeekStart");
+      if (savedWeekStart) {
+        try {
+          const weekStartDate = new Date(savedWeekStart);
+          if (!isNaN(weekStartDate.getTime())) {
+            return weekStartDate;
+          }
+        } catch (e) {
+          console.error("Error parsing saved week start:", e);
         }
-      } catch (e) {
-        console.error("Error parsing saved week start:", e);
       }
     }
     // Default to current week
@@ -127,6 +129,8 @@ export default function Classes() {
 
   // Scroll to quick date selection when returning from session detail
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const hash = window.location.hash;
     if (hash === "#quick-date-selection") {
       // Restore the selected week from sessionStorage if not already restored
@@ -163,7 +167,12 @@ export default function Classes() {
 
   // Persist currentWeekStart to sessionStorage whenever it changes
   useEffect(() => {
-    sessionStorage.setItem("selectedWeekStart", currentWeekStart.toISOString());
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem(
+        "selectedWeekStart",
+        currentWeekStart.toISOString()
+      );
+    }
   }, [currentWeekStart]);
 
   // Fetch sessions from API
@@ -849,7 +858,12 @@ export default function Classes() {
 
   async function handleBookNow(session: Session) {
     // Store the current week start before navigating
-    sessionStorage.setItem("selectedWeekStart", currentWeekStart.toISOString());
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem(
+        "selectedWeekStart",
+        currentWeekStart.toISOString()
+      );
+    }
     // Redirect to session detail page - public access, no login required
     router.push(`/classes/${session.id}`);
   }

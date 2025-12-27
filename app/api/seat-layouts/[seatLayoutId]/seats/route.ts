@@ -5,7 +5,7 @@ const TENANT_BE_URL = process.env.TENANT_ADMIN_URL || "http://localhost:3001";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { seatLayoutId: string } }
+  { params }: { params: Promise<{ seatLayoutId: string }> }
 ) {
   try {
     // Seats should be publicly viewable
@@ -30,7 +30,7 @@ export async function GET(
       headers["X-Organization-Id"] = organizationId;
     }
 
-    const seatLayoutId = params.seatLayoutId;
+    const { seatLayoutId } = await params;
 
     if (!seatLayoutId) {
       return NextResponse.json(
@@ -46,7 +46,9 @@ export async function GET(
     }
 
     // Build URL with query parameters
-    const seatsUrl = `${TENANT_BE_URL}/api/seat-layouts/${seatLayoutId}/seats${queryParams.toString() ? `?${queryParams.toString()}` : ""}`;
+    const seatsUrl = `${TENANT_BE_URL}/api/seat-layouts/${seatLayoutId}/seats${
+      queryParams.toString() ? `?${queryParams.toString()}` : ""
+    }`;
     console.log("Fetching seats from:", seatsUrl);
 
     // Try with auth first
@@ -70,7 +72,7 @@ export async function GET(
       // Check if response is JSON
       if (contentType && contentType.includes("application/json")) {
         const data = await response.json();
-        
+
         // Handle different response formats
         if (Array.isArray(data)) {
           return NextResponse.json(data);
@@ -138,4 +140,3 @@ export async function GET(
     );
   }
 }
-

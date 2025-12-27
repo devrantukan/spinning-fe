@@ -191,6 +191,27 @@ function generateSeatLayoutFromData(seatLayoutData: SeatLayout | null): Seat[] {
     return "normal";
   };
 
+  // Helper function to normalize seat status to valid literal types
+  const normalizeSeatStatus = (
+    status: string | undefined
+  ): "available" | "occupied" | "selected" | "unavailable" => {
+    if (!status) return "available";
+    const statusLower = status.toLowerCase();
+    if (statusLower === "active" || statusLower === "available") {
+      return "available";
+    }
+    if (statusLower === "inactive" || statusLower === "occupied") {
+      return "occupied";
+    }
+    if (statusLower === "selected") {
+      return "selected";
+    }
+    if (statusLower === "unavailable") {
+      return "unavailable";
+    }
+    return "available";
+  };
+
   // Create a map of seats from API by position
   const seatMapByPosition = new Map<string, any>();
   if (seatLayoutData?.seats && Array.isArray(seatLayoutData.seats)) {
@@ -223,14 +244,7 @@ function generateSeatLayoutFromData(seatLayoutData: SeatLayout | null): Seat[] {
               ? parseInt(seatNumber, 10) || col
               : seatNumber,
           column: col,
-          status:
-            seatData.status === "active"
-              ? "available"
-              : seatData.status === "inactive"
-              ? "occupied"
-              : seatData.status === "occupied"
-              ? "occupied"
-              : seatData.status || "available",
+          status: normalizeSeatStatus(seatData.status),
           type: normalizeSeatType(seatData.type),
           label: seatData.label,
           creditCost: seatData.creditCost,
@@ -278,14 +292,7 @@ function generateSeatLayoutFromData(seatLayoutData: SeatLayout | null): Seat[] {
               ? parseInt(seatNumber, 10) || column
               : seatNumber,
           column: column,
-          status:
-            seatData.status === "active"
-              ? "available"
-              : seatData.status === "inactive"
-              ? "occupied"
-              : seatData.status === "occupied"
-              ? "occupied"
-              : seatData.status || "available",
+          status: normalizeSeatStatus(seatData.status),
           type: normalizeSeatType(seatData.type),
           label: seatData.label,
           creditCost: seatData.creditCost,
@@ -732,30 +739,32 @@ export default function SessionDetailPage() {
 
           // Restore selected seat from sessionStorage if user was redirected from login
           // Only restore the first seat (one seat per member)
-          const storedSeats = sessionStorage.getItem("selectedSeats");
-          const storedSessionId = sessionStorage.getItem("sessionId");
-          if (storedSeats && storedSessionId === sessionId) {
-            try {
-              const parsedSeats = JSON.parse(storedSeats);
-              if (Array.isArray(parsedSeats) && parsedSeats.length > 0) {
-                // Only take the first seat (one seat per member)
-                const firstSeat = parsedSeats[0];
-                setSelectedSeats([firstSeat]);
-                // Update seat status to selected
-                setSeats((prev) =>
-                  prev.map((seat) => {
-                    if (seat.id === firstSeat) {
-                      return { ...seat, status: "selected" };
-                    } else if (seat.status === "selected") {
-                      // Deselect any other selected seats
-                      return { ...seat, status: "available" };
-                    }
-                    return seat;
-                  })
-                );
+          if (typeof window !== "undefined") {
+            const storedSeats = sessionStorage.getItem("selectedSeats");
+            const storedSessionId = sessionStorage.getItem("sessionId");
+            if (storedSeats && storedSessionId === sessionId) {
+              try {
+                const parsedSeats = JSON.parse(storedSeats);
+                if (Array.isArray(parsedSeats) && parsedSeats.length > 0) {
+                  // Only take the first seat (one seat per member)
+                  const firstSeat = parsedSeats[0];
+                  setSelectedSeats([firstSeat]);
+                  // Update seat status to selected
+                  setSeats((prev) =>
+                    prev.map((seat) => {
+                      if (seat.id === firstSeat) {
+                        return { ...seat, status: "selected" };
+                      } else if (seat.status === "selected") {
+                        // Deselect any other selected seats
+                        return { ...seat, status: "available" };
+                      }
+                      return seat;
+                    })
+                  );
+                }
+              } catch (e) {
+                console.error("Error parsing stored seats:", e);
               }
-            } catch (e) {
-              console.error("Error parsing stored seats:", e);
             }
           }
         } else {
@@ -897,7 +906,7 @@ export default function SessionDetailPage() {
       return;
     }
 
-    setSeats((prev) => {
+    setSeats((prev): Seat[] => {
       const clickedSeat = prev.find((seat) => seat.id === seatId);
 
       // Only allow selection of normal and exclusive seats
@@ -908,21 +917,24 @@ export default function SessionDetailPage() {
       // If clicking on an already selected seat, deselect it
       if (clickedSeat?.status === "selected") {
         setSelectedSeats([]);
-        return prev.map((seat) =>
-          seat.id === seatId ? { ...seat, status: "available" } : seat
-        );
+        return prev.map((seat): Seat => {
+          if (seat.id === seatId) {
+            return { ...seat, status: "available" as "available" };
+          }
+          return seat;
+        });
       }
 
       // If clicking on an available seat
       if (clickedSeat?.status === "available") {
         // Deselect any previously selected seat (only one seat allowed)
-        const updatedSeats = prev.map((seat) => {
+        const updatedSeats: Seat[] = prev.map((seat): Seat => {
           if (seat.id === seatId) {
             // Select the clicked seat
-            return { ...seat, status: "selected" };
+            return { ...seat, status: "selected" as "selected" };
           } else if (seat.status === "selected") {
             // Deselect any previously selected seat
-            return { ...seat, status: "available" };
+            return { ...seat, status: "available" as "available" };
           }
           return seat;
         });
@@ -940,7 +952,7 @@ export default function SessionDetailPage() {
     // Check if user is logged in
     if (!user) {
       // Store selected seats in sessionStorage and open auth modal
-      if (selectedSeats.length > 0) {
+      if (selectedSeats.length > 0 && typeof window !== "undefined") {
         sessionStorage.setItem("selectedSeats", JSON.stringify(selectedSeats));
         sessionStorage.setItem("sessionId", sessionId);
       }
@@ -1054,8 +1066,10 @@ export default function SessionDetailPage() {
 
       if (response.ok) {
         // Clear stored seats
-        sessionStorage.removeItem("selectedSeats");
-        sessionStorage.removeItem("sessionId");
+        if (typeof window !== "undefined") {
+          sessionStorage.removeItem("selectedSeats");
+          sessionStorage.removeItem("sessionId");
+        }
 
         // Show success toast
         setToast({
