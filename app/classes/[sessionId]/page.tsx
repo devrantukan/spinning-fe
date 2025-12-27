@@ -47,6 +47,7 @@ interface SeatLayout {
 interface Session {
   id: string;
   title: string;
+  titleTr?: string;
   instructor:
     | string
     | { id?: string; name?: string; user?: { name?: string; email?: string } };
@@ -56,6 +57,7 @@ interface Session {
   location: string | LocationObject;
   studio: string;
   musicGenre?: string;
+  musicGenreTr?: string;
   workoutType?: string;
   maxCapacity?: number;
   currentBookings?: number;
@@ -82,14 +84,14 @@ function toUpperCaseTurkish(text: string): string {
   // Convert to lowercase, handling Turkish characters properly
   // First, manually convert Turkish uppercase characters to their lowercase equivalents
   normalized = normalized
-    .replace(/İ/g, "i")  // Turkish İ -> lowercase i (dotted)
-    .replace(/I/g, "ı")  // Regular I -> dotless ı
+    .replace(/İ/g, "i") // Turkish İ -> lowercase i (dotted)
+    .replace(/I/g, "ı") // Regular I -> dotless ı
     .toLowerCase();
 
   // Turkish uppercase mappings
   const turkishUpper: Record<string, string> = {
-    ı: "I",  // dotless i -> regular I
-    i: "İ",  // dotted i -> Turkish İ
+    ı: "I", // dotless i -> regular I
+    i: "İ", // dotted i -> Turkish İ
     ş: "Ş",
     ğ: "Ğ",
     ü: "Ü",
@@ -147,7 +149,7 @@ function generateSeatLayoutFromData(seatLayoutData: SeatLayout | null): Seat[] {
   }
 
   const seats: Seat[] = [];
-  
+
   // Generate row labels (A, B, C, etc.)
   const rows = Array.from({ length: gridRows }, (_, i) =>
     String.fromCharCode(65 + i)
@@ -168,11 +170,23 @@ function generateSeatLayoutFromData(seatLayoutData: SeatLayout | null): Seat[] {
   };
 
   // Helper function to normalize seat type (convert uppercase to lowercase)
-  const normalizeSeatType = (type: string | undefined): "normal" | "podium" | "column" | "instructor" | "exclusive" => {
+  const normalizeSeatType = (
+    type: string | undefined
+  ): "normal" | "podium" | "column" | "instructor" | "exclusive" => {
     if (!type) return "normal";
     const typeLower = type.toLowerCase();
-    if (typeLower === "instructor" || typeLower === "podium" || typeLower === "column" || typeLower === "exclusive") {
-      return typeLower as "normal" | "podium" | "column" | "instructor" | "exclusive";
+    if (
+      typeLower === "instructor" ||
+      typeLower === "podium" ||
+      typeLower === "column" ||
+      typeLower === "exclusive"
+    ) {
+      return typeLower as
+        | "normal"
+        | "podium"
+        | "column"
+        | "instructor"
+        | "exclusive";
     }
     return "normal";
   };
@@ -194,22 +208,29 @@ function generateSeatLayoutFromData(seatLayoutData: SeatLayout | null): Seat[] {
     for (let col = 1; col <= gridColumns; col++) {
       const key = `${row}-${col}`;
       const seatData = seatMapByPosition.get(key);
-      
+
       if (seatData) {
         // Use seat data from API
         const seatNumber = seatData.seatNumber || seatData.number || col;
         const originalRow = (seatData.row || "").toString();
         const normalizedRow = normalizeRow(originalRow, gridRows);
-        
+
         seats.push({
           id: seatData.id || `${normalizedRow}${seatNumber}`,
           row: normalizedRow,
-          number: typeof seatNumber === "string" ? parseInt(seatNumber, 10) || col : seatNumber,
+          number:
+            typeof seatNumber === "string"
+              ? parseInt(seatNumber, 10) || col
+              : seatNumber,
           column: col,
-          status: seatData.status === "active" ? "available" : 
-                  seatData.status === "inactive" ? "occupied" :
-                  seatData.status === "occupied" ? "occupied" :
-                  seatData.status || "available",
+          status:
+            seatData.status === "active"
+              ? "available"
+              : seatData.status === "inactive"
+              ? "occupied"
+              : seatData.status === "occupied"
+              ? "occupied"
+              : seatData.status || "available",
           type: normalizeSeatType(seatData.type),
           label: seatData.label,
           creditCost: seatData.creditCost,
@@ -227,7 +248,7 @@ function generateSeatLayoutFromData(seatLayoutData: SeatLayout | null): Seat[] {
       }
     }
   });
-  
+
   // Add any seats from API that weren't placed in the grid (outside grid bounds)
   if (seatLayoutData?.seats && Array.isArray(seatLayoutData.seats)) {
     seatLayoutData.seats.forEach((seatData) => {
@@ -235,13 +256,16 @@ function generateSeatLayoutFromData(seatLayoutData: SeatLayout | null): Seat[] {
       const normalizedRow = normalizeRow(originalRow, gridRows);
       const column = seatData.column || seatData.number || 0;
       const key = `${normalizedRow}-${column}`;
-      
+
       // Check if this seat is already in the seats array
-      const existingSeat = seats.find(s => 
-        s.id === (seatData.id || `${normalizedRow}${seatData.seatNumber || seatData.number}`) ||
-        (s.row === normalizedRow && (s.column || s.number) === column)
+      const existingSeat = seats.find(
+        (s) =>
+          s.id ===
+            (seatData.id ||
+              `${normalizedRow}${seatData.seatNumber || seatData.number}`) ||
+          (s.row === normalizedRow && (s.column || s.number) === column)
       );
-      
+
       if (!existingSeat) {
         // Add seat that wasn't placed in the grid (might be outside grid bounds)
         const seatNumber = seatData.seatNumber || seatData.number || column;
@@ -249,12 +273,19 @@ function generateSeatLayoutFromData(seatLayoutData: SeatLayout | null): Seat[] {
         seats.push({
           id: seatId,
           row: normalizedRow,
-          number: typeof seatNumber === "string" ? parseInt(seatNumber, 10) || column : seatNumber,
+          number:
+            typeof seatNumber === "string"
+              ? parseInt(seatNumber, 10) || column
+              : seatNumber,
           column: column,
-          status: seatData.status === "active" ? "available" : 
-                  seatData.status === "inactive" ? "occupied" :
-                  seatData.status === "occupied" ? "occupied" :
-                  seatData.status || "available",
+          status:
+            seatData.status === "active"
+              ? "available"
+              : seatData.status === "inactive"
+              ? "occupied"
+              : seatData.status === "occupied"
+              ? "occupied"
+              : seatData.status || "available",
           type: normalizeSeatType(seatData.type),
           label: seatData.label,
           creditCost: seatData.creditCost,
@@ -277,11 +308,27 @@ export default function SessionDetailPage() {
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   const [booking, setBooking] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [authModalMode, setAuthModalMode] = useState<"login" | "register">("login");
+  const [authModalMode, setAuthModalMode] = useState<"login" | "register">(
+    "login"
+  );
   const [seatLayoutData, setSeatLayoutData] = useState<SeatLayout | null>(null);
+  const [toast, setToast] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
 
   const sessionId = params?.sessionId as string;
-  
+
+  // Auto-dismiss toast after 5 seconds
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => {
+        setToast(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
+
   // Debug: Log session ID
   useEffect(() => {
     if (sessionId) {
@@ -292,16 +339,70 @@ export default function SessionDetailPage() {
   useEffect(() => {
     if (!sessionId) return;
 
+    // Reset state when sessionId changes
+    setSessionData(null);
+    setSeats([]);
+    setSelectedSeats([]);
+    setSeatLayoutData(null);
+    setLoading(true);
+
     async function fetchSession() {
       try {
-        setLoading(true);
         // Fetch session data - public access, no auth required
-        const response = await fetch(`/api/sessions?id=${sessionId}`);
+        // Use the specific session endpoint to ensure we get the correct session
+        const response = await fetch(`/api/sessions/${sessionId}`);
+
+        if (!response.ok) {
+          // Handle error responses
+          let errorData;
+          try {
+            errorData = await response.json();
+          } catch {
+            errorData = {
+              error: response.statusText || "Failed to fetch session",
+            };
+          }
+          console.error("Failed to fetch session:", {
+            status: response.status,
+            statusText: response.statusText,
+            error: errorData,
+          });
+          setLoading(false);
+          return;
+        }
+
         const data = await response.json();
 
-        if (response.ok && data) {
+        if (data && !data.error) {
           // Transform backend session format to frontend format
+          // The endpoint /api/sessions/[id] returns a single session object, not an array
           const rawSession = Array.isArray(data) ? data[0] : data;
+
+          // CRITICAL: Validate that the returned session matches the requested sessionId
+          const returnedSessionId = rawSession.id || rawSession._id;
+          if (!returnedSessionId) {
+            console.error(
+              `CRITICAL: Session response missing ID! URL sessionId: ${sessionId}, Response:`,
+              rawSession
+            );
+            setLoading(false);
+            return;
+          }
+
+          if (returnedSessionId !== sessionId) {
+            console.error(
+              `CRITICAL: Session ID mismatch! URL sessionId: ${sessionId}, API returned sessionId: ${returnedSessionId}`
+            );
+            // Don't proceed with wrong session data
+            setLoading(false);
+            return;
+          }
+
+          console.log(
+            `Session ID validation: URL=${sessionId}, API=${returnedSessionId}, Match=${
+              returnedSessionId === sessionId
+            }`
+          );
 
           const transformedSession: Session = {
             id: rawSession.id || rawSession._id || "",
@@ -310,6 +411,10 @@ export default function SessionDetailPage() {
               rawSession.name ||
               rawSession.class?.name ||
               "",
+            titleTr:
+              rawSession.titleTr ||
+              rawSession.class?.nameTr ||
+              rawSession.class?.titleTr,
             instructor:
               rawSession.instructor ||
               rawSession.instructorId ||
@@ -340,10 +445,13 @@ export default function SessionDetailPage() {
                 ? rawSession.studio
                 : rawSession.studio?.name || rawSession.class?.studio || "",
             musicGenre: rawSession.musicGenre || rawSession.class?.musicGenre,
+            musicGenreTr:
+              rawSession.musicGenreTr || rawSession.class?.musicGenreTr,
             workoutType:
               rawSession.workoutType || rawSession.class?.workoutType,
             maxCapacity: rawSession.maxCapacity,
-            currentBookings: rawSession.currentBookings || rawSession._count?.bookings || 0,
+            currentBookings:
+              rawSession.currentBookings || rawSession._count?.bookings || 0,
           };
 
           setSessionData(transformedSession);
@@ -384,7 +492,11 @@ export default function SessionDetailPage() {
                 let seatLayout = await seatLayoutResponse.json();
                 if (seatLayout && seatLayout.isActive) {
                   // If seats are not included, try to fetch them separately
-                  if (!seatLayout.seats || !Array.isArray(seatLayout.seats) || seatLayout.seats.length === 0) {
+                  if (
+                    !seatLayout.seats ||
+                    !Array.isArray(seatLayout.seats) ||
+                    seatLayout.seats.length === 0
+                  ) {
                     try {
                       const seatsResponse = await fetch(
                         `/api/seat-layouts?seatLayoutId=${seatLayout.id}&includeSeats=true`
@@ -396,49 +508,99 @@ export default function SessionDetailPage() {
                         }
                       }
                     } catch (seatsError) {
-                      console.error("Error fetching seats separately:", seatsError);
+                      console.error(
+                        "Error fetching seats separately:",
+                        seatsError
+                      );
                     }
                   }
-                  
+
                   // Log seat data for debugging
                   if (seatLayout.seats && Array.isArray(seatLayout.seats)) {
-                    console.log("Seat layout seats from API:", seatLayout.seats);
-                    console.log("Seat types found:", seatLayout.seats.map((s: any) => ({ 
-                      id: s.id, 
-                      row: s.row, 
-                      column: s.column, 
-                      type: s.type,
-                      label: s.label 
-                    })));
+                    console.log(
+                      "Seat layout seats from API:",
+                      seatLayout.seats
+                    );
+                    console.log(
+                      "Seat types found:",
+                      seatLayout.seats.map((s: any) => ({
+                        id: s.id,
+                        row: s.row,
+                        column: s.column,
+                        type: s.type,
+                        label: s.label,
+                      }))
+                    );
                   } else {
-                    console.log("No seats found in seat layout, will generate grid");
+                    console.log(
+                      "No seats found in seat layout, will generate grid"
+                    );
                   }
-                  
+
                   setSeatLayoutData(seatLayout);
                   let generatedSeats = generateSeatLayoutFromData(seatLayout);
-                  
+
                   // Log generated seats for debugging
                   console.log("Generated seats count:", generatedSeats.length);
-                  console.log("Seat types in generated seats:", 
-                    generatedSeats.filter(s => s.type && s.type !== "normal").map(s => ({
-                      id: s.id,
-                      row: s.row,
-                      column: s.column,
-                      type: s.type,
-                      label: s.label
-                    }))
+                  console.log(
+                    "Seat types in generated seats:",
+                    generatedSeats
+                      .filter((s) => s.type && s.type !== "normal")
+                      .map((s) => ({
+                        id: s.id,
+                        row: s.row,
+                        column: s.column,
+                        type: s.type,
+                        label: s.label,
+                      }))
                   );
-                  
+
                   // Fetch bookings for this session to get occupied seats
                   try {
-                    const bookingsResponse = await fetch(`/api/bookings?sessionId=${rawSession.id || sessionId}`);
+                    // Always use sessionId from URL params, not from API response
+                    // The URL is the source of truth for which session we're viewing
+                    const currentSessionId = sessionId;
+                    console.log(
+                      `Fetching bookings for URL sessionId: ${currentSessionId}, API session id: ${rawSession.id}`
+                    );
+                    const bookingsResponse = await fetch(
+                      `/api/bookings?sessionId=${currentSessionId}`
+                    );
                     if (bookingsResponse.ok) {
                       const bookingsData = await bookingsResponse.json();
-                      const bookings = Array.isArray(bookingsData) ? bookingsData : (bookingsData.bookings || []);
-                      
+                      const bookings = Array.isArray(bookingsData)
+                        ? bookingsData
+                        : bookingsData.bookings || [];
+
+                      console.log(
+                        `Fetched ${bookings.length} bookings for session ${currentSessionId}`
+                      );
+
                       if (bookings.length > 0) {
                         const bookedSeatIds = new Set<string>();
+                        let skippedCount = 0;
+
                         bookings.forEach((booking: any) => {
+                          // IMPORTANT: Only process bookings for the current session
+                          if (
+                            booking.sessionId &&
+                            booking.sessionId !== currentSessionId
+                          ) {
+                            skippedCount++;
+                            console.warn(
+                              `Skipping booking ${booking.id} - sessionId mismatch: ${booking.sessionId} !== ${currentSessionId}`
+                            );
+                            return; // Skip bookings for other sessions
+                          }
+
+                          // Log booking details for debugging
+                          if (!booking.sessionId) {
+                            console.warn(
+                              `Booking ${booking.id} missing sessionId field`,
+                              booking
+                            );
+                          }
+
                           // Check various possible seat ID formats
                           if (booking.seatId) {
                             bookedSeatIds.add(booking.seatId);
@@ -461,16 +623,29 @@ export default function SessionDetailPage() {
                           if (booking.row && booking.column) {
                             const seatKey = `${booking.row}-${booking.column}`;
                             // Find seat by row and column
-                            generatedSeats.forEach(seat => {
-                              if (seat.row === booking.row && (seat.column || seat.number) === booking.column) {
+                            generatedSeats.forEach((seat) => {
+                              if (
+                                seat.row === booking.row &&
+                                (seat.column || seat.number) === booking.column
+                              ) {
                                 bookedSeatIds.add(seat.id);
                               }
                             });
                           }
                         });
-                        
+
+                        if (skippedCount > 0) {
+                          console.warn(
+                            `Skipped ${skippedCount} bookings from other sessions`
+                          );
+                        }
+
+                        console.log(
+                          `Marking ${bookedSeatIds.size} seats as occupied for session ${currentSessionId}`
+                        );
+
                         // Mark booked seats as occupied
-                        generatedSeats = generatedSeats.map(seat => {
+                        generatedSeats = generatedSeats.map((seat) => {
                           if (bookedSeatIds.has(seat.id)) {
                             return { ...seat, status: "occupied" };
                           }
@@ -481,25 +656,47 @@ export default function SessionDetailPage() {
                   } catch (bookingsError) {
                     console.error("Error fetching bookings:", bookingsError);
                     // Fallback to session bookings if available
-                    if (rawSession.bookings && Array.isArray(rawSession.bookings)) {
+                    // Always use sessionId from URL params, not from API response
+                    const currentSessionId = sessionId;
+
+                    if (
+                      rawSession.bookings &&
+                      Array.isArray(rawSession.bookings)
+                    ) {
                       const bookedSeatIds = new Set<string>();
                       rawSession.bookings.forEach((booking: any) => {
+                        // IMPORTANT: Only process bookings for the current session
+                        if (
+                          booking.sessionId &&
+                          booking.sessionId !== currentSessionId
+                        ) {
+                          return; // Skip bookings for other sessions
+                        }
+
+                        if (booking.seatId) {
+                          bookedSeatIds.add(booking.seatId);
+                        }
                         if (booking.seats && Array.isArray(booking.seats)) {
                           booking.seats.forEach((seatId: string) => {
                             bookedSeatIds.add(seatId);
                           });
                         }
                       });
-                      
-                      generatedSeats = generatedSeats.map(seat => {
+
+                      generatedSeats = generatedSeats.map((seat) => {
                         if (bookedSeatIds.has(seat.id)) {
                           return { ...seat, status: "occupied" };
                         }
                         return seat;
                       });
-                    } else if (rawSession.bookedSeats && Array.isArray(rawSession.bookedSeats)) {
+                    } else if (
+                      rawSession.bookedSeats &&
+                      Array.isArray(rawSession.bookedSeats)
+                    ) {
+                      // Note: bookedSeats array doesn't have sessionId info,
+                      // but this is a fallback only and should be used with caution
                       const bookedSeatIds = new Set(rawSession.bookedSeats);
-                      generatedSeats = generatedSeats.map(seat => {
+                      generatedSeats = generatedSeats.map((seat) => {
                         if (bookedSeatIds.has(seat.id)) {
                           return { ...seat, status: "occupied" };
                         }
@@ -507,7 +704,7 @@ export default function SessionDetailPage() {
                       });
                     }
                   }
-                  
+
                   setSeats(generatedSeats);
                 } else {
                   // Use default layout if no active seat layout found
@@ -581,11 +778,14 @@ export default function SessionDetailPage() {
       if (timeString.includes("T")) {
         const date = new Date(timeString);
         if (!isNaN(date.getTime())) {
-          return date.toLocaleTimeString(language === "tr" ? "tr-TR" : "en-US", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: true,
-          });
+          return date.toLocaleTimeString(
+            language === "tr" ? "tr-TR" : "en-US",
+            {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: true,
+            }
+          );
         }
       }
       // Handle time-only strings
@@ -610,16 +810,32 @@ export default function SessionDetailPage() {
       if (isNaN(date.getTime())) {
         return dateString;
       }
-      
+
       if (language === "tr") {
         // Turkish format: "25 Aralık 2026 Cumartesi"
         const day = date.getDate();
         const monthNames = [
-          "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
-          "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
+          "Ocak",
+          "Şubat",
+          "Mart",
+          "Nisan",
+          "Mayıs",
+          "Haziran",
+          "Temmuz",
+          "Ağustos",
+          "Eylül",
+          "Ekim",
+          "Kasım",
+          "Aralık",
         ];
         const weekdayNames = [
-          "Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"
+          "Pazar",
+          "Pazartesi",
+          "Salı",
+          "Çarşamba",
+          "Perşembe",
+          "Cuma",
+          "Cumartesi",
         ];
         const month = monthNames[date.getMonth()];
         const year = date.getFullYear();
@@ -627,12 +843,12 @@ export default function SessionDetailPage() {
         return `${day} ${month} ${year} ${weekday}`;
       } else {
         // English format: "Saturday, December 25, 2026"
-      return date.toLocaleDateString("en-US", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
+        return date.toLocaleDateString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
       }
     } catch {
       return dateString;
@@ -641,29 +857,32 @@ export default function SessionDetailPage() {
 
   function formatDateTime(dateString: string, timeString: string): string {
     if (!dateString && !timeString) return "";
-    
+
     // If dateString is an ISO string with time, extract both
     if (dateString && dateString.includes("T")) {
       try {
         const dateTime = new Date(dateString);
         if (!isNaN(dateTime.getTime())) {
           const date = formatDate(dateString);
-          const time = dateTime.toLocaleTimeString(language === "tr" ? "tr-TR" : "en-US", {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: true,
-          });
+          const time = dateTime.toLocaleTimeString(
+            language === "tr" ? "tr-TR" : "en-US",
+            {
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: true,
+            }
+          );
           return `${date} - ${time}`;
         }
       } catch (e) {
         // Fall through to separate formatting
       }
     }
-    
+
     // Format separately
     const date = formatDate(dateString);
     const time = formatTime(timeString || dateString);
-    
+
     if (date && time && date !== time) {
       return `${date} - ${time}`;
     }
@@ -680,12 +899,12 @@ export default function SessionDetailPage() {
 
     setSeats((prev) => {
       const clickedSeat = prev.find((seat) => seat.id === seatId);
-      
+
       // Only allow selection of normal and exclusive seats
       if (clickedSeat?.type !== "normal" && clickedSeat?.type !== "exclusive") {
         return prev; // Don't allow selection of instructor, podium, or column seats
       }
-      
+
       // If clicking on an already selected seat, deselect it
       if (clickedSeat?.status === "selected") {
         setSelectedSeats([]);
@@ -693,7 +912,7 @@ export default function SessionDetailPage() {
           seat.id === seatId ? { ...seat, status: "available" } : seat
         );
       }
-      
+
       // If clicking on an available seat
       if (clickedSeat?.status === "available") {
         // Deselect any previously selected seat (only one seat allowed)
@@ -707,12 +926,12 @@ export default function SessionDetailPage() {
           }
           return seat;
         });
-        
+
         // Update selected seats array to only contain the new selection
         setSelectedSeats([seatId]);
         return updatedSeats;
       }
-      
+
       return prev;
     });
   }
@@ -749,21 +968,59 @@ export default function SessionDetailPage() {
       }
 
       if (!memberId) {
-        alert(t("classes.booking.noMember") || "Member account not found.");
+        setToast({
+          message: t("classes.booking.noMember") || "Member account not found.",
+          type: "error",
+        });
         setBooking(false);
         return;
       }
 
+      // Check if user already has an active booking for this session
+      const existingBookingsResponse = await fetch(
+        `/api/bookings?sessionId=${sessionData.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${authSession?.access_token}`,
+          },
+        }
+      );
+
+      if (existingBookingsResponse.ok) {
+        const existingBookings = await existingBookingsResponse.json();
+        const activeBooking = Array.isArray(existingBookings)
+          ? existingBookings.find(
+              (b: any) => b.memberId === memberId && b.status !== "CANCELLED"
+            )
+          : null;
+
+        if (activeBooking) {
+          setToast({
+            message:
+              t("classes.booking.alreadyBooked") ||
+              "You already have a booking for this session. Only one booking per session is allowed.",
+            type: "error",
+          });
+          setBooking(false);
+          return;
+        }
+      }
+
       // Verify the selected seat is still available before booking
-      const selectedSeat = seats.find(s => s.id === selectedSeats[0]);
+      const selectedSeat = seats.find((s) => s.id === selectedSeats[0]);
       if (!selectedSeat) {
         alert(t("classes.booking.error") || "Selected seat not found.");
         setBooking(false);
         return;
       }
-      
-      if (selectedSeat.status !== "available" && selectedSeat.status !== "selected") {
-        alert(t("classes.seatLayout.taken") || "This seat is no longer available.");
+
+      if (
+        selectedSeat.status !== "available" &&
+        selectedSeat.status !== "selected"
+      ) {
+        alert(
+          t("classes.seatLayout.taken") || "This seat is no longer available."
+        );
         // Clear selection
         setSelectedSeats([]);
         setSeats((prev) =>
@@ -799,16 +1056,37 @@ export default function SessionDetailPage() {
         // Clear stored seats
         sessionStorage.removeItem("selectedSeats");
         sessionStorage.removeItem("sessionId");
-        alert(t("classes.booking.success") || "Booking successful!");
-        router.push("/classes");
+
+        // Show success toast
+        setToast({
+          message: t("classes.booking.success") || "Booking successful!",
+          type: "success",
+        });
+
+        // Refresh session data to show updated seat status
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       } else {
         // Better error handling
-        const errorMessage = data.error || data.message || t("classes.booking.error") || "Booking failed.";
+        const errorMessage =
+          data.error ||
+          data.message ||
+          t("classes.booking.error") ||
+          "Booking failed.";
         console.error("Booking error:", data);
-        alert(errorMessage);
-        
+
+        // Show error toast
+        setToast({
+          message: errorMessage,
+          type: "error",
+        });
+
         // If seat is already booked, refresh the seat status
-        if (errorMessage.toLowerCase().includes("already booked") || errorMessage.toLowerCase().includes("taken")) {
+        if (
+          errorMessage.toLowerCase().includes("already booked") ||
+          errorMessage.toLowerCase().includes("taken")
+        ) {
           // Refresh session data to get updated seat statuses
           window.location.reload();
         }
@@ -827,7 +1105,7 @@ export default function SessionDetailPage() {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
         <div className="bg-white dark:bg-gray-800 rounded-lg p-8">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
         </div>
       </div>
     );
@@ -914,288 +1192,541 @@ export default function SessionDetailPage() {
 
         {/* Right Column - Session Details and Seat Selection */}
         <div className="flex-1 overflow-y-auto">
-          <div className="max-w-4xl mx-auto px-6 py-8 lg:px-12 lg:py-12">
-          {/* Session Title */}
-          <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            {normalizeTitle(sessionData.title)}
-          </h1>
+          <div className="max-w-4xl px-4 py-8 lg:max-w-full lg:px-6 lg:py-24 h-full flex flex-col lg:flex-col">
+            {/* Top Half - Session Details (Desktop) / Full (Mobile) */}
+            <div className="flex-shrink-0 lg:h-1/2 lg:overflow-y-auto">
+              {/* Session Title */}
+              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-10">
+                {normalizeTitle(
+                  language === "tr" && sessionData.titleTr
+                    ? sessionData.titleTr
+                    : sessionData.title
+                )}
+              </h1>
 
-          {/* Instructor Name (visible on mobile) */}
-          <p className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-6 lg:hidden">
-            {toUpperCaseTurkish(instructorName)}
-          </p>
+              {/* Instructor Name (visible on mobile) */}
+              <p className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-6 lg:hidden">
+                {toUpperCaseTurkish(instructorName)}
+              </p>
 
-          {/* Session Details */}
-          <div className="mb-8 space-y-3 text-gray-700 dark:text-gray-300">
-            <div className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
-              <span className="font-medium">{t("classes.session.workoutType") || "Workout Type"}:</span>
-              <span>{sessionData.workoutType || t("classes.session.cycling") || "Cycling"}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              <span className="font-medium">{t("classes.session.location") || "Location"}:</span>
-              <span>
-              {typeof sessionData.location === "string"
-                ? sessionData.location
-                : sessionData.location?.name ||
-                  sessionData.location?.address ||
-                    sessionData.studio ||
-                    ""}
-              </span>
-          </div>
-            <div className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <span className="font-medium">
-                {formatDateTime(sessionData.date, sessionData.time)} - {sessionData.duration} {t("classes.session.minutes") || "minutes"}
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-              <span className="font-medium">
-                {(() => {
-                  // Use maxCapacity and currentBookings from session if available
-                  if (sessionData.maxCapacity !== undefined) {
-                    const available = (sessionData.maxCapacity || 0) - (sessionData.currentBookings || 0);
-                    return `${available}`;
-                  }
-                  
-                  // Fallback to seat layout capacity
-                  if (seatLayoutData?.capacity) {
-                    const occupiedCount = seats.filter(s => s.status === "occupied").length;
-                    return `${seatLayoutData.capacity - occupiedCount}`;
-                  }
-                  
-                  // Last resort: calculate from available seats (exclusive seats are bookable)
-                  const availableSeats = seats.filter(
-                    s => s.status === "available" && 
-                    s.type !== "instructor" && 
-                    s.type !== "podium" && 
-                    s.type !== "column"
-                  ).length;
-                  return `${availableSeats}`;
-                })()} {t("classes.session.spacesLeft") || "spaces left"}
-              </span>
-            </div>
-        </div>
-
-        {/* Seat Layout */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg">
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              {t("classes.seatLayout.clickToBook") || "Click a slot to book into the event"}
-            </p>
-
-          {/* Legend */}
-            <div className="flex flex-wrap gap-4 mb-6 text-sm">
-            <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
-              <span className="text-gray-700 dark:text-gray-300">
-                {t("classes.seatLayout.available") || "Available"}
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-orange-500 rounded-full"></div>
-              <span className="text-gray-700 dark:text-gray-300">
-                  {t("classes.seatLayout.yourBooking") || "Your booking(s)"}
-              </span>
-            </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-red-500 dark:bg-red-600 rounded"></div>
-                <span className="text-gray-700 dark:text-gray-300">
-                  {t("classes.seatLayout.taken") || "Taken"}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-gray-600 dark:bg-gray-800 rounded flex items-center justify-center">
-                  <span className="text-xs text-white font-bold">P</span>
+              {/* Session Details */}
+              <div className="mb-8 space-y-3 text-gray-700 dark:text-gray-300">
+                <div className="flex items-center gap-2">
+                  <svg
+                    className="w-5 h-5 text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                    />
+                  </svg>
+                  <span className="font-medium">
+                    {t("classes.session.workoutType") || "Workout Type"}:
+                  </span>
+                  <span>
+                    {sessionData.workoutType ||
+                      t("classes.session.cycling") ||
+                      "Cycling"}
+                  </span>
                 </div>
-                <span className="text-gray-700 dark:text-gray-300">
-                  {t("classes.seatLayout.podium") || "Podium"}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-gray-600 dark:bg-gray-800 rounded flex items-center justify-center">
-                  <span className="text-xs text-white font-bold">C</span>
+                {instructorName && (
+                  <div className="flex items-center gap-2">
+                    <svg
+                      className="w-5 h-5 text-gray-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      />
+                    </svg>
+                    <span className="font-medium">
+                      {t("classes.session.instructor") || "Instructor"}:
+                    </span>
+                    <span>{toUpperCaseTurkish(instructorName)}</span>
+                  </div>
+                )}
+                {sessionData.musicGenre && (
+                  <div className="flex items-center gap-2">
+                    <svg
+                      className="w-5 h-5 text-gray-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"
+                      />
+                    </svg>
+                    <span className="font-medium">
+                      {t("classes.session.musicGenre") || "Music Genre"}:
+                    </span>
+                    <span>
+                      {language === "tr" && sessionData.musicGenreTr
+                        ? sessionData.musicGenreTr
+                        : sessionData.musicGenre}
+                    </span>
+                  </div>
+                )}
+                <div className="flex items-center gap-2">
+                  <svg
+                    className="w-5 h-5 text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                  <span className="font-medium">
+                    {t("classes.session.location") || "Location"}:
+                  </span>
+                  <span>
+                    {typeof sessionData.location === "string"
+                      ? sessionData.location
+                      : sessionData.location?.name ||
+                        sessionData.location?.address ||
+                        sessionData.studio ||
+                        ""}
+                  </span>
                 </div>
-                <span className="text-gray-700 dark:text-gray-300">
-                  {t("classes.seatLayout.column") || "Column"}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-gray-800 dark:bg-black rounded"></div>
-                <span className="text-gray-700 dark:text-gray-300">
-                  {t("classes.seatLayout.instructor") || "Instructor"}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-purple-500 rounded-full"></div>
-                <span className="text-gray-700 dark:text-gray-300">
-                  {t("classes.seatLayout.exclusive") || "Exclusive"}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-gray-400 dark:bg-gray-500 rounded-full opacity-40 border-2 border-gray-500 dark:border-gray-400"></div>
-                <span className="text-gray-700 dark:text-gray-300">
-                  {t("classes.seatLayout.unavailable") || "Unavailable"}
-                </span>
-              </div>
-            </div>
+                <div className="flex items-center gap-2">
+                  <svg
+                    className="w-5 h-5 text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <span className="font-medium">
+                    {formatDateTime(sessionData.date, sessionData.time)} -{" "}
+                    {sessionData.duration}{" "}
+                    {t("classes.session.minutes") || "minutes"}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <svg
+                    className="w-5 h-5 text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
+                  </svg>
+                  <span className="font-medium">
+                    {(() => {
+                      // Use maxCapacity and currentBookings from session if available
+                      if (sessionData.maxCapacity !== undefined) {
+                        const available =
+                          (sessionData.maxCapacity || 0) -
+                          (sessionData.currentBookings || 0);
+                        return `${available}`;
+                      }
 
-          {/* Seats Grid */}
-            <div className="space-y-3 mb-6">
-            {Object.keys(seatsByRow)
-              .sort()
-              .map((row) => (
-                  <div key={row} className="flex items-center gap-3">
-                    <div className="flex gap-2 flex-wrap">
-                    {seatsByRow[row]
-                        .sort((a, b) => (a.column || a.number) - (b.column || b.number))
-                      .map((seat) => (
-                          <button
-                            key={seat.id}
-                            onClick={() => handleSeatClick(seat.id)}
-                            disabled={
-                              seat.status === "occupied" || 
-                              seat.status === "unavailable" ||
-                              seat.type === "instructor" || 
-                              seat.type === "podium" || 
-                              seat.type === "column" ||
-                              (seat.type !== "normal" && seat.type !== "exclusive")
-                            }
-                            className={`w-10 h-10 transition-all flex items-center justify-center ${
-                              seat.type === "podium" || seat.type === "column"
-                                ? "bg-gray-600 dark:bg-gray-800 rounded cursor-not-allowed opacity-60"
-                                : seat.type === "instructor"
-                                ? "bg-gray-800 dark:bg-black rounded cursor-not-allowed opacity-60"
-                                : seat.type === "exclusive"
-                                ? seat.status === "available"
-                                  ? user
-                                    ? "bg-purple-500 hover:bg-purple-600 cursor-pointer border-2 border-transparent hover:border-purple-600 rounded-full"
-                                    : "bg-purple-500 hover:bg-purple-600 cursor-pointer border-2 border-transparent hover:border-purple-600 opacity-75 rounded-full"
-                                  : seat.status === "selected"
-                                  ? "bg-orange-500 hover:bg-orange-600 cursor-pointer border-2 border-orange-600 rounded-full"
-                                  : seat.status === "occupied"
-                                  ? "bg-red-500 dark:bg-red-600 cursor-not-allowed opacity-50 rounded-full"
-                                  : "bg-gray-500 dark:bg-gray-700 cursor-not-allowed opacity-50 rounded-full"
-                                : seat.status === "unavailable"
-                                ? "bg-gray-400 dark:bg-gray-500 rounded-full cursor-not-allowed opacity-40 border-2 border-gray-500 dark:border-gray-400"
-                                : seat.status === "available"
-                                ? user
-                                  ? "bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 cursor-pointer border-2 border-transparent hover:border-gray-500 rounded-full"
-                                  : "bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 cursor-pointer border-2 border-transparent hover:border-gray-500 opacity-75 rounded-full"
-                                : seat.status === "selected"
-                                ? "bg-orange-500 hover:bg-orange-600 cursor-pointer border-2 border-orange-600 rounded-full"
-                                : seat.status === "occupied"
-                                ? "bg-red-500 dark:bg-red-600 cursor-not-allowed opacity-50 rounded-full"
-                                : "bg-gray-500 dark:bg-gray-700 cursor-not-allowed opacity-50 rounded-full"
-                            }`}
-                            title={
-                              seat.status === "occupied"
-                                ? t("classes.seatLayout.taken") || "Taken"
-                                : seat.status === "unavailable"
-                                ? t("classes.seatLayout.unavailable") || "Unavailable"
-                                : seat.status === "selected"
-                                ? t("classes.seatLayout.selected") || "Selected"
-                                : seat.type === "instructor"
-                                ? t("classes.seatLayout.instructor") || "Instructor"
-                                : seat.type === "podium"
-                                ? t("classes.seatLayout.podium") || "Podium"
-                                : seat.type === "column"
-                                ? t("classes.seatLayout.column") || "Column"
-                                : seat.type === "exclusive"
-                                ? `${t("classes.seatLayout.exclusive") || "Exclusive"}${seat.creditCost ? ` - ${seat.creditCost} ${t("classes.session.credits") || "Credits"}` : ""}`
-                                : seat.status === "available"
-                                ? user
-                                  ? t("classes.seatLayout.available") || "Available - Click to select"
-                                  : t("classes.booking.loginRequired") || "Please log in to select seats"
-                                : seat.id
-                            }
-                          >
-                            {seat.type === "podium" || seat.type === "column" ? (
-                              <span className="text-xs text-white font-bold">
-                                {seat.label || (seat.type === "podium" ? "P" : "C")}
-                              </span>
-                            ) : (
-                              <span className={`text-xs font-semibold ${
-                                seat.type === "exclusive" || seat.status === "selected" || seat.status === "occupied"
-                                  ? "text-white" 
-                                  : seat.status === "available"
-                                  ? "text-gray-700 dark:text-gray-300"
-                                  : "text-white"
-                              }`}>
-                            {seat.number}
-                          </span>
-                            )}
-                        </button>
-                      ))}
+                      // Fallback to seat layout capacity
+                      if (seatLayoutData?.capacity) {
+                        const occupiedCount = seats.filter(
+                          (s) => s.status === "occupied"
+                        ).length;
+                        return `${seatLayoutData.capacity - occupiedCount}`;
+                      }
+
+                      // Last resort: calculate from available seats (exclusive seats are bookable)
+                      const availableSeats = seats.filter(
+                        (s) =>
+                          s.status === "available" &&
+                          s.type !== "instructor" &&
+                          s.type !== "podium" &&
+                          s.type !== "column"
+                      ).length;
+                      return `${availableSeats}`;
+                    })()}{" "}
+                    {t("classes.session.spacesLeft") || "spaces left"}
+                  </span>
+                </div>
+              </div>
+
+              {/* Login Box - Display below spaces left for guest users */}
+              {!user && (
+                <div className="flex justify-center mt-4 mb-4">
+                  <div className="bg-gray-700 dark:bg-gray-800 p-8 rounded-lg max-w-md w-full">
+                    <p className="text-lg font-medium text-white mb-6">
+                      {t("classes.booking.loginRequired") ||
+                        "Login to see event details"}
+                    </p>
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => {
+                          setAuthModalMode("login");
+                          setIsAuthModalOpen(true);
+                        }}
+                        className="flex-1 px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors uppercase"
+                      >
+                        {t("auth.login.title") || "LOGIN"}
+                      </button>
+                      <button
+                        onClick={() => {
+                          setAuthModalMode("register");
+                          setIsAuthModalOpen(true);
+                        }}
+                        className="flex-1 px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors uppercase"
+                      >
+                        {t("auth.register.title") || "REGISTER"}
+                      </button>
+                    </div>
                   </div>
                 </div>
-              ))}
-          </div>
-
-          {/* Selected Seat Summary */}
-          {selectedSeats.length > 0 && (
-              <div className="mb-6 p-4 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg">
-                <p className="font-semibold text-gray-900 dark:text-white">
-                {t("classes.seatLayout.selectedSeat") || "Selected Seat"}:{" "}
-                {selectedSeats[0]}
-              </p>
+              )}
             </div>
-          )}
 
-          {/* Book Button */}
-          {user ? (
-            <button
-              onClick={handleBooking}
-              disabled={selectedSeats.length === 0 || booking}
-                className={`w-full px-6 py-3 font-semibold rounded-lg transition-colors ${
-                selectedSeats.length === 0 || booking
-                  ? "bg-gray-400 dark:bg-gray-600 text-white cursor-not-allowed"
-                  : "bg-orange-500 text-white hover:bg-orange-600"
-              }`}
-            >
-              {booking
-                ? t("classes.session.booking") || "Booking..."
-                : t("classes.session.bookNow") || "Book Now"}
-            </button>
-          ) : (
-              <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg">
-                <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
-                  {t("classes.booking.loginRequired") || "Login to see event details"}
-                </p>
-                <div className="flex gap-3">
-            <button
-                    onClick={() => {
-                      setAuthModalMode("login");
-                      setIsAuthModalOpen(true);
-                    }}
-                    className="flex-1 px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors uppercase"
-                  >
-                    {t("auth.login.title") || "LOGIN"}
-            </button>
-                  <button
-                    onClick={() => {
-                      setAuthModalMode("register");
-                      setIsAuthModalOpen(true);
-                    }}
-                    className="flex-1 px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors uppercase"
-                  >
-                    {t("auth.register.title") || "REGISTER"}
-                  </button>
+            {/* Bottom Half - Seat Layout (Desktop) / Below Details (Mobile) */}
+            <div className="flex-1 lg:h-1/2 lg:overflow-y-auto lg:mt-4">
+              <div className="bg-white dark:bg-gray-800 rounded-lg lg:px-6 flex flex-col">
+                <div className="flex justify-center mb-4">
+                  <div className="bg-gray-800 dark:bg-gray-700 rounded-lg px-4 py-3 flex items-center gap-2 w-auto">
+                    <div className="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-white flex items-center justify-center shrink-0">
+                      <span className="text-xs lg:text-sm font-semibold text-gray-800">
+                        i
+                      </span>
+                    </div>
+                    <p className="text-sm lg:text-base text-white lowercase whitespace-nowrap">
+                      {t("classes.seatLayout.clickToBook") ||
+                        "Click a slot to book into the event"}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Legend */}
+                <div className="flex flex-wrap justify-between lg:justify-between gap-4 lg:gap-6 mb-6 text-sm lg:text-base">
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 lg:w-5 lg:h-5 bg-gray-700 dark:bg-gray-700 rounded-full border-2 border-transparent"></div>
+                    <span className="text-gray-700 dark:text-gray-300">
+                      {t("classes.seatLayout.available") || "Available"}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 lg:w-5 lg:h-5 bg-orange-500 rounded-full"></div>
+                    <span className="text-gray-700 dark:text-gray-300">
+                      {t("classes.seatLayout.yourBooking") || "Your booking(s)"}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 lg:w-5 lg:h-5 bg-red-500 dark:bg-red-600 rounded"></div>
+                    <span className="text-gray-700 dark:text-gray-300">
+                      {t("classes.seatLayout.taken") || "Taken"}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 lg:w-5 lg:h-5 bg-gray-600 dark:bg-gray-800 rounded flex items-center justify-center">
+                      <span className="text-xs lg:text-sm text-white font-bold">
+                        P
+                      </span>
+                    </div>
+                    <span className="text-gray-700 dark:text-gray-300">
+                      {t("classes.seatLayout.podium") || "Podium"}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 lg:w-5 lg:h-5 bg-gray-600 dark:bg-gray-800 rounded flex items-center justify-center">
+                      <span className="text-xs lg:text-sm text-white font-bold">
+                        {language === "tr" ? "K" : "C"}
+                      </span>
+                    </div>
+                    <span className="text-gray-700 dark:text-gray-300">
+                      {t("classes.seatLayout.column") || "Column"}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 lg:w-5 lg:h-5 bg-gray-800 dark:bg-black rounded flex items-center justify-center">
+                      <span className="text-xs lg:text-sm text-white font-bold">
+                        {language === "tr" ? "E" : "I"}
+                      </span>
+                    </div>
+                    <span className="text-gray-700 dark:text-gray-300">
+                      {t("classes.seatLayout.instructor") || "Instructor"}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 lg:w-5 lg:h-5 bg-purple-500 rounded-full"></div>
+                    <span className="text-gray-700 dark:text-gray-300">
+                      {t("classes.seatLayout.exclusive") || "Exclusive"}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 lg:w-5 lg:h-5 bg-gray-400 dark:bg-gray-500 rounded-full opacity-40 border-2 border-gray-500 dark:border-gray-400"></div>
+                    <span className="text-gray-700 dark:text-gray-300">
+                      {t("classes.seatLayout.unavailable") || "Unavailable"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Seats Grid */}
+                <div className="space-y-3 mb-6 flex flex-col items-center">
+                  {Object.keys(seatsByRow)
+                    .sort()
+                    .map((row) => (
+                      <div key={row} className="flex items-center gap-3">
+                        <div className="flex gap-2 flex-wrap justify-center">
+                          {seatsByRow[row]
+                            .sort(
+                              (a, b) =>
+                                (a.column || a.number) - (b.column || b.number)
+                            )
+                            .map((seat) => (
+                              <button
+                                key={seat.id}
+                                onClick={() => handleSeatClick(seat.id)}
+                                disabled={
+                                  seat.status === "occupied" ||
+                                  seat.status === "unavailable" ||
+                                  seat.type === "instructor" ||
+                                  seat.type === "podium" ||
+                                  seat.type === "column" ||
+                                  (seat.type !== "normal" &&
+                                    seat.type !== "exclusive")
+                                }
+                                className={`min-w-10 min-h-10 lg:min-w-12 lg:min-h-12 w-auto h-auto px-2 py-2 lg:px-3 lg:py-3 transition-all flex items-center justify-center ${
+                                  seat.type === "podium" ||
+                                  seat.type === "column"
+                                    ? "bg-gray-600 dark:bg-gray-800 rounded cursor-not-allowed opacity-60"
+                                    : seat.type === "instructor"
+                                    ? "bg-gray-800 dark:bg-black rounded cursor-not-allowed opacity-60"
+                                    : seat.type === "exclusive"
+                                    ? seat.status === "available"
+                                      ? user
+                                        ? "bg-purple-500 hover:bg-purple-600 cursor-pointer border-2 border-transparent hover:border-purple-600 rounded-full"
+                                        : "bg-purple-500 hover:bg-purple-600 cursor-pointer border-2 border-transparent hover:border-purple-600 opacity-75 rounded-full"
+                                      : seat.status === "selected"
+                                      ? "bg-orange-500 hover:bg-orange-600 cursor-pointer border-2 border-orange-600 rounded-full"
+                                      : seat.status === "occupied"
+                                      ? "bg-red-500 dark:bg-red-600 cursor-not-allowed opacity-50 rounded-full"
+                                      : "bg-gray-500 dark:bg-gray-700 cursor-not-allowed opacity-50 rounded-full"
+                                    : seat.status === "unavailable"
+                                    ? "bg-gray-400 dark:bg-gray-500 rounded-full cursor-not-allowed opacity-40 border-2 border-gray-500 dark:border-gray-400"
+                                    : seat.status === "available"
+                                    ? user
+                                      ? "bg-gray-700 dark:bg-gray-700 hover:bg-gray-800 dark:hover:bg-gray-600 cursor-pointer border-2 border-transparent hover:border-gray-500 rounded-full"
+                                      : "bg-gray-700 dark:bg-gray-700 hover:bg-gray-800 dark:hover:bg-gray-600 cursor-pointer border-2 border-transparent hover:border-gray-500 opacity-75 rounded-full"
+                                    : seat.status === "selected"
+                                    ? "bg-orange-500 hover:bg-orange-600 cursor-pointer border-2 border-orange-600 rounded-full"
+                                    : seat.status === "occupied"
+                                    ? "bg-red-500 dark:bg-red-600 cursor-not-allowed opacity-50 rounded-full"
+                                    : "bg-gray-500 dark:bg-gray-700 cursor-not-allowed opacity-50 rounded-full"
+                                }`}
+                                title={
+                                  seat.status === "occupied"
+                                    ? t("classes.seatLayout.taken") || "Taken"
+                                    : seat.status === "unavailable"
+                                    ? t("classes.seatLayout.unavailable") ||
+                                      "Unavailable"
+                                    : seat.status === "selected"
+                                    ? t("classes.seatLayout.selected") ||
+                                      "Selected"
+                                    : seat.type === "instructor"
+                                    ? t("classes.seatLayout.instructor") ||
+                                      "Instructor"
+                                    : seat.type === "podium"
+                                    ? t("classes.seatLayout.podium") || "Podium"
+                                    : seat.type === "column"
+                                    ? t("classes.seatLayout.column") || "Column"
+                                    : seat.type === "exclusive"
+                                    ? `${
+                                        t("classes.seatLayout.exclusive") ||
+                                        "Exclusive"
+                                      }${
+                                        seat.creditCost
+                                          ? ` - ${seat.creditCost} ${
+                                              t("classes.session.credits") ||
+                                              "Credits"
+                                            }`
+                                          : ""
+                                      }`
+                                    : seat.status === "available"
+                                    ? user
+                                      ? t("classes.seatLayout.available") ||
+                                        "Available - Click to select"
+                                      : t("classes.booking.loginRequired") ||
+                                        "Please log in to select seats"
+                                    : seat.id
+                                }
+                              >
+                                {seat.type === "podium" ||
+                                seat.type === "column" ||
+                                seat.type === "instructor" ? (
+                                  <span className="text-xs lg:text-sm text-white font-bold">
+                                    {seat.label ||
+                                      (seat.type === "podium"
+                                        ? "P"
+                                        : seat.type === "column"
+                                        ? language === "tr"
+                                          ? "K"
+                                          : "C"
+                                        : seat.type === "instructor"
+                                        ? language === "tr"
+                                          ? "E"
+                                          : "I"
+                                        : "")}
+                                  </span>
+                                ) : (
+                                  <span
+                                    className={`text-xs lg:text-sm font-semibold ${
+                                      seat.type === "exclusive" ||
+                                      seat.status === "selected" ||
+                                      seat.status === "occupied" ||
+                                      seat.status === "available"
+                                        ? "text-white"
+                                        : "text-white"
+                                    }`}
+                                  >
+                                    {seat.number}
+                                  </span>
+                                )}
+                              </button>
+                            ))}
+                        </div>
+                      </div>
+                    ))}
+                </div>
+
+                {/* Selected Seat Summary and Book Button Container - Fixed layout */}
+                <div className="flex flex-col flex-1 min-h-[200px]">
+                  {/* Selected Seat Summary */}
+                  {selectedSeats.length > 0 && (
+                    <div className="mb-4 overflow-hidden bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-orange-200 dark:border-orange-800/50">
+                      <div className="bg-gradient-to-br from-orange-500 via-orange-500 to-orange-600 px-6 py-5">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-4">
+                            <div className="relative">
+                              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg"></div>
+                              <div className="absolute -top-1 -right-1 w-6 h-6 border-2 border-white rounded-full bg-transparent"></div>
+                            </div>
+                            <div>
+                              <p className="text-white/90 text-xs font-semibold uppercase tracking-wider mb-1">
+                                {t("classes.seatLayout.selectedSeat") ||
+                                  "Selected Seat"}
+                              </p>
+                              {(() => {
+                                const selectedSeat = seats.find(
+                                  (s) => s.id === selectedSeats[0]
+                                );
+                                const seatLabel = selectedSeat
+                                  ? selectedSeat.type === "exclusive"
+                                    ? `${
+                                        t("classes.seatLayout.exclusive") ||
+                                        "Exclusive"
+                                      } ${selectedSeat.row}${
+                                        selectedSeat.number ||
+                                        selectedSeat.column ||
+                                        ""
+                                      }`
+                                    : selectedSeat.label
+                                    ? `${selectedSeat.row}${selectedSeat.label}`
+                                    : `${selectedSeat.row}${
+                                        selectedSeat.number ||
+                                        selectedSeat.column ||
+                                        ""
+                                      }`
+                                  : selectedSeats[0];
+                                return (
+                                  <p className="text-white text-3xl font-extrabold leading-tight">
+                                    {seatLabel}
+                                  </p>
+                                );
+                              })()}
+                            </div>
+                          </div>
+                          {(() => {
+                            const selectedSeat = seats.find(
+                              (s) => s.id === selectedSeats[0]
+                            );
+                            const creditCost = selectedSeat?.creditCost || 1;
+                            return (
+                              <div className="text-right bg-white rounded-lg px-5 py-4 shadow-md border border-gray-200">
+                                <p className="text-gray-800 dark:text-gray-800 text-xs font-bold uppercase tracking-wider mb-1.5">
+                                  {t("classes.session.credits") || "Credits"}
+                                </p>
+                                <div className="flex items-baseline justify-end gap-1.5">
+                                  <span className="text-gray-900 dark:text-gray-900 text-2xl font-black">
+                                    {creditCost}
+                                  </span>
+                                  <span className="text-gray-700 dark:text-gray-700 text-sm font-semibold">
+                                    {t("classes.session.required") ||
+                                      "Required"}
+                                  </span>
+                                </div>
+                              </div>
+                            );
+                          })()}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Book Button - Always in same position at bottom */}
+                  {user && (
+                    <div className="flex justify-center mt-auto">
+                      <button
+                        onClick={handleBooking}
+                        disabled={selectedSeats.length === 0 || booking}
+                        className={`min-w-[200px] px-8 py-3 font-semibold rounded-lg transition-colors text-center ${
+                          selectedSeats.length === 0 || booking
+                            ? "bg-gray-400 dark:bg-gray-600 text-white cursor-not-allowed"
+                            : "bg-orange-500 text-white hover:bg-orange-600"
+                        }`}
+                      >
+                        {booking
+                          ? t("classes.session.booking") || "Booking..."
+                          : (() => {
+                              const selectedSeat = seats.find(
+                                (s) => s.id === selectedSeats[0]
+                              );
+                              const creditCost = selectedSeat?.creditCost || 1;
+                              return `${
+                                t("classes.session.bookNow") || "Book Now"
+                              } (${creditCost} ${
+                                t("classes.session.credits") || "Credits"
+                              })`;
+                            })()}
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
-          )}
-        </div>
-      </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1210,10 +1741,71 @@ export default function SessionDetailPage() {
           // After login, user can proceed with booking
         }}
       />
+
+      {/* Toast Notification */}
+      {toast && (
+        <div className="fixed top-4 right-4 z-[100] animate-slide-in">
+          <div
+            className={`flex items-center gap-3 px-4 py-3 rounded-lg shadow-lg min-w-[300px] max-w-[500px] ${
+              toast.type === "success"
+                ? "bg-green-500 text-white"
+                : "bg-red-500 text-white"
+            }`}
+          >
+            <div className="flex-shrink-0">
+              {toast.type === "success" ? (
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              )}
+            </div>
+            <p className="flex-1 text-sm font-medium">{toast.message}</p>
+            <button
+              onClick={() => setToast(null)}
+              className="flex-shrink-0 text-white/80 hover:text-white transition-colors"
+              aria-label="Close"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
-
-
-
-
