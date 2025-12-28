@@ -70,30 +70,41 @@ export async function GET(request: NextRequest) {
       // Check if response is JSON
       if (contentType && contentType.includes("application/json")) {
         const data = await response.json();
-        
+
         // Always try to fetch seats if we have a seat layout ID
         if (data && data.id) {
           // If seats are not included or empty, fetch them separately
-          if (!data.seats || !Array.isArray(data.seats) || data.seats.length === 0) {
+          if (
+            !data.seats ||
+            !Array.isArray(data.seats) ||
+            data.seats.length === 0
+          ) {
             try {
               const seatsUrl = `${TENANT_BE_URL}/api/seat-layouts/${data.id}/seats`;
               console.log("Fetching seats from:", seatsUrl);
-              
-              // Try with auth first
-              let seatsResponse = await fetch(seatsUrl, { headers });
-              
-              // If unauthorized, try without auth (public access)
-              if (seatsResponse.status === 401 || seatsResponse.status === 403) {
-                console.log("Seats endpoint requires auth, trying public access");
-                const publicHeaders: HeadersInit = {
-                  "Content-Type": "application/json",
-                };
-                if (organizationId) {
-                  publicHeaders["X-Organization-Id"] = organizationId;
-                }
-                seatsResponse = await fetch(seatsUrl, { headers: publicHeaders });
+
+              // Try public access first (seats should be publicly viewable)
+              const publicHeaders: HeadersInit = {
+                "Content-Type": "application/json",
+              };
+              if (organizationId) {
+                publicHeaders["X-Organization-Id"] = organizationId;
               }
-              
+              let seatsResponse = await fetch(seatsUrl, {
+                headers: publicHeaders,
+              });
+
+              // If public access fails, try with auth as fallback (for backward compatibility)
+              if (
+                seatsResponse.status === 401 ||
+                seatsResponse.status === 403
+              ) {
+                console.log(
+                  "Public access failed, trying with auth as fallback"
+                );
+                seatsResponse = await fetch(seatsUrl, { headers });
+              }
+
               if (seatsResponse.ok) {
                 const seatsData = await seatsResponse.json();
                 if (Array.isArray(seatsData)) {
@@ -108,11 +119,21 @@ export async function GET(request: NextRequest) {
                 }
               } else {
                 const errorText = await seatsResponse.text();
-                console.error("Error fetching seats:", {
-                  status: seatsResponse.status,
-                  statusText: seatsResponse.statusText,
-                  body: errorText.substring(0, 200),
-                });
+                // If 401/403, backend requires auth - continue without seats (will generate default grid)
+                if (
+                  seatsResponse.status === 401 ||
+                  seatsResponse.status === 403
+                ) {
+                  console.log(
+                    "Backend requires auth for seats, continuing without seats - will generate default grid"
+                  );
+                } else {
+                  console.error("Error fetching seats:", {
+                    status: seatsResponse.status,
+                    statusText: seatsResponse.statusText,
+                    body: errorText.substring(0, 200),
+                  });
+                }
               }
             } catch (seatsError) {
               console.error("Error fetching seats:", seatsError);
@@ -122,7 +143,7 @@ export async function GET(request: NextRequest) {
             console.log(`Seat layout already has ${data.seats.length} seats`);
           }
         }
-        
+
         return NextResponse.json(data);
       } else {
         // If not JSON, might be HTML error page
@@ -181,7 +202,3 @@ export async function GET(request: NextRequest) {
     );
   }
 }
-
-
-
-

@@ -240,6 +240,19 @@
     "creditBalance": "Credit Balance",
     "creditBalanceInfo": "Available credits for booking classes",
     "totalBookings": "Total Bookings",
+    "sessions": {
+      "title": "My Sessions",
+      "upcoming": "Upcoming Sessions",
+      "past": "Past Sessions",
+      "empty": "No sessions found.",
+      "bicycle": "Bicycle",
+      "status": {
+        "CONFIRMED": "Confirmed",
+        "CANCELLED": "Cancelled",
+        "PENDING": "Pending",
+        "CHECKED_IN": "Checked In"
+      }
+    },
     "creditHistory": {
       "title": "Credit History",
       "date": "Date",
@@ -248,7 +261,12 @@
       "description": "Description",
       "credit": "Credit",
       "debit": "Debit",
-      "empty": "No credit history available."
+      "empty": "No credit history available.",
+      "creditDescription": "Credit addition",
+      "debitDescription": "Class booking",
+      "packageRedemption": "Package redemption approved",
+      "paymentForBooking": "Class booking",
+      "creditAddedManually": "Credit added manually"
     },
     "status": {
       "active": "Active",
@@ -509,13 +527,13 @@
       "notFound": "Session not found"
     },
     "seatLayout": {
-      "title": "Select Your Seats",
+      "title": "Select Your Bicycles",
       "available": "Available",
       "selected": "Selected",
       "occupied": "Occupied",
       "stage": "Stage / Instructor",
-      "selectedSeats": "Selected Seats",
-      "selectedSeat": "Selected Seat",
+      "selectedSeats": "Selected Bicycles",
+      "selectedSeat": "Selected Bicycle",
       "clickToBook": "Click a slot to book into the event",
       "yourBooking": "Your booking(s)",
       "taken": "Taken",

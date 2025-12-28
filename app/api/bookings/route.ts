@@ -31,16 +31,12 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const sessionId = searchParams.get("sessionId");
 
-    if (!sessionId) {
-      return NextResponse.json(
-        { error: "sessionId is required" },
-        { status: 400 }
-      );
-    }
-
     // Build query parameters
     const queryParams = new URLSearchParams();
-    queryParams.append("sessionId", sessionId);
+    // Only add sessionId if provided (for fetching all bookings, sessionId is optional)
+    if (sessionId) {
+      queryParams.append("sessionId", sessionId);
+    }
 
     // Add organization ID to query params if not already present
     if (organizationId && !queryParams.has("organizationId")) {
@@ -132,7 +128,10 @@ export async function POST(request: NextRequest) {
     let body;
     try {
       body = await request.json();
-      console.log("Booking POST: Request body received:", JSON.stringify(body, null, 2));
+      console.log(
+        "Booking POST: Request body received:",
+        JSON.stringify(body, null, 2)
+      );
     } catch (parseError) {
       console.error("Booking POST: Error parsing request body:", parseError);
       return NextResponse.json(
@@ -160,7 +159,10 @@ export async function POST(request: NextRequest) {
     const url = endpoint;
 
     console.log("Booking POST: Creating booking:", url);
-    console.log("Booking POST: Headers:", { ...headers, Authorization: "Bearer ***" });
+    console.log("Booking POST: Headers:", {
+      ...headers,
+      Authorization: "Bearer ***",
+    });
     console.log("Booking POST: Body:", JSON.stringify(body, null, 2));
 
     const controller = new AbortController();
@@ -178,7 +180,10 @@ export async function POST(request: NextRequest) {
 
       const responseText = await response.text();
       console.log("Booking POST: Response status:", response.status);
-      console.log("Booking POST: Response text:", responseText.substring(0, 500));
+      console.log(
+        "Booking POST: Response text:",
+        responseText.substring(0, 500)
+      );
 
       if (response.ok) {
         let data;
@@ -211,7 +216,7 @@ export async function POST(request: NextRequest) {
         cause: error.cause,
         stack: error.stack?.substring(0, 500),
       });
-      
+
       // Handle specific error types
       if (error.name === "AbortError") {
         return NextResponse.json(
@@ -219,10 +224,12 @@ export async function POST(request: NextRequest) {
           { status: 408 }
         );
       }
-      
+
       if (error.cause?.code === "ECONNREFUSED") {
         return NextResponse.json(
-          { error: "Cannot connect to booking service. Please try again later." },
+          {
+            error: "Cannot connect to booking service. Please try again later.",
+          },
           { status: 503 }
         );
       }

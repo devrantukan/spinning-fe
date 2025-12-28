@@ -82,6 +82,15 @@ html:not(.dark):not([data-theme="dark"]) span:not(.text-white):not(.text-orange-
   color: #111827 !important;
 }
 
+/* Force table cells in credit history to be black in light mode */
+html:not(.dark):not([data-theme="dark"]) table tbody td {
+  color: #000000 !important;
+}
+
+html:not(.dark):not([data-theme="dark"]) table tbody td.text-black {
+  color: #000000 !important;
+}
+
 /* Ensure white text stays white in light mode */
 html:not(.dark):not([data-theme="dark"]) .text-white,
 html:not(.dark):not([data-theme="dark"]) a.text-white,

@@ -51,19 +51,19 @@ export async function GET(
     }`;
     console.log("Fetching seats from:", seatsUrl);
 
-    // Try with auth first
-    let response = await fetch(seatsUrl, { headers });
+    // Try public access first (seats should be publicly viewable)
+    const publicHeaders: HeadersInit = {
+      "Content-Type": "application/json",
+    };
+    if (organizationId) {
+      publicHeaders["X-Organization-Id"] = organizationId;
+    }
+    let response = await fetch(seatsUrl, { headers: publicHeaders });
 
-    // If unauthorized, try without auth (public access)
+    // If public access fails, try with auth as fallback (for backward compatibility)
     if (response.status === 401 || response.status === 403) {
-      console.log("Seats endpoint requires auth, trying public access");
-      const publicHeaders: HeadersInit = {
-        "Content-Type": "application/json",
-      };
-      if (organizationId) {
-        publicHeaders["X-Organization-Id"] = organizationId;
-      }
-      response = await fetch(seatsUrl, { headers: publicHeaders });
+      console.log("Public access failed, trying with auth as fallback");
+      response = await fetch(seatsUrl, { headers });
     }
 
     if (response.ok) {
@@ -103,8 +103,15 @@ export async function GET(
         body: errorText.substring(0, 200),
       });
 
-      // Return empty array for 404 (no seats found)
-      if (response.status === 404) {
+      // Return empty array for 404 (no seats found) or 401/403 (unauthorized - backend requires auth but we want public access)
+      if (
+        response.status === 404 ||
+        response.status === 401 ||
+        response.status === 403
+      ) {
+        console.log(
+          "Backend requires auth or seats not found, returning empty array for public access"
+        );
         return NextResponse.json([], { status: 200 });
       }
 

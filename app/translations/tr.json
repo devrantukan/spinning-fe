@@ -240,6 +240,19 @@
     "creditBalance": "Kredi Bakiyesi",
     "creditBalanceInfo": "Ders rezervasyonu için mevcut krediler",
     "totalBookings": "Toplam Rezervasyon",
+    "sessions": {
+      "title": "Derslerim",
+      "upcoming": "Yaklaşan Dersler",
+      "past": "Geçmiş Dersler",
+      "empty": "Ders bulunamadı.",
+      "bicycle": "Bisiklet",
+      "status": {
+        "CONFIRMED": "Onaylandı",
+        "CANCELLED": "İptal Edildi",
+        "PENDING": "Beklemede",
+        "CHECKED_IN": "Giriş Yapıldı"
+      }
+    },
     "creditHistory": {
       "title": "Kredi Geçmişi",
       "date": "Tarih",
@@ -248,7 +261,12 @@
       "description": "Açıklama",
       "credit": "Kredi",
       "debit": "Borç",
-      "empty": "Kredi geçmişi bulunmamaktadır."
+      "empty": "Kredi geçmişi bulunmamaktadır.",
+      "creditDescription": "Kredi ekleme",
+      "debitDescription": "Ders kayıt",
+      "packageRedemption": "Paket kullanımı onaylandı",
+      "paymentForBooking": "Ders kayıt",
+      "creditAddedManually": "Kredi manuel eklendi"
     },
     "status": {
       "active": "Aktif",
@@ -509,13 +527,13 @@
       "notFound": "Ders bulunamadı"
     },
     "seatLayout": {
-      "title": "Koltuk Seçin",
+      "title": "Bisiklet Seçin",
       "available": "Müsait",
       "selected": "Seçili",
       "occupied": "Dolu",
       "stage": "Sahne / Eğitmen",
-      "selectedSeats": "Seçili Koltuklar",
-      "selectedSeat": "Seçili Koltuk",
+      "selectedSeats": "Seçili Bisikletler",
+      "selectedSeat": "Seçili Bisiklet",
       "clickToBook": "Etkinliğe rezervasyon yapmak için bir slot'a tıklayın",
       "yourBooking": "Rezervasyonunuz",
       "taken": "Dolu",

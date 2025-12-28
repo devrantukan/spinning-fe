@@ -1509,130 +1509,142 @@ export default function SessionDetailPage() {
 
                 {/* Seats Grid */}
                 <div className="space-y-3 mb-6 flex flex-col items-center">
-                  {Object.keys(seatsByRow)
-                    .sort()
-                    .map((row) => (
-                      <div key={row} className="flex items-center gap-3">
-                        <div className="flex gap-2 flex-wrap justify-center">
-                          {seatsByRow[row]
-                            .sort(
-                              (a, b) =>
-                                (a.column || a.number) - (b.column || b.number)
-                            )
-                            .map((seat) => (
-                              <button
-                                key={seat.id}
-                                onClick={() => handleSeatClick(seat.id)}
-                                disabled={
-                                  seat.status === "occupied" ||
-                                  seat.status === "unavailable" ||
-                                  seat.type === "instructor" ||
-                                  seat.type === "podium" ||
-                                  seat.type === "column" ||
-                                  (seat.type !== "normal" &&
-                                    seat.type !== "exclusive")
-                                }
-                                className={`min-w-10 min-h-10 lg:min-w-12 lg:min-h-12 w-auto h-auto px-2 py-2 lg:px-3 lg:py-3 transition-all flex items-center justify-center ${
-                                  seat.type === "podium" ||
-                                  seat.type === "column"
-                                    ? "bg-gray-600 dark:bg-gray-800 rounded cursor-not-allowed opacity-60"
-                                    : seat.type === "instructor"
-                                    ? "bg-gray-800 dark:bg-black rounded cursor-not-allowed opacity-60"
-                                    : seat.type === "exclusive"
-                                    ? seat.status === "available"
+                  {Object.keys(seatsByRow).length > 0 ? (
+                    Object.keys(seatsByRow)
+                      .sort()
+                      .map((row) => (
+                        <div key={row} className="flex items-center gap-3">
+                          <div className="flex gap-2 flex-wrap justify-center">
+                            {seatsByRow[row]
+                              .sort(
+                                (a, b) =>
+                                  (a.column || a.number) -
+                                  (b.column || b.number)
+                              )
+                              .map((seat) => (
+                                <button
+                                  key={seat.id}
+                                  onClick={() => handleSeatClick(seat.id)}
+                                  disabled={
+                                    seat.status === "occupied" ||
+                                    seat.status === "unavailable" ||
+                                    seat.type === "instructor" ||
+                                    seat.type === "podium" ||
+                                    seat.type === "column" ||
+                                    (seat.type !== "normal" &&
+                                      seat.type !== "exclusive")
+                                  }
+                                  className={`min-w-10 min-h-10 lg:min-w-12 lg:min-h-12 w-auto h-auto px-2 py-2 lg:px-3 lg:py-3 transition-all flex items-center justify-center ${
+                                    seat.type === "podium" ||
+                                    seat.type === "column"
+                                      ? "bg-gray-600 dark:bg-gray-800 rounded cursor-not-allowed opacity-60"
+                                      : seat.type === "instructor"
+                                      ? "bg-gray-800 dark:bg-black rounded cursor-not-allowed opacity-60"
+                                      : seat.type === "exclusive"
+                                      ? seat.status === "available"
+                                        ? user
+                                          ? "bg-purple-500 hover:bg-purple-600 cursor-pointer border-2 border-transparent hover:border-purple-600 rounded-full"
+                                          : "bg-purple-500 hover:bg-purple-600 cursor-pointer border-2 border-transparent hover:border-purple-600 opacity-75 rounded-full"
+                                        : seat.status === "selected"
+                                        ? "bg-orange-500 hover:bg-orange-600 cursor-pointer border-2 border-orange-600 rounded-full"
+                                        : seat.status === "occupied"
+                                        ? "bg-red-500 dark:bg-red-600 cursor-not-allowed opacity-50 rounded-full"
+                                        : "bg-gray-500 dark:bg-gray-700 cursor-not-allowed opacity-50 rounded-full"
+                                      : seat.status === "unavailable"
+                                      ? "bg-gray-400 dark:bg-gray-500 rounded-full cursor-not-allowed opacity-40 border-2 border-gray-500 dark:border-gray-400"
+                                      : seat.status === "available"
                                       ? user
-                                        ? "bg-purple-500 hover:bg-purple-600 cursor-pointer border-2 border-transparent hover:border-purple-600 rounded-full"
-                                        : "bg-purple-500 hover:bg-purple-600 cursor-pointer border-2 border-transparent hover:border-purple-600 opacity-75 rounded-full"
+                                        ? "bg-gray-700 dark:bg-gray-700 hover:bg-gray-800 dark:hover:bg-gray-600 cursor-pointer border-2 border-transparent hover:border-gray-500 rounded-full"
+                                        : "bg-gray-700 dark:bg-gray-700 hover:bg-gray-800 dark:hover:bg-gray-600 cursor-pointer border-2 border-transparent hover:border-gray-500 opacity-75 rounded-full"
                                       : seat.status === "selected"
                                       ? "bg-orange-500 hover:bg-orange-600 cursor-pointer border-2 border-orange-600 rounded-full"
                                       : seat.status === "occupied"
                                       ? "bg-red-500 dark:bg-red-600 cursor-not-allowed opacity-50 rounded-full"
                                       : "bg-gray-500 dark:bg-gray-700 cursor-not-allowed opacity-50 rounded-full"
-                                    : seat.status === "unavailable"
-                                    ? "bg-gray-400 dark:bg-gray-500 rounded-full cursor-not-allowed opacity-40 border-2 border-gray-500 dark:border-gray-400"
-                                    : seat.status === "available"
-                                    ? user
-                                      ? "bg-gray-700 dark:bg-gray-700 hover:bg-gray-800 dark:hover:bg-gray-600 cursor-pointer border-2 border-transparent hover:border-gray-500 rounded-full"
-                                      : "bg-gray-700 dark:bg-gray-700 hover:bg-gray-800 dark:hover:bg-gray-600 cursor-pointer border-2 border-transparent hover:border-gray-500 opacity-75 rounded-full"
-                                    : seat.status === "selected"
-                                    ? "bg-orange-500 hover:bg-orange-600 cursor-pointer border-2 border-orange-600 rounded-full"
-                                    : seat.status === "occupied"
-                                    ? "bg-red-500 dark:bg-red-600 cursor-not-allowed opacity-50 rounded-full"
-                                    : "bg-gray-500 dark:bg-gray-700 cursor-not-allowed opacity-50 rounded-full"
-                                }`}
-                                title={
-                                  seat.status === "occupied"
-                                    ? t("classes.seatLayout.taken") || "Taken"
-                                    : seat.status === "unavailable"
-                                    ? t("classes.seatLayout.unavailable") ||
-                                      "Unavailable"
-                                    : seat.status === "selected"
-                                    ? t("classes.seatLayout.selected") ||
-                                      "Selected"
-                                    : seat.type === "instructor"
-                                    ? t("classes.seatLayout.instructor") ||
-                                      "Instructor"
-                                    : seat.type === "podium"
-                                    ? t("classes.seatLayout.podium") || "Podium"
-                                    : seat.type === "column"
-                                    ? t("classes.seatLayout.column") || "Column"
-                                    : seat.type === "exclusive"
-                                    ? `${
-                                        t("classes.seatLayout.exclusive") ||
-                                        "Exclusive"
-                                      }${
-                                        seat.creditCost
-                                          ? ` - ${seat.creditCost} ${
-                                              t("classes.session.credits") ||
-                                              "Credits"
-                                            }`
-                                          : ""
-                                      }`
-                                    : seat.status === "available"
-                                    ? user
-                                      ? t("classes.seatLayout.available") ||
-                                        "Available - Click to select"
-                                      : t("classes.booking.loginRequired") ||
-                                        "Please log in to select seats"
-                                    : seat.id
-                                }
-                              >
-                                {seat.type === "podium" ||
-                                seat.type === "column" ||
-                                seat.type === "instructor" ? (
-                                  <span className="text-xs lg:text-sm text-white font-bold">
-                                    {seat.label ||
-                                      (seat.type === "podium"
-                                        ? "P"
-                                        : seat.type === "column"
-                                        ? language === "tr"
-                                          ? "K"
-                                          : "C"
-                                        : seat.type === "instructor"
-                                        ? language === "tr"
-                                          ? "E"
-                                          : "I"
-                                        : "")}
-                                  </span>
-                                ) : (
-                                  <span
-                                    className={`text-xs lg:text-sm font-semibold ${
-                                      seat.type === "exclusive" ||
-                                      seat.status === "selected" ||
-                                      seat.status === "occupied" ||
-                                      seat.status === "available"
-                                        ? "text-white"
-                                        : "text-white"
-                                    }`}
-                                  >
-                                    {seat.number}
-                                  </span>
-                                )}
-                              </button>
-                            ))}
+                                  }`}
+                                  title={
+                                    seat.status === "occupied"
+                                      ? t("classes.seatLayout.taken") || "Taken"
+                                      : seat.status === "unavailable"
+                                      ? t("classes.seatLayout.unavailable") ||
+                                        "Unavailable"
+                                      : seat.status === "selected"
+                                      ? t("classes.seatLayout.selected") ||
+                                        "Selected"
+                                      : seat.type === "instructor"
+                                      ? t("classes.seatLayout.instructor") ||
+                                        "Instructor"
+                                      : seat.type === "podium"
+                                      ? t("classes.seatLayout.podium") ||
+                                        "Podium"
+                                      : seat.type === "column"
+                                      ? t("classes.seatLayout.column") ||
+                                        "Column"
+                                      : seat.type === "exclusive"
+                                      ? `${
+                                          t("classes.seatLayout.exclusive") ||
+                                          "Exclusive"
+                                        }${
+                                          seat.creditCost
+                                            ? ` - ${seat.creditCost} ${
+                                                t("classes.session.credits") ||
+                                                "Credits"
+                                              }`
+                                            : ""
+                                        }`
+                                      : seat.status === "available"
+                                      ? user
+                                        ? t("classes.seatLayout.available") ||
+                                          "Available - Click to select"
+                                        : t("classes.booking.loginRequired") ||
+                                          "Please log in to select seats"
+                                      : seat.id
+                                  }
+                                >
+                                  {seat.type === "podium" ||
+                                  seat.type === "column" ||
+                                  seat.type === "instructor" ? (
+                                    <span className="text-xs lg:text-sm text-white font-bold">
+                                      {seat.label ||
+                                        (seat.type === "podium"
+                                          ? "P"
+                                          : seat.type === "column"
+                                          ? language === "tr"
+                                            ? "K"
+                                            : "C"
+                                          : seat.type === "instructor"
+                                          ? language === "tr"
+                                            ? "E"
+                                            : "I"
+                                          : "")}
+                                    </span>
+                                  ) : (
+                                    <span
+                                      className={`text-xs lg:text-sm font-semibold ${
+                                        seat.type === "exclusive" ||
+                                        seat.status === "selected" ||
+                                        seat.status === "occupied" ||
+                                        seat.status === "available"
+                                          ? "text-white"
+                                          : "text-white"
+                                      }`}
+                                    >
+                                      {seat.number}
+                                    </span>
+                                  )}
+                                </button>
+                              ))}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))
+                  ) : (
+                    <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                      <p>
+                        {t("classes.seatLayout.noSeatsAvailable") ||
+                          "No seat layout available for this session."}
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Selected Seat Summary and Book Button Container - Fixed layout */}
@@ -1648,9 +1660,11 @@ export default function SessionDetailPage() {
                               <div className="absolute -top-1 -right-1 w-6 h-6 border-2 border-white rounded-full bg-transparent"></div>
                             </div>
                             <div>
-                              <p className="text-white/90 text-xs font-semibold uppercase tracking-wider mb-1">
-                                {t("classes.seatLayout.selectedSeat") ||
-                                  "Selected Seat"}
+                              <p className="text-white/90 text-xs font-semibold tracking-wider mb-1">
+                                {toUpperCaseTurkish(
+                                  t("classes.seatLayout.selectedSeat") ||
+                                    "Selected Seat"
+                                )}
                               </p>
                               {(() => {
                                 const selectedSeat = seats.find(
@@ -1689,8 +1703,10 @@ export default function SessionDetailPage() {
                             const creditCost = selectedSeat?.creditCost || 1;
                             return (
                               <div className="text-right bg-white rounded-lg px-5 py-4 shadow-md border border-gray-200">
-                                <p className="text-gray-800 dark:text-gray-800 text-xs font-bold uppercase tracking-wider mb-1.5">
-                                  {t("classes.session.credits") || "Credits"}
+                                <p className="text-gray-800 dark:text-gray-800 text-xs font-bold tracking-wider mb-1.5">
+                                  {toUpperCaseTurkish(
+                                    t("classes.session.credits") || "Credits"
+                                  )}
                                 </p>
                                 <div className="flex items-baseline justify-end gap-1.5">
                                   <span className="text-gray-900 dark:text-gray-900 text-2xl font-black">
