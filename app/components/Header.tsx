@@ -80,7 +80,13 @@ export default function Header() {
                   href="/classes"
                   className="text-gray-900 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-500 font-medium transition-colors duration-200"
                 >
-                  {t("nav.classes")}
+                  {t("nav.selectClass")}
+                </Link>
+                <Link
+                  href="/pricing"
+                  className="text-gray-900 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-500 font-medium transition-colors duration-200"
+                >
+                  {t("nav.addPackage")}
                 </Link>
               </>
             )}
@@ -182,7 +188,14 @@ export default function Header() {
                   onClick={() => setIsMenuOpen(false)}
                   className="block text-gray-900 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-500 font-medium py-2 transition-colors duration-200"
                 >
-                  {t("nav.classes")}
+                  {t("nav.selectClass")}
+                </Link>
+                <Link
+                  href="/pricing"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block text-gray-900 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-500 font-medium py-2 transition-colors duration-200"
+                >
+                  {t("nav.addPackage")}
                 </Link>
               </>
             )}

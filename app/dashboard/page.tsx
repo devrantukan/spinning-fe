@@ -414,7 +414,8 @@ export default function Dashboard() {
                                           {startTime && (
                                             <p className="text-sm text-gray-700 dark:text-gray-300 mb-1">
                                               {startTime.toLocaleDateString()}{" "}
-                                              at{" "}
+                                              {t("dashboard.sessions.at") ||
+                                                "at"}{" "}
                                               {startTime.toLocaleTimeString(
                                                 [],
                                                 {
@@ -519,7 +520,8 @@ export default function Dashboard() {
                                           {startTime && (
                                             <p className="text-sm text-gray-700 dark:text-gray-300 mb-1">
                                               {startTime.toLocaleDateString()}{" "}
-                                              at{" "}
+                                              {t("dashboard.sessions.at") ||
+                                                "at"}{" "}
                                               {startTime.toLocaleTimeString(
                                                 [],
                                                 {

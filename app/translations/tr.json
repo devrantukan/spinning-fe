@@ -4,7 +4,9 @@
     "about": "Hakkımızda",
     "philosophy": "Felsefemiz",
     "classes": "Dersler",
+    "selectClass": "Ders Seç",
     "pricing": "Paketlerimiz",
+    "addPackage": "Paket Ekle",
     "contact": "İletişim",
     "joinUs": "Bize Katıl"
   },
@@ -230,7 +232,7 @@
     }
   },
   "dashboard": {
-    "title": "Panel",
+    "title": "MySpin8",
     "welcome": "Hoş Geldiniz",
     "signOut": "Çıkış Yap",
     "membership": "Üyelik",
@@ -240,19 +242,6 @@
     "creditBalance": "Kredi Bakiyesi",
     "creditBalanceInfo": "Ders rezervasyonu için mevcut krediler",
     "totalBookings": "Toplam Rezervasyon",
-    "sessions": {
-      "title": "Derslerim",
-      "upcoming": "Yaklaşan Dersler",
-      "past": "Geçmiş Dersler",
-      "empty": "Ders bulunamadı.",
-      "bicycle": "Bisiklet",
-      "status": {
-        "CONFIRMED": "Onaylandı",
-        "CANCELLED": "İptal Edildi",
-        "PENDING": "Beklemede",
-        "CHECKED_IN": "Giriş Yapıldı"
-      }
-    },
     "creditHistory": {
       "title": "Kredi Geçmişi",
       "date": "Tarih",
@@ -262,17 +251,153 @@
       "credit": "Kredi",
       "debit": "Borç",
       "empty": "Kredi geçmişi bulunmamaktadır.",
-      "creditDescription": "Kredi ekleme",
-      "debitDescription": "Ders kayıt",
+      "creditDescription": "Kredi yükleme",
+      "debitDescription": "Ders rezervasyonu",
       "packageRedemption": "Paket kullanımı onaylandı",
-      "paymentForBooking": "Ders kayıt",
-      "creditAddedManually": "Kredi manuel eklendi"
+      "paymentForBooking": "Ders rezervasyonu ödemesi",
+      "creditAddedManually": "Manuel kredi yükleme"
     },
     "status": {
       "active": "Aktif",
       "inactive": "Pasif",
       "suspended": "Askıya Alındı"
+    },
+    "allAccess": "Tam Erişim",
+    "expired": "Süresi Dolmuş",
+    "eliteMember": "Elite Üye",
+    "eliteMemberInfo": "Öncelikli rezervasyon ve özel avantajlar",
+    "sessions": {
+      "title": "Seanslarım",
+      "upcoming": "Yaklaşan Seanslar",
+      "past": "Geçmiş Seanslar",
+      "bicycle": "Bisiklet",
+      "at": "saat",
+      "empty": "Seans bulunamadı.",
+      "status": {
+        "CONFIRMED": "ONAYLANDI",
+        "CANCELLED": "İPTAL EDİLDİ",
+        "PENDING": "BEKLEMEDE"
+      }
     }
+  },
+  "classes": {
+    "title": "Dersler",
+    "timetable": "Haftalık seanslarımızda kendi ritminizi bulun",
+    "quickDateSelection": "Hızlı Tarih Seçimi",
+    "previousWeek": "Önceki hafta",
+    "nextWeek": "Sonraki hafta",
+    "noSessions": "Bu gün için planlanmış seans bulunmamaktadır",
+    "daySuffix": {
+      "st": "",
+      "nd": "",
+      "rd": "",
+      "th": ""
+    },
+    "days": {
+      "sun": "Pazar",
+      "mon": "Pazartesi",
+      "tue": "Salı",
+      "wed": "Çarşamba",
+      "thu": "Perşembe",
+      "fri": "Cuma",
+      "sat": "Cumartesi"
+    },
+    "months": {
+      "long": {
+        "january": "Ocak",
+        "february": "Şubat",
+        "march": "Mart",
+        "april": "Nisan",
+        "may": "Mayıs",
+        "june": "Haziran",
+        "july": "Temmuz",
+        "august": "Ağustos",
+        "september": "Eylül",
+        "october": "Ekim",
+        "november": "Kasım",
+        "december": "Aralık"
+      },
+      "short": {
+        "jan": "Oca",
+        "feb": "Şub",
+        "mar": "Mar",
+        "apr": "Nis",
+        "may": "May",
+        "jun": "Haz",
+        "jul": "Tem",
+        "aug": "Ağu",
+        "sep": "Eyl",
+        "oct": "Eki",
+        "nov": "Kas",
+        "dec": "Ara"
+      }
+    },
+    "filters": {
+      "instructors": "Eğitmenler",
+      "allInstructors": "Tüm Eğitmenler",
+      "workoutType": "Antrenman Türü",
+      "allTypes": "Tüm Türler",
+      "search": "Ara",
+      "searchPlaceholder": "Eğitmen, müzik ara...",
+      "timeFilter": "Zaman Filtresi",
+      "allDay": "Tüm Gün",
+      "am": "ÖÖ",
+      "pm": "ÖS"
+    },
+    "session": {
+      "with": "ile",
+      "time": "Saat:",
+      "date": "Tarih:",
+      "duration": "Süre:",
+      "minutes": "dk",
+      "location": "Konum:",
+      "studio": "Stüdyo:",
+      "musicGenre": "Müzik:",
+      "bookNow": "Rezervasyon Yap",
+      "booking": "Rezervasyon yapılıyor...",
+      "timeTbd": "Belli değil",
+      "unknownInstructor": "Bilinmeyen Eğitmen",
+      "instructor": "Eğitmen",
+      "workoutType": "Antrenman Türü",
+      "cycling": "Cycling",
+      "spacesLeft": "boş yer",
+      "notFound": "Seans bulunamadı",
+      "credits": "Kredi",
+      "required": "Gerekli"
+    },
+    "booking": {
+      "credits": "Kredi",
+      "available": "mevcut",
+      "allAccess": "Tam Erişim",
+      "friendPass": "Arkadaş Kartı",
+      "cancel": "İptal",
+      "confirm": "Rezervasyonu Onayla",
+      "selectPaymentMethod": "Ödeme Yöntemi Seçin",
+      "selectPaymentMethodDescription": "Bu seans için nasıl ödeme yapmak istediğinizi seçin:",
+      "success": "Rezervasyon başarılı!",
+      "error": "Rezervasyon yapılamadı. Lütfen tekrar deneyin.",
+      "noMember": "Üye hesabı bulunamadı. Lütfen destek ile iletişime geçin.",
+      "loginRequired": "Etkinlik detaylarını görmek için giriş yapın",
+      "alreadyBooked": "Bu seans için zaten bir rezervasyonunuz var. Her seans için sadece bir rezervasyona izin verilir."
+    },
+    "seatLayout": {
+      "clickToBook": "Rezervasyon yapmak için bir bisiklet seçin",
+      "available": "Müsait",
+      "yourBooking": "Sizin Rezervasyonunuz",
+      "taken": "Dolu",
+      "podium": "Podyum",
+      "column": "Kolon",
+      "instructor": "Eğitmen",
+      "exclusive": "Özel",
+      "unavailable": "Devre Dışı",
+      "noSeatsAvailable": "Bu seans için bisiklet düzeni bulunmamaktadır.",
+      "selectedSeat": "Seçilen Bisiklet",
+      "selected": "Seçildi",
+      "podiumLabel": "P",
+      "columnLabel": "K",
+      "instructorLabel": "E"
+    },
+    "backToClasses": "Derslere Geri Dön"
   },
   "pricing": {
     "title": "Paketlerimiz",
@@ -392,173 +517,45 @@
     "contact": "Hala sorularınız mı var? Bizimle iletişime geçin, size yardımcı olmaktan mutluluk duyarız!",
     "questions": {
       "q1": {
-        "question": "İlk dersimi nasıl rezerve ederim?",
-        "answer": "Spin8 Studio'nun web sitesine kayıt olarak.\nBilgilerini giriyorsun ve ardından ders paketlerini satın alabiliyorsun. Bu paketler, derslerini farklı zamanlarda rezerve etmene olanak tanıyor."
+        "question": "İlk dersime ne getirmeliyim?",
+        "answer": "Lütfen bir su şişesi, havlu getirin ve rahat spor kıyafetleri giyin. Bisiklet ayakkabıları sağlıyoruz, ancak tercih ederseniz kendi ayakkabılarınızı da getirebilirsiniz."
       },
       "q2": {
-        "question": "Dersler ne kadar sürüyor?",
-        "answer": "Derslerimiz 50 dakika sürer.\nProgramımızın düzgün ilerlemesi için her zaman zamanında başlarız."
+        "question": "Dersleri önceden rezerve etmem gerekiyor mu?",
+        "answer": "Evet, yerinizi garanti altına almak için dersleri çevrimiçi sistemimiz aracılığıyla önceden rezerve etmenizi öneririz. Özellikle yoğun saatlerde dersler hızla dolabilir."
       },
       "q3": {
-        "question": "Derse zamanında gelmezsem ne olur?",
-        "answer": "Bir şarkılık gecikme toleransı sunuyoruz — yani kapılar yalnızca ilk ısınma şarkısı bitene kadar tekrar açılır.\nOndan sonra derse girişe izin verilmez."
+        "question": "İptal politikası nedir?",
+        "answer": "Planlanan saatten 12 saat öncesine kadar ders rezervasyonunuzu kredinizi kaybetmeden iptal edebilirsiniz. Ders saatinden 12 saatten az bir süre önce yapılan iptaller kredi kaybıyla sonuçlanır."
       },
       "q4": {
-        "question": "Tüm dersler aynı mı, yoksa farklı yoğunluk seviyeleri var mı?",
-        "answer": "Derslerimiz yoğunluk seviyelerine göre ayrılmaz.\nTüm dersler, vücudu dengeli ve etkili şekilde çalıştırmak üzere tasarlanmış ortak bir yapıya sahiptir.\nHer koç, kendi enerjisini ve tarzını derse katar; bu da her sürüşü benzersiz kılar.\n\nYoğunluk yönlendirmeleri koçlar tarafından verilir; ancak sürüş temposunu her zaman kendi seviyene göre ayarlayabilirsin."
+        "question": "Farklı zorluk seviyeleri var mı?",
+        "answer": "Derslerimiz tüm fitness seviyelerine uyacak şekilde tasarlanmıştır. Eğitmenler modifikasyonlar sağlar ve kendi hızınızda çalışmanızı teşvik eder. Her ders fitness seviyenize göre ayarlanabilir."
       },
       "q5": {
-        "question": "Ders paketim ne zaman aktif olur?",
-        "answer": "Satın aldığın ders paketi, ödeme tamamlandığı anda aktif hale gelir.\nPaketin geçerlilik süresi, seçilen pakete göre değişiklik gösterebilir.\nDetaylı bilgiye web sitemiz üzerinden ulaşabilirsin."
+        "question": "Krediler nasıl çalışır?",
+        "answer": "Krediler ders rezerve etmek için kullanılır. Farklı paketler farklı sayıda kredi sunar. Krediler paket şartlarınızda belirtilen belirli bir süre için geçerlidir."
       },
       "q6": {
-        "question": "Spin8 Studio'daki bir derse gelirken yanımda ne getirmeliyim?",
-        "answer": "Nefes alabilen spor kıyafetleri giymeni öneririz.\nBisiklete uygun kendi spor ayakkabılarını ve temiz havlunu yanında getirmen gerekmektedir.\nStüdyoda (sadece) derslerde kullanılmak üzere uygun ayakkabı ile sürüş yapılmaktadır.\nDilersen, Spin8 Studio için özel olarak üretilmiş havlularımızı stüdyomuzdan satın alabilirsin.\nDers sonrası ferahlamak için duş ve kilitli dolaplarımız mevcuttur."
+        "question": "Kredilerimi başka birine transfer edebilir miyim?",
+        "answer": "Hayır, krediler devredilemez ve hesabınıza bağlıdır. Paylaşılamaz veya diğer üyelere transfer edilemez."
       },
       "q7": {
-        "question": "Rezervasyonumu nasıl iptal edebilirim?",
-        "answer": "Ders başlangıç saatinden 12 saat öncesine kadar rezervasyonunu iptal edebilirsin.\nDerse 6 saatten daha az bir süre kala yapılan iptallerde, ders kredisi iade edilmez."
+        "question": "Derse geç kalırsam ne olur?",
+        "answer": "5 dakikadan fazla geç kalırsanız, yeriniz bekleme listesindeki birine verilebilir. Bisikletinizi kurmak için 10-15 dakika önce gelmenizi öneririz."
       },
       "q8": {
-        "question": "Hamileyken derse katılabilir miyim?",
-        "answer": "Evet. Doktorunun onayı olduğu ve ekibi önceden bilgilendirdiğin sürece derse katılabilirsin."
+        "question": "Deneme dersi sunuyor musunuz?",
+        "answer": "Evet, ilk kez gelen ziyaretçiler için deneme dersleri sunuyoruz. Deneme dersinizi planlamak ve Spin8'in sunduklarını deneyimlemek için lütfen bizimle iletişime geçin."
       },
       "q9": {
-        "question": "Bir cycling dersinde kaç kalori yakabilirim?",
-        "answer": "Bu, fitness seviyene ve derste gösterdiğin efora bağlıdır.\nAncak araştırmalar, tek bir derste ortalama 500–700 kalori yakılabileceğini göstermektedir."
+        "question": "Katılmak için kaç yaşında olmam gerekiyor?",
+        "answer": "Katılımcılar en az 16 yaşında olmalıdır. 18 yaş altı katılımcılar için ebeveyn onayı gerekir ve duruma göre gözetim gerekebilir."
       },
       "q10": {
-        "question": "Soyunma odalarınız var mı?",
-        "answer": "Evet.\nDuş, kilitli dolaplar, şampuan, sabun, saç kremi ve saç kurutma makineleriyle donatılmış soyunma odalarımız mevcuttur."
-      },
-      "q11": {
-        "question": "Kendi suyumu mu getirmeli miyim?",
-        "answer": "Su satın alabileceğin, kahve ve çeşitli içeceklerin yer aldığı bir alanımız mevcuttur.\nAyrıca BigJoy markasına ait protein tozu saşeleri, L-carnitine ve pre-workout ürünlerini de bu alandan temin edebilirsin."
-      },
-      "q12": {
-        "question": "Stüdyoya geldiğimde ne yapmalıyım?",
-        "answer": "Stüdyoya giriş yaptığında check-in yapman yeterlidir.\nEkibimiz seni karşılayacak ve ihtiyacın olan her konuda yardımcı olacaktır."
+        "question": "Paket nasıl satın alırım?",
+        "answer": "Paketleri web sitemizin fiyatlandırma sayfasından satın alabilirsiniz. Size uygun paketi seçin, varsa kupon kodlarınızı ekleyin ve satın alma işleminizi tamamlayın. Ödeme sonrası kredileriniz hemen hesabınıza yüklenecektir."
       }
-    }
-  },
-  "classes": {
-    "title": "Dersler",
-    "timetable": "Program",
-    "quickDateSelection": "Hızlı Tarih Seçimi",
-    "previousWeek": "Önceki Hafta",
-    "nextWeek": "Sonraki Hafta",
-    "noSessions": "Seçilen tarihler için ders bulunmamaktadır.",
-    "filters": {
-      "instructors": "Eğitmenler",
-      "allInstructors": "Tüm Eğitmenler",
-      "workoutType": "Antrenman Türü",
-      "allTypes": "Tüm Türler",
-      "search": "Ara",
-      "searchPlaceholder": "Dersleri ara...",
-      "timeFilter": "Zaman Filtresi",
-      "allDay": "Tüm Gün",
-      "am": "ÖÖ",
-      "pm": "ÖS"
-    },
-    "days": {
-      "sun": "Pazar",
-      "mon": "Pazartesi",
-      "tue": "Salı",
-      "wed": "Çarşamba",
-      "thu": "Perşembe",
-      "fri": "Cuma",
-      "sat": "Cumartesi"
-    },
-    "months": {
-      "short": {
-        "jan": "Oca",
-        "feb": "Şub",
-        "mar": "Mar",
-        "apr": "Nis",
-        "may": "May",
-        "jun": "Haz",
-        "jul": "Tem",
-        "aug": "Ağu",
-        "sep": "Eyl",
-        "oct": "Eki",
-        "nov": "Kas",
-        "dec": "Ara"
-      },
-      "long": {
-        "january": "Ocak",
-        "february": "Şubat",
-        "march": "Mart",
-        "april": "Nisan",
-        "may": "Mayıs",
-        "june": "Haziran",
-        "july": "Temmuz",
-        "august": "Ağustos",
-        "september": "Eylül",
-        "october": "Ekim",
-        "november": "Kasım",
-        "december": "Aralık"
-      }
-    },
-    "daySuffix": {
-      "st": ".",
-      "nd": ".",
-      "rd": ".",
-      "th": "."
-    },
-    "session": {
-      "date": "Tarih",
-      "time": "Saat",
-      "timeTbd": "Saat Belirlenecek",
-      "with": "Eğitmen",
-      "instructor": "Eğitmen",
-      "unknownInstructor": "Bilinmeyen Eğitmen",
-      "duration": "Süre",
-      "minutes": "dakika",
-      "location": "Konum",
-      "studio": "Stüdyo",
-      "musicGenre": "Müzik Türü",
-      "workoutType": "Antrenman Türü",
-      "cycling": "Spinning",
-      "spacesLeft": "boş yer kaldı",
-      "credits": "Kredi",
-      "required": "Gerekli",
-      "booking": "Rezervasyon yapılıyor...",
-      "bookNow": "Rezervasyon Yap",
-      "notFound": "Ders bulunamadı"
-    },
-    "seatLayout": {
-      "title": "Bisiklet Seçin",
-      "available": "Müsait",
-      "selected": "Seçili",
-      "occupied": "Dolu",
-      "stage": "Sahne / Eğitmen",
-      "selectedSeats": "Seçili Bisikletler",
-      "selectedSeat": "Seçili Bisiklet",
-      "clickToBook": "Etkinliğe rezervasyon yapmak için bir slot'a tıklayın",
-      "yourBooking": "Rezervasyonunuz",
-      "taken": "Dolu",
-      "podium": "Podyum",
-      "column": "Kolon",
-      "instructor": "Eğitmen",
-      "exclusive": "Özel",
-      "unavailable": "Müsait Değil"
-    },
-    "backToClasses": "Derslere Dön",
-    "booking": {
-      "loginRequired": "Ders rezervasyonu yapmak için lütfen giriş yapın.",
-      "insufficientCredits": "Yetersiz kredi veya ödeme yöntemi bulunmamaktadır.",
-      "noMember": "Üye hesabı bulunamadı. Lütfen destek ile iletişime geçin.",
-      "success": "Rezervasyon başarılı!",
-      "error": "Ders rezervasyonu başarısız oldu. Lütfen tekrar deneyin.",
-      "alreadyBooked": "Bu ders için zaten bir rezervasyonunuz var. Her ders için yalnızca bir rezervasyon yapılabilir.",
-      "selectPaymentMethod": "Ödeme Yöntemi Seçin",
-      "selectPaymentMethodDescription": "Bu ders için nasıl ödeme yapmak istediğinizi seçin:",
-      "credits": "Krediler",
-      "available": "mevcut",
-      "allAccess": "Tam Erişim",
-      "friendPass": "Arkadaş Geçişi",
-      "cancel": "İptal",
-      "confirm": "Rezervasyonu Onayla"
     }
   },
   "footer": {

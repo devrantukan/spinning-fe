@@ -103,15 +103,8 @@ export async function GET(
         body: errorText.substring(0, 200),
       });
 
-      // Return empty array for 404 (no seats found) or 401/403 (unauthorized - backend requires auth but we want public access)
-      if (
-        response.status === 404 ||
-        response.status === 401 ||
-        response.status === 403
-      ) {
-        console.log(
-          "Backend requires auth or seats not found, returning empty array for public access"
-        );
+      // Return empty array for 404 (no seats found)
+      if (response.status === 404) {
         return NextResponse.json([], { status: 200 });
       }
 

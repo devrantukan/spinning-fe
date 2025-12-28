@@ -119,21 +119,11 @@ export async function GET(request: NextRequest) {
                 }
               } else {
                 const errorText = await seatsResponse.text();
-                // If 401/403, backend requires auth - continue without seats (will generate default grid)
-                if (
-                  seatsResponse.status === 401 ||
-                  seatsResponse.status === 403
-                ) {
-                  console.log(
-                    "Backend requires auth for seats, continuing without seats - will generate default grid"
-                  );
-                } else {
-                  console.error("Error fetching seats:", {
-                    status: seatsResponse.status,
-                    statusText: seatsResponse.statusText,
-                    body: errorText.substring(0, 200),
-                  });
-                }
+                console.error("Error fetching seats:", {
+                  status: seatsResponse.status,
+                  statusText: seatsResponse.statusText,
+                  body: errorText.substring(0, 200),
+                });
               }
             } catch (seatsError) {
               console.error("Error fetching seats:", seatsError);

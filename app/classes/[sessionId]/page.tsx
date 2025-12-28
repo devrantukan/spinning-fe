@@ -820,44 +820,35 @@ export default function SessionDetailPage() {
         return dateString;
       }
 
+      const dayKeys = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+      const monthKeys = [
+        "january",
+        "february",
+        "march",
+        "april",
+        "may",
+        "june",
+        "july",
+        "august",
+        "september",
+        "october",
+        "november",
+        "december",
+      ];
+
+      const dayNum = date.getDate();
+      const monthName = t(
+        `classes.months.long.${monthKeys[date.getMonth()]}`
+      );
+      const dayName = t(`classes.days.${dayKeys[date.getDay()]}`);
+      const year = date.getFullYear();
+
       if (language === "tr") {
         // Turkish format: "25 Aralık 2026 Cumartesi"
-        const day = date.getDate();
-        const monthNames = [
-          "Ocak",
-          "Şubat",
-          "Mart",
-          "Nisan",
-          "Mayıs",
-          "Haziran",
-          "Temmuz",
-          "Ağustos",
-          "Eylül",
-          "Ekim",
-          "Kasım",
-          "Aralık",
-        ];
-        const weekdayNames = [
-          "Pazar",
-          "Pazartesi",
-          "Salı",
-          "Çarşamba",
-          "Perşembe",
-          "Cuma",
-          "Cumartesi",
-        ];
-        const month = monthNames[date.getMonth()];
-        const year = date.getFullYear();
-        const weekday = weekdayNames[date.getDay()];
-        return `${day} ${month} ${year} ${weekday}`;
+        return `${dayNum} ${monthName} ${year} ${dayName}`;
       } else {
         // English format: "Saturday, December 25, 2026"
-        return date.toLocaleDateString("en-US", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        });
+        return `${dayName}, ${monthName} ${dayNum}, ${year}`;
       }
     } catch {
       return dateString;
@@ -1476,7 +1467,7 @@ export default function SessionDetailPage() {
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 lg:w-5 lg:h-5 bg-gray-600 dark:bg-gray-800 rounded flex items-center justify-center">
                       <span className="text-xs lg:text-sm text-white font-bold">
-                        {language === "tr" ? "K" : "C"}
+                        {t("classes.seatLayout.columnLabel") || "C"}
                       </span>
                     </div>
                     <span className="text-gray-700 dark:text-gray-300">
@@ -1486,7 +1477,7 @@ export default function SessionDetailPage() {
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 lg:w-5 lg:h-5 bg-gray-800 dark:bg-black rounded flex items-center justify-center">
                       <span className="text-xs lg:text-sm text-white font-bold">
-                        {language === "tr" ? "E" : "I"}
+                        {t("classes.seatLayout.instructorLabel") || "I"}
                       </span>
                     </div>
                     <span className="text-gray-700 dark:text-gray-300">
@@ -1607,15 +1598,11 @@ export default function SessionDetailPage() {
                                     <span className="text-xs lg:text-sm text-white font-bold">
                                       {seat.label ||
                                         (seat.type === "podium"
-                                          ? "P"
+                                          ? t("classes.seatLayout.podiumLabel") || "P"
                                           : seat.type === "column"
-                                          ? language === "tr"
-                                            ? "K"
-                                            : "C"
+                                          ? t("classes.seatLayout.columnLabel") || "C"
                                           : seat.type === "instructor"
-                                          ? language === "tr"
-                                            ? "E"
-                                            : "I"
+                                          ? t("classes.seatLayout.instructorLabel") || "I"
                                           : "")}
                                     </span>
                                   ) : (
@@ -1660,11 +1647,9 @@ export default function SessionDetailPage() {
                               <div className="absolute -top-1 -right-1 w-6 h-6 border-2 border-white rounded-full bg-transparent"></div>
                             </div>
                             <div>
-                              <p className="text-white/90 text-xs font-semibold tracking-wider mb-1">
-                                {toUpperCaseTurkish(
-                                  t("classes.seatLayout.selectedSeat") ||
-                                    "Selected Seat"
-                                )}
+                              <p className="text-white/90 text-xs font-semibold uppercase tracking-wider mb-1">
+                                {t("classes.seatLayout.selectedSeat") ||
+                                  "Selected Seat"}
                               </p>
                               {(() => {
                                 const selectedSeat = seats.find(
@@ -1703,10 +1688,8 @@ export default function SessionDetailPage() {
                             const creditCost = selectedSeat?.creditCost || 1;
                             return (
                               <div className="text-right bg-white rounded-lg px-5 py-4 shadow-md border border-gray-200">
-                                <p className="text-gray-800 dark:text-gray-800 text-xs font-bold tracking-wider mb-1.5">
-                                  {toUpperCaseTurkish(
-                                    t("classes.session.credits") || "Credits"
-                                  )}
+                                <p className="text-gray-800 dark:text-gray-800 text-xs font-bold uppercase tracking-wider mb-1.5">
+                                  {t("classes.session.credits") || "Credits"}
                                 </p>
                                 <div className="flex items-baseline justify-end gap-1.5">
                                   <span className="text-gray-900 dark:text-gray-900 text-2xl font-black">

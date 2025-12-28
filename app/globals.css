@@ -82,15 +82,6 @@ html:not(.dark):not([data-theme="dark"]) span:not(.text-white):not(.text-orange-
   color: #111827 !important;
 }
 
-/* Force table cells in credit history to be black in light mode */
-html:not(.dark):not([data-theme="dark"]) table tbody td {
-  color: #000000 !important;
-}
-
-html:not(.dark):not([data-theme="dark"]) table tbody td.text-black {
-  color: #000000 !important;
-}
-
 /* Ensure white text stays white in light mode */
 html:not(.dark):not([data-theme="dark"]) .text-white,
 html:not(.dark):not([data-theme="dark"]) a.text-white,
@@ -261,21 +252,6 @@ footer {
   animation: gentlePulse 2s ease-in-out infinite;
 }
 
-@keyframes slide-in {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-.animate-slide-in {
-  animation: slide-in 0.3s ease-out;
-}
-
 @keyframes float {
   0%, 100% {
     transform: translateY(0px);
@@ -300,19 +276,4 @@ footer {
 
 .animate-shimmer-sweep {
   animation: shimmer-sweep 2s infinite;
-}
-
-/* Hide scrollbar for mobile date selection */
-.scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari and Opera */
-}
-
-/* Touch manipulation for better mobile interaction */
-.touch-manipulation {
-  touch-action: manipulation;
 }

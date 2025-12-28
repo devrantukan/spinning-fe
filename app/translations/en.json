@@ -4,7 +4,9 @@
     "about": "About",
     "philosophy": "Our Philosophy",
     "classes": "Classes",
+    "selectClass": "Select Class",
     "pricing": "Our Packages",
+    "addPackage": "Add Package",
     "contact": "Contact",
     "joinUs": "Join Us"
   },
@@ -230,7 +232,7 @@
     }
   },
   "dashboard": {
-    "title": "Dashboard",
+    "title": "MySpin8",
     "welcome": "Welcome",
     "signOut": "Sign Out",
     "membership": "Membership",
@@ -240,19 +242,6 @@
     "creditBalance": "Credit Balance",
     "creditBalanceInfo": "Available credits for booking classes",
     "totalBookings": "Total Bookings",
-    "sessions": {
-      "title": "My Sessions",
-      "upcoming": "Upcoming Sessions",
-      "past": "Past Sessions",
-      "empty": "No sessions found.",
-      "bicycle": "Bicycle",
-      "status": {
-        "CONFIRMED": "Confirmed",
-        "CANCELLED": "Cancelled",
-        "PENDING": "Pending",
-        "CHECKED_IN": "Checked In"
-      }
-    },
     "creditHistory": {
       "title": "Credit History",
       "date": "Date",
@@ -265,14 +254,150 @@
       "creditDescription": "Credit addition",
       "debitDescription": "Class booking",
       "packageRedemption": "Package redemption approved",
-      "paymentForBooking": "Class booking",
+      "paymentForBooking": "Class booking payment",
       "creditAddedManually": "Credit added manually"
     },
     "status": {
       "active": "Active",
       "inactive": "Inactive",
       "suspended": "Suspended"
+    },
+    "allAccess": "All Access",
+    "expired": "Expired",
+    "eliteMember": "Elite Member",
+    "eliteMemberInfo": "Priority booking & exclusive benefits",
+    "sessions": {
+      "title": "My Sessions",
+      "upcoming": "Upcoming Sessions",
+      "past": "Past Sessions",
+      "bicycle": "Bike",
+      "at": "at",
+      "empty": "No sessions found.",
+      "status": {
+        "CONFIRMED": "Confirmed",
+        "CANCELLED": "Cancelled",
+        "PENDING": "Pending"
+      }
     }
+  },
+  "classes": {
+    "title": "Classes",
+    "timetable": "Find your rhythm in our weekly sessions",
+    "quickDateSelection": "Quick Date Selection",
+    "previousWeek": "Previous week",
+    "nextWeek": "Next week",
+    "noSessions": "No sessions scheduled for this day",
+    "daySuffix": {
+      "st": "st",
+      "nd": "nd",
+      "rd": "rd",
+      "th": "th"
+    },
+    "days": {
+      "sun": "Sunday",
+      "mon": "Monday",
+      "tue": "Tuesday",
+      "wed": "Wednesday",
+      "thu": "Thursday",
+      "fri": "Friday",
+      "sat": "Saturday"
+    },
+    "months": {
+      "long": {
+        "january": "January",
+        "february": "February",
+        "march": "March",
+        "april": "April",
+        "may": "May",
+        "june": "June",
+        "july": "July",
+        "august": "August",
+        "september": "September",
+        "october": "October",
+        "november": "November",
+        "december": "December"
+      },
+      "short": {
+        "jan": "Jan",
+        "feb": "Feb",
+        "mar": "Mar",
+        "apr": "Apr",
+        "may": "May",
+        "jun": "Jun",
+        "jul": "Jul",
+        "aug": "Aug",
+        "sep": "Sep",
+        "oct": "Oct",
+        "nov": "Nov",
+        "dec": "Dec"
+      }
+    },
+    "filters": {
+      "instructors": "Instructors",
+      "allInstructors": "All Instructors",
+      "workoutType": "Workout Type",
+      "allTypes": "All Types",
+      "search": "Search",
+      "searchPlaceholder": "Search by instructor, music...",
+      "timeFilter": "Time Filter",
+      "allDay": "All Day",
+      "am": "AM",
+      "pm": "PM"
+    },
+    "session": {
+      "with": "with",
+      "time": "Time:",
+      "date": "Date:",
+      "duration": "Duration:",
+      "minutes": "mins",
+      "location": "Location:",
+      "studio": "Studio:",
+      "musicGenre": "Music:",
+      "bookNow": "Book Now",
+      "booking": "Booking...",
+      "timeTbd": "TBD",
+      "unknownInstructor": "Unknown Instructor",
+      "instructor": "Instructor",
+      "workoutType": "Workout Type",
+      "cycling": "Cycling",
+      "spacesLeft": "spaces left",
+      "notFound": "Session not found",
+      "credits": "Credits",
+      "required": "Required"
+    },
+    "booking": {
+      "credits": "Credits",
+      "available": "available",
+      "allAccess": "All Access",
+      "friendPass": "Friend Pass",
+      "cancel": "Cancel",
+      "confirm": "Confirm Booking",
+      "selectPaymentMethod": "Select Payment Method",
+      "selectPaymentMethodDescription": "Choose how you want to pay for this session:",
+      "success": "Booking successful!",
+      "error": "Failed to book session. Please try again.",
+      "noMember": "Member account not found. Please contact support.",
+      "loginRequired": "Login to see event details",
+      "alreadyBooked": "You already have a booking for this session. Only one booking per session is allowed."
+    },
+    "seatLayout": {
+      "clickToBook": "Click a slot to book into the event",
+      "available": "Available",
+      "yourBooking": "Your booking(s)",
+      "taken": "Taken",
+      "podium": "Podium",
+      "column": "Column",
+      "instructor": "Instructor",
+      "exclusive": "Exclusive",
+      "unavailable": "Unavailable",
+      "noSeatsAvailable": "No bike layout available for this session.",
+      "selectedSeat": "Selected Bike",
+      "selected": "Selected",
+      "podiumLabel": "P",
+      "columnLabel": "C",
+      "instructorLabel": "I"
+    },
+    "backToClasses": "Back to Classes"
   },
   "pricing": {
     "title": "Our Packages",
@@ -392,173 +517,45 @@
     "contact": "Still have questions? Contact us and we'll be happy to help!",
     "questions": {
       "q1": {
-        "question": "How do I reserve my first class?",
-        "answer": "By registering on Spin8 Studio's website.\nYou enter your information and then you can purchase class packages. These packages allow you to reserve your classes at different times."
+        "question": "What should I bring to my first class?",
+        "answer": "Please bring a water bottle, a towel, and wear comfortable workout clothes. We provide cycling shoes, but you're welcome to bring your own if you prefer."
       },
       "q2": {
-        "question": "How long do classes last?",
-        "answer": "Our classes last 50 minutes.\nWe always start on time for our program to proceed properly."
+        "question": "Do I need to book classes in advance?",
+        "answer": "Yes, we recommend booking classes in advance through our online system to secure your spot. Classes can fill up quickly, especially during peak hours."
       },
       "q3": {
-        "question": "What happens if I don't arrive on time for class?",
-        "answer": "We offer a one-song delay tolerance — meaning the doors only reopen until the first warm-up song ends.\nAfter that, entry to class is not permitted."
+        "question": "What is the cancellation policy?",
+        "answer": "You can cancel your class booking up to 12 hours before the scheduled time without losing your credit. Cancellations made less than 12 hours before class will result in credit forfeiture."
       },
       "q4": {
-        "question": "Are all classes the same, or are there different intensity levels?",
-        "answer": "Our classes are not separated by intensity levels.\nAll classes have a common structure designed to work the body in a balanced and effective way.\nEach coach brings their own energy and style to the class; this makes each ride unique.\n\nIntensity guidance is provided by coaches; however, you can always adjust the ride tempo according to your own level."
+        "question": "Are there different difficulty levels?",
+        "answer": "Our classes are designed to accommodate all fitness levels. Instructors provide modifications and encourage you to work at your own pace. Each class can be adjusted to your fitness level."
       },
       "q5": {
-        "question": "When does my class package become active?",
-        "answer": "The class package you purchase becomes active immediately upon payment completion.\nThe validity period of the package may vary depending on the selected package.\nYou can access detailed information through our website."
+        "question": "How do credits work?",
+        "answer": "Credits are used to book classes. Different packages offer different numbers of credits. Credits are valid for a specific period as stated in your package terms."
       },
       "q6": {
-        "question": "What should I bring with me when coming to a class at Spin8 Studio?",
-        "answer": "We recommend wearing breathable sportswear.\nYou need to bring your own sports shoes suitable for cycling and a clean towel.\nAt the studio, riding is done with appropriate shoes (only) for use during classes.\nIf you wish, you can purchase towels specially produced for Spin8 Studio from our studio.\nShowers and lockers are available for refreshment after class."
+        "question": "Can I transfer my credits to someone else?",
+        "answer": "No, credits are non-transferable and tied to your account. They cannot be shared or transferred to other members."
       },
       "q7": {
-        "question": "How can I cancel my reservation?",
-        "answer": "You can cancel your reservation up to 12 hours before the class start time.\nFor cancellations made less than 6 hours before class, the class credit will not be refunded."
+        "question": "What happens if I'm late to class?",
+        "answer": "If you arrive more than 5 minutes late, your spot may be given to someone on the waitlist. We recommend arriving 10-15 minutes early to set up your bike."
       },
       "q8": {
-        "question": "Can I participate in class while pregnant?",
-        "answer": "Yes. As long as you have your doctor's approval and inform the team in advance, you can participate in class."
+        "question": "Do you offer trial classes?",
+        "answer": "Yes, we offer trial classes for first-time visitors. Please contact us to schedule your trial class and experience what Spin8 has to offer."
       },
       "q9": {
-        "question": "How many calories can I burn in a cycling class?",
-        "answer": "This depends on your fitness level and the effort you show in class.\nHowever, research shows that an average of 500–700 calories can be burned in a single class."
+        "question": "What age do I need to be to participate?",
+        "answer": "Participants must be at least 16 years old. Participants under 18 require parental consent and may need supervision depending on the circumstances."
       },
       "q10": {
-        "question": "Do you have changing rooms?",
-        "answer": "Yes.\nWe have changing rooms equipped with showers, lockers, shampoo, soap, conditioner, and hair dryers."
-      },
-      "q11": {
-        "question": "Should I bring my own water?",
-        "answer": "We have an area where you can purchase water, coffee, and various beverages.\nYou can also get BigJoy brand protein powder sachets, L-carnitine, and pre-workout products from this area."
-      },
-      "q12": {
-        "question": "What should I do when I arrive at the studio?",
-        "answer": "When you enter the studio, you just need to check in.\nOur team will welcome you and help you with everything you need."
+        "question": "How do I purchase a package?",
+        "answer": "You can purchase packages through our website's pricing page. Simply select the package that suits you, add any coupon codes if applicable, and complete your purchase. You'll receive credits immediately after payment."
       }
-    }
-  },
-  "classes": {
-    "title": "Classes",
-    "timetable": "Timetable",
-    "quickDateSelection": "Quick Date Selection",
-    "previousWeek": "Previous Week",
-    "nextWeek": "Next Week",
-    "noSessions": "No sessions available for the selected dates.",
-    "filters": {
-      "instructors": "Instructors",
-      "allInstructors": "All Instructors",
-      "workoutType": "Workout Type",
-      "allTypes": "All Types",
-      "search": "Search",
-      "searchPlaceholder": "Search sessions...",
-      "timeFilter": "Time Filter",
-      "allDay": "All Day",
-      "am": "AM",
-      "pm": "PM"
-    },
-    "days": {
-      "sun": "Sunday",
-      "mon": "Monday",
-      "tue": "Tuesday",
-      "wed": "Wednesday",
-      "thu": "Thursday",
-      "fri": "Friday",
-      "sat": "Saturday"
-    },
-    "months": {
-      "short": {
-        "jan": "Jan",
-        "feb": "Feb",
-        "mar": "Mar",
-        "apr": "Apr",
-        "may": "May",
-        "jun": "Jun",
-        "jul": "Jul",
-        "aug": "Aug",
-        "sep": "Sep",
-        "oct": "Oct",
-        "nov": "Nov",
-        "dec": "Dec"
-      },
-      "long": {
-        "january": "January",
-        "february": "February",
-        "march": "March",
-        "april": "April",
-        "may": "May",
-        "june": "June",
-        "july": "July",
-        "august": "August",
-        "september": "September",
-        "october": "October",
-        "november": "November",
-        "december": "December"
-      }
-    },
-    "daySuffix": {
-      "st": "st",
-      "nd": "nd",
-      "rd": "rd",
-      "th": "th"
-    },
-    "session": {
-      "date": "Date",
-      "time": "Time",
-      "timeTbd": "Time TBD",
-      "with": "With",
-      "instructor": "Instructor",
-      "unknownInstructor": "Unknown Instructor",
-      "duration": "Duration",
-      "minutes": "minutes",
-      "location": "Location",
-      "studio": "Studio",
-      "musicGenre": "Music Genre",
-      "workoutType": "Workout Type",
-      "cycling": "Spinning",
-      "spacesLeft": "spaces left",
-      "credits": "Credits",
-      "required": "Required",
-      "booking": "Booking...",
-      "bookNow": "Book Now",
-      "notFound": "Session not found"
-    },
-    "seatLayout": {
-      "title": "Select Your Bicycles",
-      "available": "Available",
-      "selected": "Selected",
-      "occupied": "Occupied",
-      "stage": "Stage / Instructor",
-      "selectedSeats": "Selected Bicycles",
-      "selectedSeat": "Selected Bicycle",
-      "clickToBook": "Click a slot to book into the event",
-      "yourBooking": "Your booking(s)",
-      "taken": "Taken",
-      "podium": "Podium",
-      "column": "Column",
-      "instructor": "Instructor",
-      "exclusive": "Exclusive",
-      "unavailable": "Unavailable"
-    },
-    "backToClasses": "Back to Classes",
-    "booking": {
-      "loginRequired": "Please log in to book a session.",
-      "insufficientCredits": "Insufficient credits or no payment method available.",
-      "noMember": "Member account not found. Please contact support.",
-      "success": "Booking successful!",
-      "error": "Failed to book session. Please try again.",
-      "alreadyBooked": "You already have a booking for this session. Only one booking per session is allowed.",
-      "selectPaymentMethod": "Select Payment Method",
-      "selectPaymentMethodDescription": "Choose how you want to pay for this session:",
-      "credits": "Credits",
-      "available": "available",
-      "allAccess": "All Access",
-      "friendPass": "Friend Pass",
-      "cancel": "Cancel",
-      "confirm": "Confirm Booking"
     }
   },
   "footer": {
