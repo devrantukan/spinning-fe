@@ -389,7 +389,7 @@ export default function Contact() {
                         if (errors.phone) {
                           setErrors((prev) => ({
                             ...prev,
-                            phone: undefined,
+                            phone: "",
                           }));
                         }
                       }}
