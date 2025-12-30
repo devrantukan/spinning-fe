@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: {
-    default: "Contact Us - Spin Studio | Indoor Cycling Club Kuşadası",
-    template: "%s | Spin Studio",
+    default: "Contact Us - Spin8 Studio | Indoor Cycling Club Kuşadası",
+    template: "%s | Spin8 Studio",
   },
   description:
-    "Get in touch with Spin Studio indoor cycling club in Kuşadası, Aydın. Contact us at Kadınlar Denizi, 14. Sk., 09400 Kuşadası/Aydın. Call +90 544 157 15 49 or email info@spin8studio.com | Kuşadası, Aydın'daki Spin Studio Indoor Cycling Club ile iletişime geçin. Kadınlar Denizi, 14. Sk., 09400 Kuşadası/Aydın adresinde bize ulaşın. +90 544 157 15 49 numaralı telefondan arayın veya info@spin8studio.com adresine e-posta gönderin",
+    "Get in touch with Spin8 Studio indoor cycling club in Kuşadası, Aydın. Contact us at Kadınlar Denizi, 14. Sk., 09400 Kuşadası/Aydın. Call +90 544 157 15 49 or email info@spin8studio.com | Kuşadası, Aydın'daki Spin8 Studio Indoor Cycling Club ile iletişime geçin. Kadınlar Denizi, 14. Sk., 09400 Kuşadası/Aydın adresinde bize ulaşın. +90 544 157 15 49 numaralı telefondan arayın veya info@spin8studio.com adresine e-posta gönderin",
   keywords: [
-    "spin studio",
+    "spin8 studio",
     "indoor cycling",
     "kuşadası",
     "aydın",
@@ -25,19 +25,19 @@ export const metadata: Metadata = {
     "kuşadası spor",
   ],
   openGraph: {
-    title: "Contact Us - Spin Studio | Indoor Cycling Club Kuşadası | İletişim",
+    title: "Contact Us - Spin8 Studio | Indoor Cycling Club Kuşadası | İletişim",
     description:
-      "Get in touch with Spin Studio indoor cycling club in Kuşadası, Aydın. Contact us for more information about our spin classes. | Kuşadası, Aydın'daki Spin Studio Indoor Cycling Club ile iletişime geçin. Spinning derslerimiz hakkında daha fazla bilgi için bize ulaşın.",
+      "Get in touch with Spin8 Studio indoor cycling club in Kuşadası, Aydın. Contact us for more information about our spin classes. | Kuşadası, Aydın'daki Spin8 Studio Indoor Cycling Club ile iletişime geçin. Spinning derslerimiz hakkında daha fazla bilgi için bize ulaşın.",
     type: "website",
     locale: "en_US",
     alternateLocale: ["tr_TR"],
-    siteName: "Spin Studio",
+    siteName: "Spin8 Studio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Contact Us - Spin Studio | Indoor Cycling Club Kuşadası",
+    title: "Contact Us - Spin8 Studio | Indoor Cycling Club Kuşadası",
     description:
-      "Get in touch with Spin Studio indoor cycling club in Kuşadası, Aydın.",
+      "Get in touch with Spin8 Studio indoor cycling club in Kuşadası, Aydın.",
   },
   alternates: {
     canonical: "/contact",
@@ -74,8 +74,8 @@ export default function ContactLayout({
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    name: "Spin Studio - Indoor Cycling Club",
-    alternateName: "Spin Studio - Indoor Cycling Club",
+    name: "Spin8 Studio - Indoor Cycling Club",
+    alternateName: "Spin8 Studio - Indoor Cycling Club",
     description:
       "Premium indoor cycling club in Kuşadası, Aydın, Türkiye | Kuşadası, Aydın, Türkiye'de premium Indoor Cycling Club",
     url: "https://spin8studio.com",

@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "Ana Sayfa",
-    "about": "Hakkımızda",
+    "team": "Ekip",
     "philosophy": "Felsefemiz",
     "classes": "Dersler",
     "selectClass": "Ders Seç",
@@ -17,6 +17,49 @@
     "indoorCyclingClub": "INDOOR CYCLING CLUB",
     "location": "Kuşadası"
   },
+  "team": {
+    "title": "EKİP",
+    "subtitle": "EĞİTMENLERLE TANIŞIN",
+    "members": {
+      "member1": {
+        "name": "Sarah Johnson",
+        "role": "Baş Eğitmen",
+        "description": "Yüksek yoğunluklu aralıklı antrenman ve başkalarını sınırlarını zorlamaya motive etme konusunda tutkulu."
+      },
+      "member2": {
+        "name": "Michael Chen",
+        "role": "Kıdemli Eğitmen",
+        "description": "Dayanıklılık sürüşleri ve bisiklet yoluyla zihinsel dayanıklılık oluşturma konusunda uzmanlaşmıştır."
+      },
+      "member3": {
+        "name": "Emily Davis",
+        "role": "Eğitmen",
+        "description": "Eğlenceli ve zorlu ritim tabanlı sürüşler yaratmak için dans geçmişini getiriyor."
+      },
+      "member4": {
+        "name": "David Wilson",
+        "role": "Eğitmen",
+        "description": "Güç ve kuvvete odaklanarak sürücülerin kas yapmasına ve performansını artırmasına yardımcı olur."
+      },
+      "member5": {
+        "name": "Jessica Brown",
+        "role": "Eğitmen",
+        "description": "Bütünsel bir egzersiz deneyimi için farkındalığı bisikletle birleştirir."
+      },
+      "member6": {
+        "name": "Chris Taylor",
+        "role": "Eğitmen",
+        "description": "Klasik rock ve modern hitlerin karışımıyla enerji dolu sürüşler."
+      }
+    },
+    "noInstructorsFound": "Şu anda eğitmen bulunamadı. Lütfen daha sonra tekrar kontrol edin.",
+    "viewProfile": "Profili Görüntüle",
+    "guestTrainers": {
+      "title": "ÖZEL MİSAFİR EĞİTMENLER",
+      "description1": "Spin8 Studio, dünyanın en iyi stüdyolarından misafir bisiklet eğitmenlerinin yer alacağı özel etkinliklere ev sahipliği yapmaya hazırlanıyor.",
+      "description2": "Bu özel, küratörlüğünde hazırlanan dersler, uluslararası uzmanlığı Kuşadası'na taşıyacak ve spinning tutkunlarımıza üst düzey profesyonellerle antrenman yapma konusunda benzersiz bir fırsat sunacak."
+    }
+  },
   "contact": {
     "title": "İletişime Geçin",
     "subtitle": "Sizden haber almak isteriz",
@@ -26,7 +69,7 @@
       "email": "E-posta",
       "emailPlaceholder": "ornek@email.com",
       "phone": "Telefon",
-      "phonePlaceholder": "+90 555 123 4567",
+      "phonePlaceholder": "555 123 4567",
       "message": "Mesaj",
       "messagePlaceholder": "Mesajınız...",
       "submit": "Mesaj Gönder",

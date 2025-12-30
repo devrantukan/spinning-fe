@@ -73,6 +73,10 @@ html:not(.dark):not([data-theme="dark"]) .text-gray-800 {
   color: #111827 !important; /* gray-900 - very dark */
 }
 
+html:not(.dark):not([data-theme="dark"]) .text-gray-900 {
+  color: #111827 !important; /* gray-900 - very dark */
+}
+
 /* Force all text elements to be darker in light mode */
 html:not(.dark):not([data-theme="dark"]) p:not(.text-white):not(.text-orange-500) {
   color: #111827 !important;

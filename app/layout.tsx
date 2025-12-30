@@ -18,9 +18,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Spin Studio - Indoor Cycling Club",
+  title: "Spin8 Studio - Indoor Cycling Club",
   description:
-    "Spin Studio - Premium indoor cycling club coming soon to Kuşadası, Aydın, Türkiye. Join us for energizing spin classes in a state-of-the-art facility designed to elevate your fitness journey.",
+    "Spin8 Studio - Premium indoor cycling club coming soon to Kuşadası, Aydın, Türkiye. Join us for energizing spin classes in a state-of-the-art facility designed to elevate your fitness journey.",
   icons: {
     icon: "/icon.svg",
     apple: "/icon.svg",

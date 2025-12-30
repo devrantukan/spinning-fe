@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: {
-    default: "Our Philosophy - Spin Studio | Indoor Cycling Club Kuşadası",
-    template: "%s | Spin Studio",
+    default: "Our Philosophy - Spin8 Studio | Indoor Cycling Club Kuşadası",
+    template: "%s | Spin8 Studio",
   },
   description:
-    "Discover the philosophy behind Spin Studio indoor cycling club in Kuşadası, Aydın. Learn about our mission, vision, and values: community, empowerment, wellness, and professionalism. Join our journey to well-being and fitness. | Kuşadası, Aydın'daki Spin Studio Indoor Cycling Club'ın felsefesini keşfedin. Misyonumuz, vizyonumuz ve değerlerimiz hakkında bilgi edinin: topluluk, güçlendirme, sağlık ve profesyonellik. Sağlık ve fitness yolculuğumuza katılın.",
+    "Discover the philosophy behind Spin8 Studio indoor cycling club in Kuşadası, Aydın. Learn about our mission, vision, and values: community, empowerment, wellness, and professionalism. Join our journey to well-being and fitness. | Kuşadası, Aydın'daki Spin8 Studio Indoor Cycling Club'ın felsefesini keşfedin. Misyonumuz, vizyonumuz ve değerlerimiz hakkında bilgi edinin: topluluk, güçlendirme, sağlık ve profesyonellik. Sağlık ve fitness yolculuğumuza katılın.",
   keywords: [
-    "spin studio",
+    "spin8 studio",
     "indoor cycling",
     "kuşadası",
     "aydın",
@@ -34,19 +34,19 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title:
-      "Our Philosophy - Spin Studio | Indoor Cycling Club Kuşadası | Felsefemiz",
+      "Our Philosophy - Spin8 Studio | Indoor Cycling Club Kuşadası | Felsefemiz",
     description:
-      "Discover the philosophy behind Spin Studio indoor cycling club. Learn about our mission, vision, and values. | Spin Studio Indoor Cycling Club'ın felsefesini keşfedin. Misyonumuz, vizyonumuz ve değerlerimiz hakkında bilgi edinin.",
+      "Discover the philosophy behind Spin8 Studio indoor cycling club. Learn about our mission, vision, and values. | Spin8 Studio Indoor Cycling Club'ın felsefesini keşfedin. Misyonumuz, vizyonumuz ve değerlerimiz hakkında bilgi edinin.",
     type: "website",
     locale: "en_US",
     alternateLocale: ["tr_TR"],
-    siteName: "Spin Studio",
+    siteName: "Spin8 Studio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Our Philosophy - Spin Studio | Indoor Cycling Club Kuşadası",
+    title: "Our Philosophy - Spin8 Studio | Indoor Cycling Club Kuşadası",
     description:
-      "Discover the philosophy behind Spin Studio indoor cycling club in Kuşadası, Aydın.",
+      "Discover the philosophy behind Spin8 Studio indoor cycling club in Kuşadası, Aydın.",
   },
   alternates: {
     canonical: "/philosophy",
@@ -83,8 +83,8 @@ export default function PhilosophyLayout({
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Spin Studio - Indoor Cycling Club",
-    alternateName: "Spin Studio - Indoor Cycling Club",
+    name: "Spin8 Studio - Indoor Cycling Club",
+    alternateName: "Spin8 Studio - Indoor Cycling Club",
     description:
       "Premium indoor cycling club in Kuşadası, Aydın, Türkiye. Our philosophy focuses on community, empowerment, wellness, and professionalism. | Kuşadası, Aydın, Türkiye'de premium Indoor Cycling Club. Felsefemiz topluluk, güçlendirme, sağlık ve profesyonellik üzerine odaklanmaktadır.",
     url: "https://spin8studio.com/philosophy",

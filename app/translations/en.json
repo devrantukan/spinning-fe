@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "Home",
-    "about": "About",
+    "team": "The Team",
     "philosophy": "Our Philosophy",
     "classes": "Classes",
     "selectClass": "Select Class",
@@ -17,6 +17,49 @@
     "indoorCyclingClub": "INDOOR CYCLING CLUB",
     "location": "Kuşadası"
   },
+  "team": {
+    "title": "THE TEAM",
+    "subtitle": "MEET THE INSTRUCTORS",
+    "members": {
+      "member1": {
+        "name": "Sarah Johnson",
+        "role": "Lead Instructor",
+        "description": "Passionate about high-intensity interval training and motivating others to reach their limits."
+      },
+      "member2": {
+        "name": "Michael Chen",
+        "role": "Senior Instructor",
+        "description": "Specializes in endurance rides and building mental toughness through cycling."
+      },
+      "member3": {
+        "name": "Emily Davis",
+        "role": "Instructor",
+        "description": "Brings a background in dance to create rhythm-based rides that are fun and challenging."
+      },
+      "member4": {
+        "name": "David Wilson",
+        "role": "Instructor",
+        "description": "Focuses on strength and power, helping riders build muscle and improve performance."
+      },
+      "member5": {
+        "name": "Jessica Brown",
+        "role": "Instructor",
+        "description": "Combines mindfulness with cycling for a holistic workout experience."
+      },
+      "member6": {
+        "name": "Chris Taylor",
+        "role": "Instructor",
+        "description": "Energy-packed rides with a mix of classic rock and modern hits."
+      }
+    },
+    "noInstructorsFound": "No instructors found at the moment. Please check back later.",
+    "viewProfile": "View Profile",
+    "guestTrainers": {
+      "title": "EXCLUSIVE GUEST TRAINERS",
+      "description1": "Spin8 Studio is set to host special events featuring guest cycling trainers from the best studios around the world.",
+      "description2": "These exclusive, curated classes will bring international expertise to Kuşadası, offering our spinning fans a unique opportunity to train with top-tier professionals."
+    }
+  },
   "contact": {
     "title": "Get in Touch",
     "subtitle": "We'd love to hear from you",
@@ -26,7 +69,7 @@
       "email": "Email",
       "emailPlaceholder": "your.email@example.com",
       "phone": "Phone",
-      "phonePlaceholder": "+90 555 123 4567",
+      "phonePlaceholder": "555 123 4567",
       "message": "Message",
       "messagePlaceholder": "Your message...",
       "submit": "Send Message",
@@ -563,4 +606,3 @@
     "terms": "Terms & Conditions"
   }
 }
-
