@@ -17,7 +17,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="w-full py-6 px-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 relative md:static">
+    <footer className="w-full py-6 px-4 border-t border-gray-200 dark:border-gray-800 section-bg-primary relative md:static">
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           {/* Navigation Links */}

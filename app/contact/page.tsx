@@ -274,11 +274,11 @@ export default function Contact() {
   };
 
   return (
-    <div className="h-screen bg-white dark:bg-gray-900 font-sans pt-16 md:pt-20 overflow-y-auto">
+    <div className="h-screen section-bg-primary font-sans pt-16 md:pt-20 overflow-y-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6">
         {/* Header */}
         <div className="text-center mb-4 md:mb-6 animate-fade-in-up">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-3xl md:text-4xl font-bold !text-gray-900 dark:!text-white mb-2">
             {t("contact.title")}
           </h1>
           <p className="text-base md:text-lg text-gray-900 dark:text-gray-400">
@@ -289,8 +289,8 @@ export default function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
           {/* Contact Form */}
           <div className="animate-fade-in-up [animation-delay:0.2s]">
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-4 md:p-6 shadow-lg border border-gray-200 dark:border-gray-700 h-fit">
-              <h2 className="text-xl md:text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+            <div className="!bg-white dark:!bg-gray-800 rounded-lg p-4 md:p-6 shadow-lg border border-gray-200 dark:border-gray-700 h-fit">
+              <h2 className="text-xl md:text-2xl font-semibold !text-gray-900 dark:!text-white mb-4">
                 {t("contact.form.message")}
               </h2>
 
@@ -317,7 +317,7 @@ export default function Contact() {
                       errors.name
                         ? "border-red-500 dark:border-red-500"
                         : "border-gray-300 dark:border-gray-600"
-                    } bg-white dark:bg-gray-700 text-sm md:text-base text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors`}
+                    } !bg-white dark:!bg-gray-700 text-sm md:text-base !text-gray-900 dark:!text-white placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors`}
                   />
                   {errors.name && (
                     <p className="mt-1 text-xs text-red-600 dark:text-red-400">
@@ -344,7 +344,7 @@ export default function Contact() {
                       errors.email
                         ? "border-red-500 dark:border-red-500"
                         : "border-gray-300 dark:border-gray-600"
-                    } bg-white dark:bg-gray-700 text-sm md:text-base text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors`}
+                    } !bg-white dark:!bg-gray-700 text-sm md:text-base !text-gray-900 dark:!text-white placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors`}
                   />
                   {errors.email && (
                     <p className="mt-1 text-xs text-red-600 dark:text-red-400">
@@ -365,7 +365,7 @@ export default function Contact() {
                       id="countryCode"
                       value={countryCode}
                       onChange={(e) => setCountryCode(e.target.value)}
-                      className="w-full sm:w-56 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+                      className="w-full sm:w-56 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent !bg-white dark:!bg-gray-700 !text-gray-900 dark:!text-white text-sm"
                     >
                       {countries.map((country) => (
                         <option
@@ -394,7 +394,7 @@ export default function Contact() {
                         }
                       }}
                       placeholder={t("contact.form.phonePlaceholder")}
-                      className={`flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white ${
+                      className={`flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent !bg-white dark:!bg-gray-700 !text-gray-900 dark:!text-white ${
                         errors.phone
                           ? "border-red-500 dark:border-red-500"
                           : "border-gray-300 dark:border-gray-600"
@@ -426,7 +426,7 @@ export default function Contact() {
                       errors.message
                         ? "border-red-500 dark:border-red-500"
                         : "border-gray-300 dark:border-gray-600"
-                    } bg-white dark:bg-gray-700 text-sm md:text-base text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors resize-none`}
+                    } !bg-white dark:!bg-gray-700 text-sm md:text-base !text-gray-900 dark:!text-white placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors resize-none`}
                   />
                   {errors.message && (
                     <p className="mt-1 text-xs text-red-600 dark:text-red-400">
@@ -463,8 +463,8 @@ export default function Contact() {
           {/* Map and Location Info */}
           <div className="space-y-4 md:space-y-5 animate-fade-in-up [animation-delay:0.4s]">
             {/* Contact Information */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-4 md:p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-              <h2 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-3 md:mb-4">
+            <div className="!bg-white dark:!bg-gray-800 rounded-lg p-4 md:p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+              <h2 className="text-lg md:text-xl font-semibold !text-gray-900 dark:!text-white mb-3 md:mb-4">
                 {t("contact.info.title")}
               </h2>
               <div className="space-y-3">
@@ -567,8 +567,8 @@ export default function Contact() {
             </div>
 
             {/* Google Map */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-4 md:p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-              <h2 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-2 md:mb-3">
+            <div className="!bg-white dark:!bg-gray-800 rounded-lg p-4 md:p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+              <h2 className="text-lg md:text-xl font-semibold !text-gray-900 dark:!text-white mb-2 md:mb-3">
                 {t("contact.location.title")}
               </h2>
               <p className="text-sm md:text-base text-gray-900 dark:text-gray-400 mb-3">
@@ -612,8 +612,8 @@ export default function Contact() {
             </div>
 
             {/* Social Media */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-4 md:p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-              <h2 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-3 md:mb-4">
+            <div className="!bg-white dark:!bg-gray-800 rounded-lg p-4 md:p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+              <h2 className="text-lg md:text-xl font-semibold !text-gray-900 dark:!text-white mb-3 md:mb-4">
                 {t("contact.social.title")}
               </h2>
               <SocialIcons />

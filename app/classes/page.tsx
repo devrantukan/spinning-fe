@@ -1120,7 +1120,7 @@ export default function Classes() {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 pt-20 pb-12">
+    <div className="min-h-screen section-bg-primary pt-20 pb-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 max-w-7xl">
         {/* Booking Message */}
         {bookingMessage && (
@@ -1161,7 +1161,7 @@ export default function Classes() {
               className={`h-10 px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all text-base md:text-sm ${
                 selectedInstructor
                   ? "text-gray-900 dark:text-white border-orange-500 dark:border-orange-400 bg-orange-100 dark:bg-orange-900/30 font-medium"
-                  : "text-gray-900 dark:text-gray-400 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
+                  : "!text-gray-900 dark:text-gray-400 border-gray-300 dark:border-gray-700 !bg-white dark:bg-gray-800"
               }`}
             >
               <option value="" className="text-gray-900 dark:text-gray-400">
@@ -1193,7 +1193,7 @@ export default function Classes() {
               className={`h-10 px-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all text-base md:text-sm ${
                 selectedWorkoutType
                   ? "text-gray-900 dark:text-white border-orange-500 dark:border-orange-400 bg-orange-100 dark:bg-orange-900/30 font-medium"
-                  : "text-gray-900 dark:text-gray-400 border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
+                  : "!text-gray-900 dark:text-gray-400 border-gray-300 dark:border-gray-700 !bg-white dark:bg-gray-800"
               }`}
             >
               <option value="" className="text-gray-900 dark:text-gray-400">
@@ -1224,7 +1224,7 @@ export default function Classes() {
               placeholder={t("classes.filters.searchPlaceholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-10 px-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:focus:border-orange-500 placeholder:text-gray-500 dark:placeholder:text-gray-400 placeholder:italic text-base md:text-sm"
+              className="h-10 px-4 !bg-white dark:bg-gray-800 !text-gray-900 dark:text-white border-2 border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 dark:focus:border-orange-500 placeholder:text-gray-500 dark:placeholder:text-gray-400 placeholder:italic text-base md:text-sm"
             />
           </div>
 
@@ -1235,30 +1235,30 @@ export default function Classes() {
             <div className="flex gap-2">
               <button
                 onClick={() => setTimeFilter("all")}
-                className={`h-10 px-3 md:px-4 rounded-lg font-medium transition-colors text-sm md:text-base flex-1 md:flex-none ${
+                className={`h-10 px-3 md:px-4 rounded-lg font-medium transition-colors text-sm md:text-base flex-1 md:flex-none border-2 ${
                   timeFilter === "all"
-                    ? "bg-orange-500 text-white"
-                    : "bg-gray-800 dark:bg-gray-800 text-gray-100 dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700"
+                    ? "bg-orange-500 text-white border-orange-500"
+                    : "!bg-white dark:bg-gray-800 !text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-500 dark:hover:border-orange-500"
                 }`}
               >
                 {t("classes.filters.allDay")}
               </button>
               <button
                 onClick={() => setTimeFilter("am")}
-                className={`h-10 px-3 md:px-4 rounded-lg font-medium transition-colors text-sm md:text-base flex-1 md:flex-none ${
+                className={`h-10 px-3 md:px-4 rounded-lg font-medium transition-colors text-sm md:text-base flex-1 md:flex-none border-2 ${
                   timeFilter === "am"
-                    ? "bg-orange-500 text-white"
-                    : "bg-gray-800 dark:bg-gray-800 text-gray-100 dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700"
+                    ? "bg-orange-500 text-white border-orange-500"
+                    : "!bg-white dark:bg-gray-800 !text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-500 dark:hover:border-orange-500"
                 }`}
               >
                 {t("classes.filters.am")}
               </button>
               <button
                 onClick={() => setTimeFilter("pm")}
-                className={`h-10 px-3 md:px-4 rounded-lg font-medium transition-colors text-sm md:text-base flex-1 md:flex-none ${
+                className={`h-10 px-3 md:px-4 rounded-lg font-medium transition-colors text-sm md:text-base flex-1 md:flex-none border-2 ${
                   timeFilter === "pm"
-                    ? "bg-orange-500 text-white"
-                    : "bg-gray-800 dark:bg-gray-800 text-gray-100 dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700"
+                    ? "bg-orange-500 text-white border-orange-500"
+                    : "!bg-white dark:bg-gray-800 !text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-500 dark:hover:border-orange-500"
                 }`}
               >
                 {t("classes.filters.pm")}
@@ -1333,10 +1333,10 @@ export default function Classes() {
                       newStartDate.setHours(0, 0, 0, 0);
                       setCurrentWeekStart(newStartDate);
                     }}
-                    className={`flex flex-col items-center justify-center rounded-lg font-medium whitespace-nowrap shadow-md transition-all cursor-pointer py-2.5 md:py-3 px-2 md:px-0 min-w-[60px] md:min-w-0 shrink-0 md:flex-1 touch-manipulation ${
+                    className={`flex flex-col items-center justify-center rounded-lg font-medium whitespace-nowrap shadow-md transition-all cursor-pointer py-2.5 md:py-3 px-2 md:px-0 min-w-[60px] md:min-w-0 shrink-0 md:flex-1 touch-manipulation border-2 ${
                       isFirstThree
-                        ? "bg-orange-500 text-white hover:bg-orange-600 active:bg-orange-700"
-                        : "bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 border-2 border-gray-300 dark:border-gray-600 hover:border-orange-400 dark:hover:border-orange-500 hover:bg-gray-50 dark:hover:bg-gray-700 active:bg-gray-100 dark:active:bg-gray-600"
+                        ? "bg-orange-500 text-white hover:bg-orange-600 active:bg-orange-700 border-orange-500"
+                        : "!bg-white dark:bg-gray-800 !text-gray-900 dark:text-gray-200 border-gray-300 dark:border-gray-700 hover:border-orange-400 dark:hover:border-orange-500 hover:bg-gray-50 dark:hover:bg-gray-700 active:bg-gray-100 dark:active:bg-gray-600"
                     }`}
                     style={
                       isSeventh
@@ -1350,7 +1350,7 @@ export default function Classes() {
                       className={`text-lg md:text-2xl font-bold ${
                         isFirstThree
                           ? "text-white"
-                          : "text-gray-900 dark:text-gray-200"
+                          : "!text-gray-900 dark:text-gray-200"
                       }`}
                     >
                       {date.getDate()}
@@ -1359,7 +1359,7 @@ export default function Classes() {
                       className={`text-[9px] md:text-xs leading-tight text-center mt-0.5 md:mt-1 ${
                         isFirstThree
                           ? "text-white"
-                          : "text-gray-700 dark:text-gray-300"
+                          : "!text-gray-700 dark:text-gray-300"
                       }`}
                     >
                       {/* Show short format on mobile, long format on desktop */}
@@ -1386,7 +1386,7 @@ export default function Classes() {
                   });
                 }}
                 disabled={isLeftArrowDisabled}
-                className={`px-3 md:px-3 py-2.5 md:py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg transition-all font-bold text-lg md:text-lg shadow-sm shrink-0 touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center ${
+                className={`px-3 md:px-3 py-2.5 md:py-2 !bg-white dark:bg-gray-800 !text-gray-900 dark:text-white border-2 border-gray-300 dark:border-gray-700 rounded-lg transition-all font-bold text-lg md:text-lg shadow-sm shrink-0 touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center ${
                   isLeftArrowDisabled
                     ? "opacity-50 cursor-not-allowed"
                     : "hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400 active:bg-gray-100 dark:active:bg-gray-600"
@@ -1403,7 +1403,7 @@ export default function Classes() {
                     return newDate;
                   });
                 }}
-                className="px-3 md:px-3 py-2.5 md:py-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400 active:bg-gray-100 dark:active:bg-gray-600 transition-all font-bold text-lg md:text-lg shadow-sm hover:shadow-md shrink-0 touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center"
+                className="px-3 md:px-3 py-2.5 md:py-2 !bg-white dark:bg-gray-800 !text-gray-900 dark:text-white border-2 border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-orange-400 dark:hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400 active:bg-gray-100 dark:active:bg-gray-600 transition-all font-bold text-lg md:text-lg shadow-sm hover:shadow-md shrink-0 touch-manipulation min-w-[44px] min-h-[44px] flex items-center justify-center"
                 aria-label={t("classes.nextWeek")}
               >
                 →

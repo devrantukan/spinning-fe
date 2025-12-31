@@ -36,22 +36,28 @@ export default function Team() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white font-sans transition-colors duration-300">
+    <div className="min-h-screen section-bg-primary font-sans transition-colors duration-300">
       {/* Hero Section */}
-      <div className="relative h-[60vh] w-full flex items-center justify-center overflow-hidden">
-        <Image
-          src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2940&auto=format&fit=crop"
-          alt="Spinning Class"
-          fill
-          className="object-cover opacity-50"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-white dark:to-gray-900" />
-        <div className="relative z-10 text-center animate-fade-in-up px-4">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-4 text-white uppercase drop-shadow-lg">
+      {/* Hero Section */}
+      <div className="relative h-[60vh] md:h-[70vh] w-full flex items-center justify-center overflow-hidden">
+        {/* Background with Overlay */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/hero_background_cycling_studio.png"
+            alt="Spinning Class"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 hero-overlay-base z-10 transition-colors duration-500" />
+          <div className="absolute inset-0 hero-overlay-gradient z-10 transition-colors duration-500" />
+        </div>
+
+        <div className="relative z-20 text-center animate-fade-in-up px-4 max-w-4xl mx-auto">
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-4 text-gray-900 dark:text-white uppercase drop-shadow-lg">
             {t("team.title")}
           </h1>
-          <div className="text-xl md:text-3xl text-yellow-500 font-medium tracking-wide uppercase drop-shadow-md">
+          <div className="text-xl md:text-3xl text-orange-500 font-medium tracking-wide uppercase drop-shadow-md">
             {t("team.subtitle")}
           </div>
         </div>
@@ -87,7 +93,7 @@ export default function Team() {
                   <h3 className="text-2xl font-bold text-white mb-1 uppercase italic">
                     {member.name}
                   </h3>
-                  <div className="text-yellow-500 font-semibold mb-3 uppercase text-sm tracking-wider">
+                  <div className="text-orange-500 font-semibold mb-3 uppercase text-sm tracking-wider">
                     {member.role}
                   </div>
                   <div className="text-gray-300 text-sm line-clamp-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">

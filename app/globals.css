@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   --background: #ffffff;
@@ -13,8 +14,8 @@
 }
 
 .dark {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 body {
@@ -30,14 +31,14 @@ html[data-theme="dark"] {
 
 html.dark body,
 html[data-theme="dark"] body,
-html.dark > body {
+html.dark>body {
   background-color: #111827 !important;
   background: #111827 !important;
   color: #f9fafb !important;
 }
 
 html:not(.dark):not([data-theme="dark"]) body,
-html:not(.dark) > body {
+html:not(.dark)>body {
   background-color: #ffffff !important;
   background: #ffffff !important;
   color: #111827 !important;
@@ -58,23 +59,28 @@ html:not(.dark):not([data-theme="dark"]) h6 {
 
 /* Override light gray text in light mode for better visibility - make all text darker */
 html:not(.dark):not([data-theme="dark"]) .text-gray-500 {
-  color: #111827 !important; /* gray-900 - very dark */
+  color: #111827 !important;
+  /* gray-900 - very dark */
 }
 
 html:not(.dark):not([data-theme="dark"]) .text-gray-600 {
-  color: #111827 !important; /* gray-900 - very dark */
+  color: #111827 !important;
+  /* gray-900 - very dark */
 }
 
 html:not(.dark):not([data-theme="dark"]) .text-gray-700 {
-  color: #111827 !important; /* gray-900 - very dark */
+  color: #111827 !important;
+  /* gray-900 - very dark */
 }
 
 html:not(.dark):not([data-theme="dark"]) .text-gray-800 {
-  color: #111827 !important; /* gray-900 - very dark */
+  color: #111827 !important;
+  /* gray-900 - very dark */
 }
 
 html:not(.dark):not([data-theme="dark"]) .text-gray-900 {
-  color: #111827 !important; /* gray-900 - very dark */
+  color: #111827 !important;
+  /* gray-900 - very dark */
 }
 
 /* Force all text elements to be darker in light mode */
@@ -96,76 +102,40 @@ html:not(.dark):not([data-theme="dark"]) button.text-white {
 /* Ensure placeholder text is visible but not too dark in light mode */
 html:not(.dark):not([data-theme="dark"]) input::placeholder,
 html:not(.dark):not([data-theme="dark"]) textarea::placeholder {
-  color: #9ca3af !important; /* gray-400 - medium gray for placeholders */
+  color: #9ca3af !important;
+  /* gray-400 - medium gray for placeholders */
 }
 
-/* Force all text elements to be light/readable in dark mode */
-html.dark p,
-html[data-theme="dark"] p,
-html.dark span,
-html[data-theme="dark"] span,
-html.dark a,
-html[data-theme="dark"] a,
-html.dark h1,
-html[data-theme="dark"] h1,
-html.dark h2,
-html[data-theme="dark"] h2,
-html.dark h3,
-html[data-theme="dark"] h3,
-html.dark h4,
-html[data-theme="dark"] h4,
-html.dark h5,
-html[data-theme="dark"] h5,
-html.dark h6,
-html[data-theme="dark"] h6 {
-  color: #f9fafb !important; /* gray-50 - very light for dark mode */
+/* Dark mode text colors should be handled by utility classes or inheritance */
+html.dark body {
+  color: #f9fafb;
 }
 
-/* Ensure gray text classes are light in dark mode */
+html.dark a {
+  color: inherit;
+}
+
+/* Gray text adaptation for dark mode */
 html.dark .text-gray-300,
-html[data-theme="dark"] .text-gray-300,
 html.dark .text-gray-400,
-html[data-theme="dark"] .text-gray-400,
 html.dark .text-gray-500,
-html[data-theme="dark"] .text-gray-500,
 html.dark .text-gray-600,
-html[data-theme="dark"] .text-gray-600,
 html.dark .text-gray-700,
-html[data-theme="dark"] .text-gray-700,
 html.dark .text-gray-800,
-html[data-theme="dark"] .text-gray-800,
-html.dark .text-gray-900,
-html[data-theme="dark"] .text-gray-900 {
-  color: #f3f4f6 !important; /* gray-100 - light for dark mode */
+html.dark .text-gray-900 {
+  color: #d1d5db;
+  /* gray-300 */
 }
 
-/* Ensure dark text classes are light in dark mode */
-html.dark .text-black,
-html[data-theme="dark"] .text-black {
-  color: #f9fafb !important; /* gray-50 - very light for dark mode */
-}
-
-/* Force background on main page container */
-html.dark div.bg-white,
-html[data-theme="dark"] div.bg-white,
-html.dark [class*="bg-white"] {
-  background-color: #111827 !important;
-  background: #111827 !important;
-}
-
-html:not(.dark):not([data-theme="dark"]) div.bg-white,
-html:not(.dark) [class*="bg-white"] {
-  background-color: #ffffff !important;
-  background: #ffffff !important;
-}
+/* Allow utility classes to work */
 
 /* Force gray-50 containers to be white in light mode for better contrast */
-html:not(.dark):not([data-theme="dark"]) [class*="bg-gray-50"] {
+html:not(.dark):not([data-theme="dark"]) [class~="bg-gray-50"] {
   background-color: #ffffff !important;
   background: #ffffff !important;
 }
 
-html.dark [class*="bg-gray-50"] {
+html.dark [class~="bg-gray-50"] {
   background-color: #1f2937 !important;
   background: #1f2937 !important;
 }
@@ -198,6 +168,7 @@ footer {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -208,16 +179,20 @@ footer {
   0% {
     background-position: -1000px 0;
   }
+
   100% {
     background-position: 1000px 0;
   }
 }
 
 @keyframes gentlePulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.4;
     transform: scale(1);
   }
+
   50% {
     opacity: 1;
     transform: scale(1.1);
@@ -230,12 +205,10 @@ footer {
 }
 
 .animate-shimmer {
-  background: linear-gradient(
-    90deg,
-    #000 0%,
-    #333 50%,
-    #000 100%
-  );
+  background: linear-gradient(90deg,
+      #000 0%,
+      #333 50%,
+      #000 100%);
   background-size: 200% 100%;
   animation: shimmer 3s infinite;
   -webkit-background-clip: text;
@@ -244,12 +217,10 @@ footer {
 }
 
 .dark .animate-shimmer {
-  background: linear-gradient(
-    90deg,
-    #fff 0%,
-    #ccc 50%,
-    #fff 100%
-  );
+  background: linear-gradient(90deg,
+      #fff 0%,
+      #ccc 50%,
+      #fff 100%);
 }
 
 .animate-gentle-pulse {
@@ -257,9 +228,12 @@ footer {
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-10px);
   }
@@ -269,6 +243,7 @@ footer {
   0% {
     transform: translateX(-100%) skewX(-12deg);
   }
+
   100% {
     transform: translateX(200%) skewX(-12deg);
   }
@@ -280,4 +255,113 @@ footer {
 
 .animate-shimmer-sweep {
   animation: shimmer-sweep 2s infinite;
+}
+
+/* Premium Design Utilities */
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  }
+
+  .glass-dark {
+    background: rgba(17, 24, 39, 0.7);
+    /* gray-900 with opacity */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #B78628 0%, #FCC201 50%, #B78628 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-silver {
+    background: linear-gradient(135deg, #9CA3AF 0%, #E5E7EB 50%, #9CA3AF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-grid-pattern {
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .dark .bg-grid-pattern {
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  }
+}
+
+/* Explicit Hero Overrides to fix Dark Mode issues */
+.hero-overlay-base {
+  background-color: rgba(249, 250, 251, 0.9);
+  /* gray-50/90 */
+}
+
+.dark .hero-overlay-base,
+[data-theme="dark"] .hero-overlay-base {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.hero-overlay-gradient {
+  background: linear-gradient(to top, #f9fafb, transparent, rgba(249, 250, 251, 0.4));
+}
+
+.dark .hero-overlay-gradient,
+[data-theme="dark"] .hero-overlay-gradient {
+  background: linear-gradient(to top, #000000, transparent, rgba(0, 0, 0, 0.6)) !important;
+}
+
+/* Explicit Section Background Overrides */
+.section-bg-primary {
+  background-color: #ffffff;
+  color: #111827;
+  /* gray-900 */
+}
+
+.dark .section-bg-primary,
+[data-theme="dark"] .section-bg-primary {
+  background-color: #000000 !important;
+  /* Pure Black to match Hero */
+  color: #ffffff !important;
+}
+
+.section-bg-secondary {
+  background-color: #f9fafb;
+  /* gray-50 */
+  color: #111827;
+  /* gray-900 */
+}
+
+.dark .section-bg-secondary,
+[data-theme="dark"] .section-bg-secondary {
+  background-color: #000000 !important;
+  /* Pure Black */
+  color: #ffffff !important;
+}
+
+/* Update text colors in these sections for dark mode */
+.dark .section-bg-primary h2,
+.dark .section-bg-secondary h2,
+[data-theme="dark"] .section-bg-primary h2,
+[data-theme="dark"] .section-bg-secondary h2 {
+  color: #ffffff !important;
+}
+
+.dark .section-bg-primary p,
+.dark .section-bg-secondary p,
+[data-theme="dark"] .section-bg-primary p,
+[data-theme="dark"] .section-bg-secondary p {
+  color: #d1d5db !important;
+  /* gray-300 */
 }

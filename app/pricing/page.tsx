@@ -331,7 +331,7 @@ export default function Pricing() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 pt-20 pb-12">
+    <div className="min-h-screen section-bg-primary pt-20 pb-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Message */}
         {message && (
@@ -347,7 +347,7 @@ export default function Pricing() {
         )}
 
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold !text-gray-900 dark:!text-white mb-4">
             {t("pricing.title") || "Our Packages"}
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400">
@@ -367,13 +367,13 @@ export default function Pricing() {
             {packages.map((pkg) => (
               <div
                 key={pkg.id}
-                className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow"
+                className="!bg-white dark:!bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow"
               >
                 <div className="text-center mb-4">
                   <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
                     {pkg.code}
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                  <h3 className="text-2xl font-bold !text-gray-900 dark:!text-white mb-2">
                     {language === "tr" && pkg.nameTr ? pkg.nameTr : pkg.name}
                   </h3>
                   <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
@@ -511,7 +511,7 @@ export default function Pricing() {
                       }
                     }}
                     placeholder="SUMMER2024"
-                    className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg !bg-white dark:!bg-gray-700 !text-gray-900 dark:!text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
                   />
                   {validatingCoupon && (
                     <div className="flex items-center">
@@ -555,7 +555,7 @@ export default function Pricing() {
                     className={`flex items-center p-3 border-2 rounded-lg cursor-pointer transition-colors ${
                       paymentMethod === "BANK_TRANSFER"
                         ? "border-orange-500 bg-orange-50 dark:bg-orange-900/20"
-                        : "border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 hover:border-orange-500 dark:hover:border-orange-500"
+                        : "border-gray-300 dark:border-gray-600 !bg-white dark:!bg-gray-700 hover:border-orange-500 dark:hover:border-orange-500"
                     }`}
                   >
                     <input

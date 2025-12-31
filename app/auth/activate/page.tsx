@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { useAuth } from "../../contexts/AuthContext";
 import Link from "next/link";
+import Image from "next/image";
 
 function ActivateContent() {
   const router = useRouter();
@@ -125,8 +126,21 @@ function ActivateContent() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900 pt-20 px-4">
-      <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center">
+    <div className="relative min-h-screen w-full overflow-hidden flex items-center justify-center pt-20 px-4">
+      {/* Background with Overlay */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/hero_background_cycling_studio.png"
+          alt="Studio Atmosphere"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 hero-overlay-base z-10 transition-colors duration-500" />
+        <div className="absolute inset-0 hero-overlay-gradient z-10 transition-colors duration-500" />
+      </div>
+
+      <div className="relative z-20 max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center border border-gray-200 dark:border-gray-700">
         {status === "loading" && (
           <>
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>

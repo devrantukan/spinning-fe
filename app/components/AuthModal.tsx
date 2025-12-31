@@ -7,6 +7,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import Toast from "./Toast";
+import Image from "next/image";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -605,8 +606,21 @@ export default function AuthModal({
           onClose={() => setToast(null)}
         />
       )}
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-0 sm:p-4">
-        <div className="bg-white dark:bg-gray-800 rounded-none sm:rounded-lg shadow-xl max-w-md w-full h-full sm:h-auto sm:max-h-[90vh] overflow-y-auto p-4 sm:p-6 md:p-8 relative m-0">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 overflow-hidden">
+        {/* Background with Overlay */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/hero_background_cycling_studio.png"
+            alt="Studio Atmosphere"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 hero-overlay-base z-10 transition-colors duration-500" />
+          <div className="absolute inset-0 hero-overlay-gradient z-10 transition-colors duration-500" />
+        </div>
+
+        <div className="relative z-20 bg-white dark:bg-gray-800 rounded-none sm:rounded-lg shadow-xl max-w-md w-full h-full sm:h-auto sm:max-h-[90vh] overflow-y-auto p-4 sm:p-6 md:p-8 m-0 border border-gray-200 dark:border-gray-700">
           <button
             onClick={onClose}
             className="absolute top-4 right-4 z-10 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full p-1 transition-colors"

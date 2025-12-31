@@ -11,11 +11,44 @@
     "joinUs": "Join Us"
   },
   "home": {
+    "indoorCyclingClub": "Indoor Cycling Club",
+    "location": "Kuşadası / Aydın / Türkiye",
     "comingSoon": "COMING SOON",
-    "message": "We're spinning up something amazing for you!",
-    "stayTuned": "Stay tuned for updates",
-    "indoorCyclingClub": "INDOOR CYCLING CLUB",
-    "location": "Kuşadası"
+    "message": "We are getting ready to ride with you!",
+    "stayTuned": "Stay tuned for updates"
+  },
+  "hero": {
+    "indoor": "INDOOR",
+    "cycling_studio": "CYCLING STUDIO",
+    "subtitle": "Discover the premier indoor cycling experience in Kuşadası. Join our supportive community and start your journey.",
+    "book_class": "Book a Class",
+    "view_packs": "View Packages"
+  },
+  "method": {
+    "beyond_workout": "BEYOND JUST A WORKOUT",
+    "description_1": "Experience a workout that motivates and inspires in a dynamic environment that pushes you to your limits. Reserve your bike and begin your journey towards transformation.",
+    "our_method": "OUR METHOD",
+    "description_2": "Indoor Cycling based on rhythm is riding a bike to the beat of the music. Every beat drives your movement, creating an immersive mind and body workout.",
+    "view_packs": "View Our Packages",
+    "rhythm": "RHYTHM",
+    "rhythm_desc": "Ride to the beat of the music.",
+    "sculpt": "SCULPT",
+    "sculpt_desc": "Full body engagement.",
+    "engage": "ENGAGE",
+    "engage_desc": "Connect with your community."
+  },
+  "community": {
+    "title": "BECOME PART OF A COMMUNITY",
+    "description_1": "Teamwork is essential: it not only improves your wellbeing but also creates inspiring connections.",
+    "description_2": "At Spin8, we believe that the strength of the group helps to overcome limits and achieve your most ambitious goals."
+  },
+  "location": {
+    "title": "STUDIO LOCATION",
+    "address_line1": "Premier Location",
+    "address_line2": "Heart of the City",
+    "description": "Spin8 Studio boasts a strategic location right in the beating heart of Kuşadası. We are surrounded by energy and life, making it the perfect spot to energize your day.",
+    "get_directions": "Get Directions",
+    "map_placeholder": "Map View"
   },
   "team": {
     "title": "THE TEAM",
