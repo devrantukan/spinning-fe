@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { z } from "zod";
 import { useLanguage } from "../contexts/LanguageContext";
 import SocialIcons from "../components/SocialIcons";
@@ -28,7 +29,7 @@ const contactFormSchema = z.object({
 });
 
 export default function Contact() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -200,10 +201,7 @@ export default function Contact() {
   ];
 
   // Google Maps embed URL for Spin8 Studio Indoor Cycling Club
-  // Coordinates: 37°50'21.8"N 27°14'12.5"E (37.839389, 27.236806)
   const mapEmbedUrl = `https://www.google.com/maps?q=Spin8%20Studio%20Indoor%20Cycling%20Club@(37.839389,27.236806)&hl=en&z=16&output=embed`;
-
-  // Google Maps directions URL
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=37.839389,27.236806`;
 
   const handleChange = (
@@ -222,7 +220,6 @@ export default function Contact() {
     setSubmitStatus("idle");
     setErrors({});
 
-    // Validate form data with Zod
     const validationResult = contactFormSchema.safeParse(formData);
 
     if (!validationResult.success) {
@@ -237,9 +234,7 @@ export default function Contact() {
       return;
     }
 
-    // Submit to API
     try {
-      // Combine country code with phone number if phone is provided
       const submitData = {
         ...validationResult.data,
         phone:
@@ -250,9 +245,7 @@ export default function Contact() {
 
       const response = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(submitData),
       });
 
@@ -274,104 +267,161 @@ export default function Contact() {
   };
 
   return (
-    <div className="h-screen section-bg-primary font-sans pt-16 md:pt-20 overflow-y-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6">
-        {/* Header */}
-        <div className="text-center mb-4 md:mb-6 animate-fade-in-up">
-          <h1 className="text-3xl md:text-4xl font-bold !text-gray-900 dark:!text-white mb-2">
-            {t("contact.title")}
-          </h1>
-          <p className="text-base md:text-lg text-gray-900 dark:text-gray-400">
-            {t("contact.subtitle")}
-          </p>
+    <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-white font-sans pt-16 md:pt-20 transition-colors duration-300">
+      {/* Hero Section */}
+      <section className="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/contact_hero_samos.png"
+            alt="Spin8 Club Location - Samos View"
+            fill
+            className="object-cover object-center"
+            priority
+            quality={100}
+          />
+          {/* Overlays for readability */}
+          <div className="absolute inset-0 bg-black/30 dark:bg-black/50 z-10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent dark:from-gray-950 z-10" />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-          {/* Contact Form */}
-          <div className="animate-fade-in-up [animation-delay:0.2s]">
-            <div className="!bg-white dark:!bg-gray-800 rounded-lg p-4 md:p-6 shadow-lg border border-gray-200 dark:border-gray-700 h-fit">
-              <h2 className="text-xl md:text-2xl font-semibold !text-gray-900 dark:!text-white mb-4">
+        <div className="relative z-20 container mx-auto px-4 text-center animate-fade-in-up">
+          <h2 className="text-sm md:text-base font-semibold text-orange-600 dark:text-orange-500 uppercase tracking-[0.2em] mb-4">
+            {t("contact.subtitle").toLocaleUpperCase(language === "tr" ? "tr-TR" : "en-US")}
+          </h2>
+          <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 uppercase tracking-tight drop-shadow-lg">
+            {t("contact.title").toLocaleUpperCase(language === "tr" ? "tr-TR" : "en-US")}
+          </h1>
+        </div>
+      </section>
+
+      {/* Main Content: Split Layout */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 -mt-20 relative z-30">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+          
+          {/* Left Column: Contact Info & Value Prop */}
+          <div className="lg:col-span-5 space-y-8 animate-fade-in-up [animation-delay:0.2s]">
+            <div className="bg-white/90 dark:bg-gray-900/80 backdrop-blur-xl border border-gray-200 dark:border-white/10 p-8 rounded-2xl shadow-xl transition-colors duration-300">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 uppercase tracking-wide">
+                {t("contact.info.title")}
+              </h3>
+              
+              <div className="space-y-6">
+                {/* Email */}
+                <div className="flex items-start gap-4 group">
+                  <div className="w-12 h-12 bg-orange-500/10 rounded-xl flex items-center justify-center start-icon group-hover:bg-orange-500 transition-colors duration-300">
+                    <svg className="w-6 h-6 text-orange-600 dark:text-orange-500 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">{t("contact.info.email")}</p>
+                    <a href="mailto:info@spin8studio.com" className="text-lg text-gray-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-500 transition-colors font-medium">
+                      info@spin8studio.com
+                    </a>
+                  </div>
+                </div>
+
+                {/* Phone */}
+                <div className="flex items-start gap-4 group">
+                  <div className="w-12 h-12 bg-orange-500/10 rounded-xl flex items-center justify-center start-icon group-hover:bg-orange-500 transition-colors duration-300">
+                    <svg className="w-6 h-6 text-orange-600 dark:text-orange-500 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">{t("contact.info.phone")}</p>
+                    <a href="tel:+905441571549" className="text-lg text-gray-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-500 transition-colors font-medium">
+                      +90 544 157 15 49
+                    </a>
+                  </div>
+                </div>
+
+                {/* Address */}
+                <div className="flex items-start gap-4 group">
+                  <div className="w-12 h-12 bg-orange-500/10 rounded-xl flex items-center justify-center start-icon group-hover:bg-orange-500 transition-colors duration-300">
+                    <svg className="w-6 h-6 text-orange-600 dark:text-orange-500 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wider">{t("contact.info.address")}</p>
+                    <p className="text-lg text-gray-900 dark:text-white leading-relaxed">
+                      {t("contact.location.address")}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+               <div className="mt-8 pt-8 border-t border-gray-200 dark:border-white/10">
+                  <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-4 uppercase tracking-wider">{t("contact.social.title")}</h4>
+                  <SocialIcons />
+               </div>
+            </div>
+          </div>
+
+          {/* Right Column: Contact Form */}
+          <div className="lg:col-span-7 animate-fade-in-up [animation-delay:0.4s]">
+            <div className="bg-white dark:bg-gray-800 p-8 md:p-10 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 transition-colors duration-300">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 uppercase tracking-wide">
                 {t("contact.form.message")}
-              </h2>
+              </h3>
+              
+              <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Name */}
+                  <div className="space-y-2">
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      {t("contact.form.name")}
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder={t("contact.form.namePlaceholder")}
+                      className={`w-full px-4 py-3 rounded-xl border ${
+                        errors.name ? "border-red-500 focus:ring-red-500" : "border-gray-300 dark:border-gray-600 focus:ring-orange-500"
+                      } bg-gray-50 dark:bg-gray-900/50 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all`}
+                    />
+                    {errors.name && <p className="text-xs text-red-500">{errors.name}</p>}
+                  </div>
 
-              <form
-                onSubmit={handleSubmit}
-                className="space-y-3 md:space-y-4"
-                noValidate
-              >
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-xs md:text-sm font-medium text-gray-900 dark:text-gray-300 mb-1"
-                  >
-                    {t("contact.form.name")}
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder={t("contact.form.namePlaceholder")}
-                    className={`w-full px-3 py-2 md:px-4 md:py-2.5 rounded-lg border ${
-                      errors.name
-                        ? "border-red-500 dark:border-red-500"
-                        : "border-gray-300 dark:border-gray-600"
-                    } !bg-white dark:!bg-gray-700 text-sm md:text-base !text-gray-900 dark:!text-white placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors`}
-                  />
-                  {errors.name && (
-                    <p className="mt-1 text-xs text-red-600 dark:text-red-400">
-                      {errors.name}
-                    </p>
-                  )}
+                  {/* Email */}
+                  <div className="space-y-2">
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      {t("contact.form.email")}
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder={t("contact.form.emailPlaceholder")}
+                      className={`w-full px-4 py-3 rounded-xl border ${
+                        errors.email ? "border-red-500 focus:ring-red-500" : "border-gray-300 dark:border-gray-600 focus:ring-orange-500"
+                      } bg-gray-50 dark:bg-gray-900/50 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all`}
+                    />
+                    {errors.email && <p className="text-xs text-red-500">{errors.email}</p>}
+                  </div>
                 </div>
 
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-xs md:text-sm font-medium text-gray-900 dark:text-gray-300 mb-1"
-                  >
-                    {t("contact.form.email")}
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder={t("contact.form.emailPlaceholder")}
-                    className={`w-full px-3 py-2 md:px-4 md:py-2.5 rounded-lg border ${
-                      errors.email
-                        ? "border-red-500 dark:border-red-500"
-                        : "border-gray-300 dark:border-gray-600"
-                    } !bg-white dark:!bg-gray-700 text-sm md:text-base !text-gray-900 dark:!text-white placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors`}
-                  />
-                  {errors.email && (
-                    <p className="mt-1 text-xs text-red-600 dark:text-red-400">
-                      {errors.email}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="phone"
-                    className="block text-xs md:text-sm font-medium text-gray-900 dark:text-gray-300 mb-1"
-                  >
+                {/* Phone */}
+                <div className="space-y-2">
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {t("contact.form.phone")}
                   </label>
-                  <div className="flex flex-col sm:flex-row gap-2">
+                  <div className="flex gap-3">
                     <select
                       id="countryCode"
                       value={countryCode}
                       onChange={(e) => setCountryCode(e.target.value)}
-                      className="w-full sm:w-56 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent !bg-white dark:!bg-gray-700 !text-gray-900 dark:!text-white text-sm"
+                      className="w-32 px-3 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900/50 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
                     >
                       {countries.map((country) => (
-                        <option
-                          key={`${country.code}-${country.name}`}
-                          value={country.code}
-                        >
+                        <option key={`${country.code}-${country.name}`} value={country.code}>
                           {country.flag} {country.code}
                         </option>
                       ))}
@@ -382,37 +432,21 @@ export default function Contact() {
                       name="phone"
                       value={formData.phone}
                       onChange={(e) => {
-                        setFormData((prev) => ({
-                          ...prev,
-                          phone: e.target.value.replace(/\D/g, ""),
-                        }));
-                        if (errors.phone) {
-                          setErrors((prev) => ({
-                            ...prev,
-                            phone: "",
-                          }));
-                        }
+                         setFormData(prev => ({ ...prev, phone: e.target.value.replace(/\D/g, "") }));
+                         if(errors.phone) setErrors(prev => ({...prev, phone: ""}));
                       }}
                       placeholder={t("contact.form.phonePlaceholder")}
-                      className={`flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent !bg-white dark:!bg-gray-700 !text-gray-900 dark:!text-white ${
-                        errors.phone
-                          ? "border-red-500 dark:border-red-500"
-                          : "border-gray-300 dark:border-gray-600"
-                      }`}
+                      className={`flex-1 px-4 py-3 rounded-xl border ${
+                        errors.phone ? "border-red-500 focus:ring-red-500" : "border-gray-300 dark:border-gray-600 focus:ring-orange-500"
+                      } bg-gray-50 dark:bg-gray-900/50 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all`}
                     />
                   </div>
-                  {errors.phone && (
-                    <p className="mt-1 text-xs text-red-600 dark:text-red-400">
-                      {errors.phone}
-                    </p>
-                  )}
+                   {errors.phone && <p className="text-xs text-red-500">{errors.phone}</p>}
                 </div>
 
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-xs md:text-sm font-medium text-gray-900 dark:text-gray-300 mb-1"
-                  >
+                {/* Message */}
+                <div className="space-y-2">
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     {t("contact.form.message")}
                   </label>
                   <textarea
@@ -420,207 +454,84 @@ export default function Contact() {
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    rows={3}
+                    rows={4}
                     placeholder={t("contact.form.messagePlaceholder")}
-                    className={`w-full px-3 py-2 md:px-4 md:py-2.5 rounded-lg border ${
-                      errors.message
-                        ? "border-red-500 dark:border-red-500"
-                        : "border-gray-300 dark:border-gray-600"
-                    } !bg-white dark:!bg-gray-700 text-sm md:text-base !text-gray-900 dark:!text-white placeholder-gray-400 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors resize-none`}
+                    className={`w-full px-4 py-3 rounded-xl border ${
+                      errors.message ? "border-red-500 focus:ring-red-500" : "border-gray-300 dark:border-gray-600 focus:ring-orange-500"
+                    } bg-gray-50 dark:bg-gray-900/50 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all resize-none`}
                   />
-                  {errors.message && (
-                    <p className="mt-1 text-xs text-red-600 dark:text-red-400">
-                      {errors.message}
-                    </p>
-                  )}
+                  {errors.message && <p className="text-xs text-red-500">{errors.message}</p>}
                 </div>
 
+                {/* Status Messages */}
                 {submitStatus === "success" && (
-                  <div className="p-4 bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 rounded-lg text-green-700 dark:text-green-400">
-                    {t("contact.form.success")}
+                  <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-xl flex items-center gap-3 text-green-600 dark:text-green-400">
+                    <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                    <span className="text-sm font-medium">{t("contact.form.success")}</span>
                   </div>
                 )}
-
                 {submitStatus === "error" && (
-                  <div className="p-4 bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-700 rounded-lg text-red-700 dark:text-red-400">
-                    {t("contact.form.error")}
+                  <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center gap-3 text-red-600 dark:text-red-400">
+                    <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <span className="text-sm font-medium">{t("contact.form.error")}</span>
                   </div>
                 )}
 
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 md:py-2.5 px-4 rounded-lg text-sm md:text-base transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+                  className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-orange-500/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider text-sm md:text-base mt-2"
                 >
-                  {isSubmitting
-                    ? t("contact.form.sending")
-                    : t("contact.form.submit")}
+                  {isSubmitting ? t("contact.form.sending") : t("contact.form.submit")}
                 </button>
               </form>
             </div>
           </div>
-
-          {/* Map and Location Info */}
-          <div className="space-y-4 md:space-y-5 animate-fade-in-up [animation-delay:0.4s]">
-            {/* Contact Information */}
-            <div className="!bg-white dark:!bg-gray-800 rounded-lg p-4 md:p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-              <h2 className="text-lg md:text-xl font-semibold !text-gray-900 dark:!text-white mb-3 md:mb-4">
-                {t("contact.info.title")}
-              </h2>
-              <div className="space-y-3">
-                {/* Email */}
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
-                    <svg
-                      className="w-4 h-4 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                      />
-                    </svg>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-xs md:text-sm font-medium text-gray-900 dark:text-gray-400 mb-0.5">
-                      {t("contact.info.email")}
-                    </p>
-                    <a
-                      href="mailto:info@spin8studio.com"
-                      className="text-sm md:text-base text-gray-900 dark:text-white hover:text-orange-500 transition-colors"
-                    >
-                      info@spin8studio.com
-                    </a>
-                  </div>
-                </div>
-
-                {/* Phone */}
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
-                    <svg
-                      className="w-4 h-4 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                      />
-                    </svg>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-xs md:text-sm font-medium text-gray-900 dark:text-gray-400 mb-0.5">
-                      {t("contact.info.phone")}
-                    </p>
-                    <a
-                      href="tel:+905441571549"
-                      className="text-sm md:text-base text-gray-900 dark:text-white hover:text-orange-500 transition-colors"
-                    >
-                      +90 544 157 15 49
-                    </a>
-                  </div>
-                </div>
-
-                {/* Address */}
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
-                    <svg
-                      className="w-4 h-4 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                    </svg>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-xs md:text-sm font-medium text-gray-900 dark:text-gray-400 mb-0.5">
-                      {t("contact.info.address")}
-                    </p>
-                    <p className="text-sm md:text-base text-gray-900 dark:text-white">
-                      {t("contact.location.address")}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Google Map */}
-            <div className="!bg-white dark:!bg-gray-800 rounded-lg p-4 md:p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-              <h2 className="text-lg md:text-xl font-semibold !text-gray-900 dark:!text-white mb-2 md:mb-3">
-                {t("contact.location.title")}
-              </h2>
-              <p className="text-sm md:text-base text-gray-900 dark:text-gray-400 mb-3">
-                {t("contact.location.address")}
-              </p>
-              <a
-                href={directionsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg text-sm md:text-base transition-colors duration-200 mb-3 md:mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
-              >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
-                  />
-                </svg>
-                {t("contact.location.getDirections")}
-              </a>
-              <div className="w-full h-48 md:h-56 rounded-lg overflow-hidden border border-gray-300 dark:border-gray-600">
-                <iframe
-                  src={mapEmbedUrl}
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="w-full h-full"
-                  title="Spinning Club Location"
-                />
-              </div>
-            </div>
-
-            {/* Social Media */}
-            <div className="!bg-white dark:!bg-gray-800 rounded-lg p-4 md:p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-              <h2 className="text-lg md:text-xl font-semibold !text-gray-900 dark:!text-white mb-3 md:mb-4">
-                {t("contact.social.title")}
-              </h2>
-              <SocialIcons />
-            </div>
-          </div>
         </div>
       </div>
+
+      {/* Full Width Map Section */}
+      <section className="relative z-10 w-full h-[50vh] min-h-[400px] mt-12 bg-white dark:bg-gray-900 group">
+         <div className="absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-white to-transparent dark:from-gray-950 z-20 pointer-events-none" />
+         
+         {/* Map Iframe - Static Background */}
+         <iframe
+            src={mapEmbedUrl}
+            width="100%"
+            height="100%"
+            style={{ border: 0, filter: "grayscale(100%) invert(0%) contrast(100%)" }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Spinning Club Location"
+            className="w-full h-full opacity-100 dark:opacity-60 transition- all duration-500 pointer-events-none dark:invert dark:grayscale"
+          />
+
+         {/* Custom Orange Marker Overlay */}
+         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 -mt-4">
+            <div className="relative">
+               <span className="absolute flex h-8 w-8 -top-2 -left-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-orange-500 ml-2.5 mt-2.5"></span>
+               </span>
+               <svg className="w-12 h-12 text-orange-500 drop-shadow-2xl filter drop-shadow-[0_4px_6px_rgba(0,0,0,0.5)]" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+               </svg>
+            </div>
+         </div>
+
+         <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20">
+            <a
+              href={directionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-white text-gray-900 hover:bg-orange-500 hover:text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+              <span>{t("contact.location.getDirections")}</span>
+            </a>
+         </div>
+      </section>
     </div>
   );
 }
