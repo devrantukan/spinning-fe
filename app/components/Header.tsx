@@ -35,7 +35,6 @@ export default function Header() {
   };
 
   const menuItems = [
-    { href: "/", key: "nav.home" },
     { href: "/team", key: "nav.team" },
     { href: "/philosophy", key: "nav.philosophy" },
     { href: "/classes", key: "nav.classes" },

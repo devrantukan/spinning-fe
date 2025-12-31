@@ -74,50 +74,17 @@ interface Seat {
   creditCost?: number;
 }
 
-// Helper function to convert text to uppercase (handles Turkish characters correctly)
-function toUpperCaseTurkish(text: string): string {
+// Helper function to convert text to uppercase based on locale
+function toUpperCaseLocale(text: string, language: string): string {
   if (!text) return text;
-
-  // Normalize the text first: trim whitespace, collapse multiple spaces
-  let normalized = text.trim().replace(/\s+/g, " ");
-
-  // Convert to lowercase, handling Turkish characters properly
-  // First, manually convert Turkish uppercase characters to their lowercase equivalents
-  normalized = normalized
-    .replace(/İ/g, "i") // Turkish İ -> lowercase i (dotted)
-    .replace(/I/g, "ı") // Regular I -> dotless ı
-    .toLowerCase();
-
-  // Turkish uppercase mappings
-  const turkishUpper: Record<string, string> = {
-    ı: "I", // dotless i -> regular I
-    i: "İ", // dotted i -> Turkish İ
-    ş: "Ş",
-    ğ: "Ğ",
-    ü: "Ü",
-    ö: "Ö",
-    ç: "Ç",
-  };
-
-  let result = normalized
-    .split("")
-    .map((char) => {
-      return turkishUpper[char] || char.toUpperCase();
-    })
-    .join("");
-
-  // Special case: "ISIN" should use regular I, not Turkish İ
-  // This handles words that should use regular I instead of Turkish İ
-  result = result.replace(/İSİN\b/g, "ISIN");
-  result = result.replace(/İSIN\b/g, "ISIN");
-
-  return result;
+  const locale = language === "tr" ? "tr-TR" : "en-US";
+  return text.toLocaleUpperCase(locale);
 }
 
 // Helper function to normalize title (applies Turkish uppercase rules)
-function normalizeTitle(title: string): string {
+function normalizeTitle(title: string, language: string): string {
   if (!title) return title;
-  return toUpperCaseTurkish(title);
+  return toUpperCaseLocale(title, language);
 }
 
 // Helper function to extract instructor name
@@ -1188,7 +1155,7 @@ export default function SessionDetailPage() {
                   </span>
                 </div>
                 <h2 className="text-2xl font-bold text-white uppercase tracking-wider">
-                  {toUpperCaseTurkish(instructorName)}
+                  {toUpperCaseLocale(instructorName, language)}
                 </h2>
               </div>
             </div>
@@ -1205,13 +1172,14 @@ export default function SessionDetailPage() {
                 {normalizeTitle(
                   language === "tr" && sessionData.titleTr
                     ? sessionData.titleTr
-                    : sessionData.title
+                    : sessionData.title,
+                  language
                 )}
               </h1>
 
               {/* Instructor Name (visible on mobile) */}
               <p className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-6 lg:hidden">
-                {toUpperCaseTurkish(instructorName)}
+                {toUpperCaseLocale(instructorName, language)}
               </p>
 
               {/* Session Details */}
@@ -1257,7 +1225,7 @@ export default function SessionDetailPage() {
                     <span className="font-medium">
                       {t("classes.session.instructor") || "Instructor"}:
                     </span>
-                    <span>{toUpperCaseTurkish(instructorName)}</span>
+                    <span>{toUpperCaseLocale(instructorName, language)}</span>
                   </div>
                 )}
                 {sessionData.musicGenre && (
@@ -1280,8 +1248,8 @@ export default function SessionDetailPage() {
                     </span>
                     <span>
                       {language === "tr" && sessionData.musicGenreTr
-                        ? sessionData.musicGenreTr
-                        : sessionData.musicGenre}
+                        ? toUpperCaseLocale(sessionData.musicGenreTr, language)
+                        : toUpperCaseLocale(sessionData.musicGenre, language)}
                     </span>
                   </div>
                 )}

@@ -6,6 +6,7 @@ import {
   useSyncExternalStore,
   ReactNode,
   useCallback,
+  useEffect,
 } from "react";
 import enTranslations from "../translations/en.json";
 import trTranslations from "../translations/tr.json";
@@ -79,6 +80,11 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const setLanguage = useCallback((lang: Language) => {
     setLanguageStore(lang);
   }, []);
+
+  // Update html lang attribute when language changes
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
 
   const t = (key: string): string => {
     const lang = language as Language;

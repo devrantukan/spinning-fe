@@ -87,18 +87,39 @@ export default function Philosophy() {
             </p>
           </div>
 
-          {/* Image Grid Placeholder */}
+          {/* Image Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6 mt-8 sm:mt-10 md:mt-12">
-            {[1, 2, 3].map((i) => (
+            {[
+              {
+                src: "/philosophy_tailored_music.png",
+                alt: "Music & Rhythm",
+                label: "RHYTHM",
+              },
+              {
+                src: "/philosophy_tailored_intensity.png",
+                alt: "High Intensity",
+                label: "INTENSITY",
+              },
+              {
+                src: "/philosophy_tailored_flow.png",
+                alt: "Balance & Flow",
+                label: "FLOW",
+              },
+            ].map((item, index) => (
               <div
-                key={i}
-                className="relative h-48 sm:h-56 md:h-64 rounded-xl overflow-hidden shadow-lg group"
+                key={index}
+                className="relative h-64 sm:h-72 md:h-80 rounded-xl overflow-hidden shadow-lg group"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end justify-center pb-6">
                   <div className="text-center text-white">
-                    <div className="text-3xl sm:text-4xl mb-2">🎵</div>
-                    <p className="text-xs sm:text-sm font-semibold">
-                      Class {i}
+                    <p className="text-lg sm:text-xl font-bold tracking-widest uppercase">
+                      {item.label}
                     </p>
                   </div>
                 </div>

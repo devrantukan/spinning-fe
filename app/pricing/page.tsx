@@ -503,7 +503,11 @@ export default function Pricing() {
                     type="text"
                     value={couponCode}
                     onChange={(e) => {
-                      setCouponCode(e.target.value.toUpperCase());
+                      setCouponCode(
+                        e.target.value.toLocaleUpperCase(
+                          language === "tr" ? "tr-TR" : "en-US"
+                        )
+                      );
                       if (e.target.value.trim() && session?.access_token) {
                         validateCoupon(e.target.value, selectedPackage.id);
                       } else {

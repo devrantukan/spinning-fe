@@ -23,44 +23,11 @@ interface Session {
   amPm?: string; // "AM" or "PM" from database
 }
 
-// Helper function to convert text to uppercase (handles Turkish characters correctly)
-function toUpperCaseTurkish(text: string): string {
+// Helper function to convert text to uppercase based on locale
+function toUpperCaseLocale(text: string, language: string): string {
   if (!text) return text;
-
-  // Normalize the text first: trim whitespace, collapse multiple spaces
-  let normalized = text.trim().replace(/\s+/g, " ");
-
-  // Convert to lowercase, handling Turkish characters properly
-  // First, manually convert Turkish uppercase characters to their lowercase equivalents
-  normalized = normalized
-    .replace(/İ/g, "i") // Turkish İ -> lowercase i (dotted)
-    .replace(/I/g, "ı") // Regular I -> dotless ı
-    .toLowerCase();
-
-  // Turkish uppercase mappings
-  const turkishUpper: Record<string, string> = {
-    ı: "I", // dotless i -> regular I
-    i: "İ", // dotted i -> Turkish İ
-    ş: "Ş",
-    ğ: "Ğ",
-    ü: "Ü",
-    ö: "Ö",
-    ç: "Ç",
-  };
-
-  let result = normalized
-    .split("")
-    .map((char) => {
-      return turkishUpper[char] || char.toUpperCase();
-    })
-    .join("");
-
-  // Special case: "ISIN" should use regular I, not Turkish İ
-  // This handles words that should use regular I instead of Turkish İ
-  result = result.replace(/İSİN\b/g, "ISIN");
-  result = result.replace(/İSIN\b/g, "ISIN");
-
-  return result;
+  const locale = language === "tr" ? "tr-TR" : "en-US";
+  return text.toLocaleUpperCase(locale);
 }
 
 // Helper function to extract instructor name
@@ -656,9 +623,13 @@ export default function Classes() {
       "november",
       "december",
     ];
-    const day = toUpperCaseTurkish(t(`classes.days.${dayKeys[date.getDay()]}`));
-    const month = toUpperCaseTurkish(
-      t(`classes.months.long.${monthKeys[date.getMonth()]}`)
+    const day = toUpperCaseLocale(
+      t(`classes.days.${dayKeys[date.getDay()]}`),
+      language
+    );
+    const month = toUpperCaseLocale(
+      t(`classes.months.long.${monthKeys[date.getMonth()]}`),
+      language
     );
     return `${day} ${date.getDate()} ${month}`;
   }
@@ -1052,8 +1023,8 @@ export default function Classes() {
       >
         <h4 className="text-base md:text-lg font-bold mb-2 md:mb-3 text-gray-900 dark:text-white tracking-wide uppercase">
           {language === "tr" && session.titleTr
-            ? toUpperCaseTurkish(session.titleTr)
-            : toUpperCaseTurkish(session.title)}
+            ? toUpperCaseLocale(session.titleTr, language)
+            : toUpperCaseLocale(session.title, language)}
         </h4>
         <div className="space-y-1.5 md:space-y-2 text-xs md:text-sm text-gray-700 dark:text-gray-200 mb-3 md:mb-4">
           <p className="text-gray-700 dark:text-gray-200">

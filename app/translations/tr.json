@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "Ana Sayfa",
-    "team": "Ekip",
+    "team": "Ekibimiz",
     "philosophy": "Felsefemiz",
     "classes": "Dersler",
     "selectClass": "Ders Seç",
@@ -44,14 +44,14 @@
   },
   "location": {
     "title": "STÜDYO KONUMU",
-    "address_line1": "Seçkin Konum",
-    "address_line2": "Şehrin Kalbi",
-    "description": "Spin8 Stüdyo, Kuşadası'nın atan kalbinde stratejik bir konuma sahiptir. Enerji ve yaşamla çevriliyiz, bu da gününüzü enerjik kılmak için mükemmel bir nokta.",
+    "address_line1": "Kadınlar Denizi",
+    "address_line2": "Grand Blue Sky International Hotel",
+    "description": "Harika Samos manzarası eşliğinde, Grand Blue Sky International Hotel'in içinde, Kadınlar Denizi'nde, enerji ve yaşamla çevrili mükemmel bir nokta.",
     "get_directions": "Yol Tarifi Al",
     "map_placeholder": "Harita Görünümü"
   },
   "team": {
-    "title": "EKİP",
+    "title": "EKİBİMİZ",
     "subtitle": "EĞİTMENLERLE TANIŞIN",
     "members": {
       "member1": {
