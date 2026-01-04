@@ -978,15 +978,15 @@ export default function Classes() {
     const lastDigit = dayNum % 10;
 
     if (lastTwoDigits >= 11 && lastTwoDigits <= 13) {
-      daySuffix = t("classes.daySuffix.th") || "th";
+      daySuffix = t("classes.daySuffix.th");
     } else if (lastDigit === 1) {
-      daySuffix = t("classes.daySuffix.st") || "st";
+      daySuffix = t("classes.daySuffix.st");
     } else if (lastDigit === 2) {
-      daySuffix = t("classes.daySuffix.nd") || "nd";
+      daySuffix = t("classes.daySuffix.nd");
     } else if (lastDigit === 3) {
-      daySuffix = t("classes.daySuffix.rd") || "rd";
+      daySuffix = t("classes.daySuffix.rd");
     } else {
-      daySuffix = t("classes.daySuffix.th") || "th";
+      daySuffix = t("classes.daySuffix.th");
     }
 
     const formattedDate = `${t(
@@ -1028,21 +1028,43 @@ export default function Classes() {
         </h4>
         <div className="space-y-1.5 md:space-y-2 text-xs md:text-sm text-gray-700 dark:text-gray-200 mb-3 md:mb-4">
           <p className="text-gray-700 dark:text-gray-200">
-            {t("classes.session.with")}{" "}
-            <span className="font-semibold text-gray-900 dark:text-white">
-              {getInstructorName(
-                session.instructor as
-                  | string
-                  | {
-                      id?: string;
-                      name?: string;
-                      user?: { name?: string; email?: string };
-                    }
-                  | null
-                  | undefined,
-                t("classes.session.unknownInstructor")
-              )}
-            </span>
+            {language === "tr" ? (
+              <>
+                <span className="font-semibold text-gray-900 dark:text-white">
+                  {getInstructorName(
+                    session.instructor as
+                      | string
+                      | {
+                          id?: string;
+                          name?: string;
+                          user?: { name?: string; email?: string };
+                        }
+                      | null
+                      | undefined,
+                    t("classes.session.unknownInstructor")
+                  )}
+                </span>{" "}
+                {t("classes.session.with")}
+              </>
+            ) : (
+              <>
+                {t("classes.session.with")}{" "}
+                <span className="font-semibold text-gray-900 dark:text-white">
+                  {getInstructorName(
+                    session.instructor as
+                      | string
+                      | {
+                          id?: string;
+                          name?: string;
+                          user?: { name?: string; email?: string };
+                        }
+                      | null
+                      | undefined,
+                    t("classes.session.unknownInstructor")
+                  )}
+                </span>
+              </>
+            )}
           </p>
           <p className="text-gray-700 dark:text-gray-200">
             {t("classes.session.time")} {formattedTime}

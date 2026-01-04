@@ -196,6 +196,8 @@
       "passwordMinLength": "Şifre en az 6 karakter olmalıdır",
       "nameRequired": "Ad gereklidir",
       "nameMinLength": "Ad en az 2 karakter olmalıdır",
+      "identityNumberRequired": "T.C. Kimlik No gereklidir",
+      "identityNumberInvalid": "T.C. Kimlik No 11 haneli olmalıdır",
       "dobDayRequired": "Gün gereklidir",
       "dobMonthRequired": "Ay gereklidir",
       "dobYearRequired": "Yıl gereklidir",
@@ -212,6 +214,8 @@
       "title": "Kayıt Ol",
       "name": "Ad Soyad",
       "namePlaceholder": "Adınız",
+      "identityNumber": "T.C. Kimlik No",
+      "identityNumberPlaceholder": "12345678901",
       "dob": "Doğum Tarihi",
       "day": "Gün",
       "month": "Ay",
@@ -635,7 +639,158 @@
     }
   },
   "footer": {
+    "contacts": "İLETİŞİM",
     "faq": "SSS",
-    "terms": "Kullanım Şartları"
+    "terms": "Kullanım Şartları",
+    "cookiePolicy": "Çerez Politikası",
+    "privacyPolicy": "Gizlilik Politikası",
+    "allRightsReserved": "Tüm hakları saklıdır."
+  },
+  "cookiePolicy": {
+    "title": "Çerez Politikası",
+    "intro": {
+      "title": "1. Giriş ve yasal referanslar",
+      "p1": "Bu bildirim, bu sitede kişisel verilerin işlenmesi ve çerezlerin kullanımına ilişkin temel bilgileri özetlemektedir. Bu siteye erişen veya kullanan herkes için amaçlanmıştır ve kullanıcıların kişisel verilerinin çerezler ve benzer teknolojiler aracılığıyla nasıl toplanabileceğini, kullanılabileceğini ve korunabileceğini ve ayrıca kanunla tanınan hakları açıklar.",
+      "p2": "Bu hükümler, sitede bulunabilecek harici bağlantılar aracılığıyla erişilebilen diğer web siteleri, sayfalar veya çevrimiçi hizmetler için geçerli değildir; bunlar için lütfen ilgili gizlilik bildirimlerine bakın. Bu bildirim, (AB) 2016/679 Yönetmeliği (GDPR) dahil olmak üzere başlıca ulusal ve uluslararası veri koruma düzenlemelerine uygun olarak sağlanmaktadır."
+    },
+    "manager": {
+      "title": "2. Verilerinizi kim yönetiyor ve bizimle nasıl iletişime geçebilirsiniz?",
+      "p1": "Kişisel verileriniz şu kurum tarafından işlenmektedir:",
+      "name": "Spin8 Studio",
+      "address1": "Kadınlar Denizi, 14. Sk.",
+      "address2": "09400 Kuşadası/Aydın",
+      "p2": "Kişisel verilerin işlenmesiyle ilgili her türlü bilgi veya kanun kapsamındaki haklarınızı kullanmak için, veri sahipleri iletişim sayfamız aracılığıyla bizimle iletişime geçebilirler."
+    },
+    "collection": {
+      "title": "3. Siteyi ziyaret ettiğinizde hangi verileri topluyoruz?",
+      "p1": "Bu siteye göz attığınızda, çerezler, benzer araçlar ve izleme teknolojileri aracılığıyla belirli bilgileri otomatik olarak toplarız. Kaydedilebilecek başlıca veri türleri şunlardır:",
+      "list": {
+        "technical": "<strong>Teknik ve tarama bilgileri:</strong> IP adresi, kullanılan cihazın tanımlayıcıları, tarayıcı ve işletim sistemi hakkında bilgiler, erişim tarihi ve saati, ziyaret edilen sayfalar, içeriğin doğru görüntülenmesi için gerekli teknik komutlar, sistem hataları.",
+        "preferences": "<strong>Kullanıcı tercihleri:</strong> çerezler ve gizlilik ayarları ile ilgili yapılan seçimler, paneller, afişler veya benzer araçlar aracılığıyla toplanır.",
+        "stats": "<strong>Birleştirilmiş ve anonim istatistikler:</strong> ziyaret sıklığı veya en çok görüntülenen alanlar gibi sitenin işleyişini değerlendirmek ve iyileştirmek için kullanılan bilgiler."
+      }
+    },
+    "types": {
+      "title": "4. Hangi tür çerezler (ve benzer araçlar) mevcuttur?",
+      "p1": "Size daha iyi bir tarama deneyimi sunmak için farklı kategorilerde çerezler ve benzer teknolojiler kullanabiliriz:",
+      "list": {
+        "necessary": "<strong>Kesinlikle gerekli çerezler:</strong> sitenin teknik işleyişi için gereklidir; örneğin, korumalı alanlara erişime, oturum yönetimine veya temel tercihlerin hatırlanmasına izin verirler.",
+        "preferences": "<strong>Tercih ve kişiselleştirme çerezleri:</strong> tercihlerinize daha yakın bir etkileşim sunmak için dil gibi görüntüleme seçimlerini saklamak için kullanılır.",
+        "analytics": "<strong>Analiz ve performans çerezleri:</strong> trafik ve kullanım hakkında anonimleştirilmiş ve birleştirilmiş veriler toplayarak insanların siteyi nasıl kullandığını daha iyi anlamamıza yardımcı olur."
+      }
+    },
+    "consent": {
+      "title": "5. Rızayı nasıl verebilir veya reddedebilirsiniz?",
+      "p1": "Siteye ilk erişimde, çerezler ve izleme araçlarıyla ilgili tercihleri yönetmenize olanak tanıyan bir afiş görüntülenir. Şu anda, kesinlikle gerekli çerezlere ve kullanıcı gizliliğine saygı duyan analizlere öncelik veriyoruz. Site işlevselliğini etkileyebilecek olsa da, çerezleri engellemek veya silmek için tarayıcı ayarlarınızı istediğiniz zaman yönetebilirsiniz."
+    },
+    "protection": {
+      "title": "6. Verileriniz nasıl korunuyor?",
+      "p1": "Bu site aracılığıyla toplanan kişisel veriler, temel olarak yasallık, adillik, veri minimizasyonu, bütünlük ve gizlilik ilkelerine göre elektronik ve dijital araçlarla işlenmektedir."
+    },
+    "rights": {
+      "title": "7. Toplanan verilerle ilgili haklarınız nelerdir?",
+      "p1": "Kullanıcı şu haklara sahiptir:",
+      "list": {
+        "rectification": "Verilerin düzeltilmesini, güncellenmesini veya silinmesini talep etme.",
+        "access": "Kişisel verilere ilişkin onay ve erişim elde etme.",
+        "restriction": "İşlemenin kısıtlanmasını talep etme veya işlemeye itiraz etme."
+      },
+      "p2": "Bu hakları kullanmak için lütfen iletişim sayfamız aracılığıyla bizimle iletişime geçin."
+    },
+    "revision": "Son revizyon: 5 Ocak 2026"
+  },
+  "privacyPolicy": {
+    "title": "Kişisel Verilerin İşlenmesine İlişkin Gizlilik Bildirimi",
+    "revision": "Son revizyon: 5 Ocak 2026",
+    "section1": {
+      "title": "1. Giriş ve yasal referanslar",
+      "content": "Bu bildirim, bu web sitesi aracılığıyla toplanan kişisel verilerin, çerezler, izleme teknolojileri ve -varsa- iletişim formları, kısıtlı alanlar, dijital hizmetler ve elektronik ortamda gerçekleştirilen ekonomik işlemler aracılığıyla elde edilenler dahil olmak üzere işlenmesini açıklar.\nBu bildirim, siteye erişen veya siteyi kullanan herkese yöneliktir ve kullanıcıların kişisel verilerinin nasıl toplandığını, kullanıldığını, korunduğunu ve yasaların sağladığı hakları açıklar.\nBu hükümler, sitede bulunabilecek harici bağlantılar aracılığıyla erişilebilen diğer web sitelerini, sayfaları veya çevrimiçi hizmetleri kapsamaz; lütfen söz konusu üçüncü tarafların ilgili gizlilik bildirimlerine bakın.\nBu bildirim, aşağıdakiler dahil olmak üzere temel ulusal ve uluslararası veri koruma düzenlemelerine uygun olarak sağlanmaktadır:\n- Yönetmelik (AB) 2016/679 (GDPR)\n- Uygulanabilir diğer yönetmelikler."
+    },
+    "section2": {
+      "title": "2. Verilerinizi kim yönetiyor ve bizimle nasıl iletişime geçebilirsiniz?",
+      "content": "Kişisel verileriniz şu kurum tarafından işlenmektedir:\nSpin8 Studio\nKadınlar Denizi, 14. Sk., 09400 Kuşadası/Aydın\nKişisel verilerin işlenmesiyle ilgili her türlü bilgi veya yasal haklarınızı kullanmak için veri sahipleri Veri Sorumlusu ile iletişime geçebilir."
+    },
+    "section3": {
+      "title": "3. Verilerinizi hangi yasal dayanaklara göre işliyoruz?",
+      "content": "Bu site aracılığıyla toplanan kişisel verilerin (çerezler, benzer teknolojiler, iletişim formları, kısıtlı alanlar, dijital hizmetler ve işlemler dahil, uygun olduğu durumlarda) işlenmesi aşağıdaki yasal dayanaklardan bir veya daha fazlasına dayanmaktadır:",
+      "list": [
+        "Kullanıcı tarafından sağlanan iletişim formları aracılığıyla talep edilen bir hizmetin/sözleşme öncesi tedbirlerin yerine getirilmesi;",
+        "Yasal, düzenleyici veya idari yükümlülüklere uyum;",
+        "Veri Sorumlusunun meşru menfaati olan ek bir yasal dayanak, belirli amaçlar için kullanılabilir (örn. BT güvenliğini sağlamak, dolandırıcılığı önlemek, yasal işlemlerde Veri Sorumlusunun haklarını korumak)."
+      ],
+      "footer": "Rıza vermeme veya rızayı geri çekme, belirli işlevleri veya kişiselleştirilmiş hizmetleri azaltabilir veya sınırlayabilir."
+    },
+    "section4": {
+      "title": "4. Siteyi ziyaret ettiğinizde hangi verileri topluyoruz?",
+      "content": "Bu sitede gezinirken, çerezler ve piksel etiketleri, web işaretçileri, yerel depolama ve eşdeğer teknolojiler gibi benzer teknolojiler aracılığıyla aşağıdaki veriler toplanabilir:",
+      "list": [
+        "**Gezinme ve teknik veriler:** IP adresi, cihaz tanımlayıcıları, işletim sistemi ve tarayıcı verileri, talep edilen URL'ler, bağlantı süreleri, teknik günlükler, teknik tercihler, çerezler ve izleme teknolojileri (piksel etiketleri, web işaretçileri, yerel depolama ve eşdeğer araçlar) aracılığıyla toplanan kullanım verileri gibi bilgiler.",
+        "**Sosyal entegrasyonlar ve üçüncü taraf platformlar aracılığıyla iletilen veriler:** sosyal özellikler (giriş, eklentiler, paylaşımlar vb.) aracılığıyla iletilen ve ilgili platformların kurallarına ve bu bildirime uygun olarak işlenen veriler."
+      ]
+    },
+    "section5": {
+      "title": "5. Verilerinizi nasıl işliyoruz, nasıl koruyoruz ve ne kadar süre saklıyoruz?",
+      "content": "Bu site aracılığıyla toplanan kişisel veriler, temel olarak elektronik ve dijital araçlarla, hukuka uygunluk, dürüstlük, veri minimizasyonu, bütünlük ve gizlilik ilkelerine uygun olarak işlenir.\nVeriler aşağıdaki zaman çizelgelerine göre saklanır:",
+      "list": [
+        "**Çerez tercihleri ve izinleri:** Bu sitedeki Çerez Politikası uyarınca 180 gün süreyle saklanır.",
+        "**Gezinme ve teknik veriler:** Yalnızca sitenin güvenliğini, bütünlüğünü ve işlevselliğini sağlamak için gerekli süre boyunca saklanır ve sonrasında anonimleştirilir veya toplanır.",
+        "**Sözleşmesel ve işlemsel amaçlarla toplanan veriler:** Yürürlükteki yasaların gerektirdiği süre boyunca saklanır (örneğin vergi veya muhasebe yasaları).",
+        "**Pazarlama amacıyla işlenen veriler:** Rıza geri çekilene veya silme talep edilene kadar saklanır.",
+        "**Formlar veya özel talepler aracılığıyla girilen veriler:** Yanıt vermek veya ilgili amacı yerine getirmek için gerekli süre boyunca saklanır."
+      ]
+    },
+    "section6": {
+      "title": "6. Verilerinizi kimler alabilir?",
+      "content": "Bu site aracılığıyla toplanan kişisel verilere, ilgili sorumlulukları ve amaçları sınırları dahilinde şunlar erişebilir:",
+      "list": [
+        "Veri Sorumlusu tarafından yetkilendirilmiş, gizlilik ve güvenlik konularında usulüne uygun olarak eğitilmiş dahili kişiler;",
+        "İşleyen olarak atanan tedarikçiler ve üçüncü taraflar (örneğin: teknik sağlayıcılar, BT şirketleri, müşteri destek şirketleri, danışmanlar, ödeme hizmeti sağlayıcıları ve lojistik sağlayıcılar, uygun olduğu durumlarda);",
+        "İş ortakları, üçüncü taraflar ve iştirakler, yalnızca belirli bir rıza verdiyseniz veya sağlandığında devre dışı bırakma hakkınızı kullandıysanız promosyon/pazarlama amaçları için;",
+        "Eklenti sağlayıcıları, sosyal ağlar ve harici platformlarla etkileşim hizmetleri, kişisel verileri bağımsız veri sorumluları olarak kendi mantıklarına göre işleyebilir (bu durumda lütfen söz konusu üçüncü tarafların bireysel gizlilik bildirimlerine de bakın);",
+        "Yetkili kamu makamları ve denetim organları, yasaların dayattığı sınırlar dahilinde veya adli makamların taleplerine uymak için;"
+      ],
+      "footer": "Güncellenmiş harici alıcı listesi, Veri Sorumlusunun iletişim bilgilerine yazılarak talep üzerine sağlanabilir."
+    },
+    "section7": {
+      "title": "7. Verileriniz nereye aktarılabilir?",
+      "content": "Bu site aracılığıyla toplanan kişisel veriler, belirtilen amaçlar doğrultusunda aşağıdaki ülkelere işlenebilir ve aktarılabilir:",
+      "list": [
+        "Avrupa Ekonomik Alanı (AEA) üyesi ülkelere, İsviçre'ye veya yetkili makamlar tarafından yasaların gerektirdiği \"yeterli\" koruma düzeyini sağladığı kabul edilen diğer ülkelere;"
+      ],
+      "subListTitle": "**Güncellenmiş \"yeterli\" ülke listesi:**",
+      "subList": [
+        "AB",
+        "İsviçre"
+      ]
+    },
+    "section8": {
+      "title": "8. Toplanan verilerle ilgili haklarınız nelerdir?",
+      "content": "Kullanıcı, yürürlükteki yasalara dayanarak şu haklara sahiptir:",
+      "list": [
+        "Kendisinin kişisel verilerinin işlenip işlenmediğine dair onay alma ve işleniyorsa bu verilere ve ilgili bilgilere erişim sağlama (erişim hakkı).",
+        "Hatalı verilerin veya artık gerekli olmayan verilerin düzeltilmesini, güncellenmesini veya silinmesini talep etme (düzeltme ve silme hakkı).",
+        "İşlemenin kısıtlanmasını talep etme veya sağlandığı durumlarda promosyon/profilleme amaçları dahil olmak üzere veri işlemeye itiraz etme.",
+        "Veri taşınabilirliğini yapılandırılmış ve birlikte çalışabilir bir formatta talep etme (teknik olarak mümkün olduğunda).",
+        "Teknik olmayan çerezlerin kullanımına ve izleme araçları aracılığıyla toplanan verilerin işlenmesine verilen rızayı geri çekme.",
+        "Herhangi bir düzensizliği veya kötüye kullanımı yetkili denetim makamlarına bildirme."
+      ],
+      "footer": "Bu hakları kullanmak için, geçerli yerel düzenlemelerin öngördüğü süreler içinde yanıt verecek olan Veri Sorumlusunun iletişim bilgilerine bir talep göndermeniz yeterlidir."
+    },
+    "section9": {
+      "title": "9. Çocukların verileri nasıl işlenir?",
+      "content": "Çocukların korunması temel bir önceliktir.\nBu sitenin hizmetleri ve içeriği 18 yaşın altındaki bireylere yönelik değildir.\nBir ebeveynin veya yasal vasinin doğrulanabilir rızası olmadan çocukların kişisel verilerini bilerek toplamıyoruz.\nBir ebeveyn veya vasi, bir çocuğun izinsiz olarak kişisel veri sağladığına inanıyorsa, bu bildirimde belirtilen iletişim bilgilerine yazarak verilerin kaldırılmasını, güncellenmesini veya işlemenin kısıtlanmasını talep edebilir."
+    },
+    "section10": {
+      "title": "10. Yetkililere rapor veya şikayet nasıl yapılır?",
+      "content": "Kişisel verilerinizin bu site aracılığıyla işlenmesinin yürürlükteki yasalara uymadığını düşünüyorsanız, aşağıdakiler dahil olmak üzere yetkili denetim makamlarına ücretsiz olarak şikayette bulunabilirsiniz:",
+      "list": [
+        "Vatandaşı olduğunuz veya ikamet ettiğiniz ülkenin Veri Koruma Kurumu;",
+        "Avrupa Veri Koruma Denetçisi"
+      ]
+    },
+    "changes": {
+      "title": "Bu bildirimdeki değişiklikler hakkında sizi nasıl bilgilendireceğiz?",
+      "content": "Bu bildirim, düzenleyici güncellemeler veya site aracılığıyla sunulan hizmetlerdeki değişiklikler nedeniyle periyodik incelemeye tabidir. Önemli herhangi bir değişiklik bu sayfada bildirilecektir."
+    }
   }
 }

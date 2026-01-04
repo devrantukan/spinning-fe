@@ -254,13 +254,13 @@ If you didn't create an account, please ignore this email.
 </head>
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
   <div style="background-color: #f97316; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
-    <h1 style="color: white; margin: 0;">${orgName}'ye Hoş Geldiniz</h1>
+    <h1 style="color: white; margin: 0;">${orgName}'ya Hoş Geldiniz</h1>
   </div>
   <div style="background-color: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
     <p style="font-size: 16px; margin-bottom: 20px;">Merhaba ${
       name || "değerli kullanıcı"
     },</p>
-    <p style="font-size: 16px; margin-bottom: 20px;">${orgName}'ye kayıt olduğunuz için teşekkür ederiz!</p>
+    <p style="font-size: 16px; margin-bottom: 20px;">${orgName}'ya kayıt olduğunuz için teşekkür ederiz!</p>
     <p style="font-size: 16px; margin-bottom: 30px;">Lütfen e-posta adresinizi onaylamak için aşağıdaki butona tıklayın:</p>
     <div style="text-align: center; margin: 30px 0;">
       <a href="${confirmationLink}" style="background-color: #f97316; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; display: inline-block; font-weight: bold; font-size: 16px;">E-posta Adresini Onayla</a>
@@ -276,11 +276,11 @@ If you didn't create an account, please ignore this email.
 </html>
         `,
         text: `
-${orgName}'ye Hoş Geldiniz
+${orgName}'ya Hoş Geldiniz
 
 Merhaba ${name || "değerli kullanıcı"},
 
-${orgName}'ye kayıt olduğunuz için teşekkür ederiz!
+${orgName}'ya kayıt olduğunuz için teşekkür ederiz!
 
 Lütfen e-posta adresinizi onaylamak için bu bağlantıyı ziyaret edin:
 ${confirmationLink}

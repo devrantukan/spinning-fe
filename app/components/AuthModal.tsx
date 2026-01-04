@@ -28,6 +28,7 @@ export default function AuthModal({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [identityNumber, setIdentityNumber] = useState("");
   const [dobDay, setDobDay] = useState("");
   const [dobMonth, setDobMonth] = useState("");
   const [dobYear, setDobYear] = useState("");
@@ -255,6 +256,19 @@ export default function AuthModal({
             t("auth.validation.nameMinLength") ||
               "Name must be at least 2 characters"
           ),
+        identityNumber: z
+          .string()
+          .min(
+            1,
+            t("auth.validation.identityNumberRequired") ||
+              "Identity Number is required"
+          )
+          .length(
+            11,
+            t("auth.validation.identityNumberInvalid") ||
+              "Identity Number must be 11 digits"
+          )
+          .regex(/^\d+$/, t("auth.validation.identityNumberInvalid") || "Identity Number must contain only numbers"),
         email: z
           .string()
           .min(1, t("auth.validation.emailRequired") || "Email is required")
@@ -302,6 +316,7 @@ export default function AuthModal({
       setEmail("");
       setPassword("");
       setName("");
+      setIdentityNumber("");
       setDobDay("");
       setDobMonth("");
       setDobYear("");
@@ -408,6 +423,7 @@ export default function AuthModal({
         // Validate registration form
         const registerResult = registerSchema.safeParse({
           name,
+          identityNumber,
           email,
           dobDay,
           dobMonth,
@@ -454,6 +470,7 @@ export default function AuthModal({
             password: tempPassword,
             userMetadata: {
               name: name,
+              identityNumber: identityNumber,
               dob:
                 dobYear && dobMonth && dobDay
                   ? `${dobYear}-${dobMonth.padStart(2, "0")}-${dobDay.padStart(
@@ -694,6 +711,44 @@ export default function AuthModal({
                   {fieldErrors.name && (
                     <p className="mt-1 text-sm text-red-600 dark:text-red-400">
                       {fieldErrors.name}
+                    </p>
+                  )}
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="identityNumber"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  >
+                    {t("auth.register.identityNumber") || "Identity Number"}
+                  </label>
+                  <input
+                    id="identityNumber"
+                    type="text"
+                    value={identityNumber}
+                    onChange={(e) => {
+                      // Only allow numbers and max 11 chars
+                      const val = e.target.value.replace(/\D/g, "").slice(0, 11);
+                      setIdentityNumber(val);
+                      if (fieldErrors.identityNumber) {
+                        setFieldErrors((prev) => ({
+                          ...prev,
+                          identityNumber: undefined,
+                        }));
+                      }
+                    }}
+                    className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent dark:bg-gray-700 dark:text-white ${
+                      fieldErrors.identityNumber
+                        ? "border-red-500 dark:border-red-500"
+                        : "border-gray-300 dark:border-gray-600"
+                    }`}
+                    placeholder={
+                      t("auth.register.identityNumberPlaceholder") || "12345678901"
+                    }
+                  />
+                  {fieldErrors.identityNumber && (
+                    <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                      {fieldErrors.identityNumber}
                     </p>
                   )}
                 </div>

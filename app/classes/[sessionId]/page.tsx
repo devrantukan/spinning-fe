@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { useAuth } from "../../contexts/AuthContext";
@@ -50,7 +51,8 @@ interface Session {
   titleTr?: string;
   instructor:
     | string
-    | { id?: string; name?: string; user?: { name?: string; email?: string } };
+    | string
+    | { id?: string; name?: string; user?: { name?: string; email?: string }; photoUrl?: string };
   time: string;
   date: string;
   duration: number;
@@ -1144,21 +1146,41 @@ export default function SessionDetailPage() {
         </button>
 
         {/* Left Column - Instructor Portrait */}
-        <div className="hidden lg:block w-1/3 bg-gray-900 dark:bg-black relative overflow-hidden">
+        <div className="hidden lg:block w-1/3 bg-gray-900 dark:bg-black relative overflow-hidden group">
           <div className="absolute inset-0 flex items-center justify-center">
-            {/* Instructor Image Placeholder - You can replace this with actual instructor image */}
-            <div className="w-full h-full bg-gradient-to-b from-gray-800 to-gray-900 flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-32 h-32 rounded-full bg-gray-700 dark:bg-gray-800 mx-auto mb-4 flex items-center justify-center">
-                  <span className="text-4xl font-bold text-white">
-                    {instructorName.charAt(0).toUpperCase()}
-                  </span>
+            {typeof sessionData.instructor === "object" && sessionData.instructor.photoUrl ? (
+              <>
+                <div className="absolute inset-0 z-0">
+                  <Image
+                    src={sessionData.instructor.photoUrl}
+                    alt={instructorName}
+                    fill
+                    className="object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-80" />
                 </div>
-                <h2 className="text-2xl font-bold text-white uppercase tracking-wider">
-                  {toUpperCaseLocale(instructorName, language)}
-                </h2>
-              </div>
-            </div>
+                <div className="relative z-10 text-center">
+                   <h2 className="text-4xl font-bold text-white uppercase tracking-wider drop-shadow-lg">
+                    {toUpperCaseLocale(instructorName, language)}
+                  </h2>
+                </div>
+              </>
+            ) : (
+                // Fallback if no photo
+                <div className="w-full h-full bg-gradient-to-b from-gray-800 to-gray-900 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-32 h-32 rounded-full bg-gray-700 dark:bg-gray-800 mx-auto mb-4 flex items-center justify-center">
+                      <span className="text-4xl font-bold text-white">
+                        {instructorName.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                    <h2 className="text-2xl font-bold text-white uppercase tracking-wider">
+                      {toUpperCaseLocale(instructorName, language)}
+                    </h2>
+                  </div>
+                </div>
+            )}
           </div>
         </div>
 

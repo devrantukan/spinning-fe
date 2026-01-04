@@ -99,6 +99,7 @@ export async function POST(request: NextRequest) {
             dateOfBirth: dateOfBirth || null,
             mobilePhone: userMetadata?.mobilePhone || null,
             countryCode: userMetadata?.countryCode || null,
+            identityNumber: userMetadata?.identityNumber || null,
             organizationId: organizationId || null, // Will be set via TOC route if missing
             tocAccepted: userMetadata?.tocAccepted || false,
             tocAcceptedAt: userMetadata?.tocAccepted ? now : null,

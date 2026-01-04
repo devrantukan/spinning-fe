@@ -196,6 +196,8 @@
       "passwordMinLength": "Password must be at least 6 characters",
       "nameRequired": "Name is required",
       "nameMinLength": "Name must be at least 2 characters",
+      "identityNumberRequired": "Identity Number is required",
+      "identityNumberInvalid": "Identity Number must be 11 digits",
       "dobDayRequired": "Day is required",
       "dobMonthRequired": "Month is required",
       "dobYearRequired": "Year is required",
@@ -212,6 +214,8 @@
       "title": "Register",
       "name": "Full Name",
       "namePlaceholder": "Your name",
+      "identityNumber": "Identity Number",
+      "identityNumberPlaceholder": "12345678901",
       "dob": "Date of Birth",
       "day": "Day",
       "month": "Month",
@@ -635,7 +639,158 @@
     }
   },
   "footer": {
+    "contacts": "CONTACTS",
     "faq": "FAQ",
-    "terms": "Terms & Conditions"
+    "terms": "Terms & Conditions",
+    "cookiePolicy": "Cookie Policy",
+    "privacyPolicy": "Privacy Policy",
+    "allRightsReserved": "All rights reserved."
+  },
+  "cookiePolicy": {
+    "title": "Cookie Policy",
+    "intro": {
+      "title": "1. Introduction and legal references",
+      "p1": "This notice outlines the main information relating to the processing of personal data and the use of cookies on this site. It is intended for anyone who accesses or uses this site, describing how users’ personal data may be collected, used, and protected through cookie and similar technologies, as well as the rights granted by law.",
+      "p2": "These provisions do not apply to other websites, pages, or online services accessible through external links that may be present on the site; for those, please consult the respective privacy notices. This notice is provided in compliance with major national and international data protection regulations, including Regulation (EU) 2016/679 (GDPR)."
+    },
+    "manager": {
+      "title": "2. Who manages your data and how can you contact us?",
+      "p1": "Your personal data are processed by:",
+      "name": "Spin8 Studio",
+      "address1": "Kadınlar Denizi, 14. Sk.",
+      "address2": "09400 Kuşadası/Aydın",
+      "p2": "For any information regarding the processing of personal data or to exercise your rights under the law, data subjects can contact us via our contact page."
+    },
+    "collection": {
+      "title": "3. What data do we collect when you visit the site?",
+      "p1": "When you browse this site, we automatically collect certain information through cookies, similar tools, and tracking technologies. The main types of data that may be recorded include:",
+      "list": {
+        "technical": "<strong>Technical and browsing information:</strong> IP address, identifiers of the device in use, information about the browser and operating system, date and time of access, pages visited, technical commands necessary for proper content display, system errors.",
+        "preferences": "<strong>User preferences:</strong> choices made regarding cookies and privacy settings, collected via panels, banners, or similar tools.",
+        "stats": "<strong>Aggregated and anonymous statistics:</strong> information used to assess and improve the functioning of the site, such as visit frequency or most viewed areas."
+      }
+    },
+    "types": {
+      "title": "4. What types of cookies (and similar tools) exist?",
+      "p1": "To provide you with a better browsing experience, we may use different categories of cookies and similar technologies:",
+      "list": {
+        "necessary": "<strong>Strictly necessary cookies:</strong> essential for the technical functioning of the site; for example, they allow access to protected areas, session management, or remembering essential preferences.",
+        "preferences": "<strong>Preference and personalization cookies:</strong> used to store display choices such as language to offer an interaction closer to your preferences.",
+        "analytics": "<strong>Analytics and performance cookies:</strong> help us better understand how people use the site by collecting anonymized and aggregated data on traffic and usage."
+      }
+    },
+    "consent": {
+      "title": "5. How can you give or refuse consent?",
+      "p1": "On first access to the site, a banner is displayed that allows you to manage preferences related to cookies and tracking tools. Currently, we prioritize strictly necessary cookies and analytics that respect user privacy. You can manage your browser settings to block or delete cookies at any time, though this may affect site functionality."
+    },
+    "protection": {
+      "title": "6. How are your data protected?",
+      "p1": "Personal data collected through this site are processed mainly with electronic and digital tools according to the principles of lawfulness, fairness, data minimization, integrity, and confidentiality."
+    },
+    "rights": {
+      "title": "7. What are your rights regarding the data collected?",
+      "p1": "The user has the right to:",
+      "list": {
+        "rectification": "Request rectification, updating, or deletion of data.",
+        "access": "Obtain confirmation and access to personal data.",
+        "restriction": "Request restriction of or object to processing."
+      },
+      "p2": "To exercise these rights, please contact us via our contact page."
+    },
+    "revision": "Last revision: January 5, 2026"
+  },
+  "privacyPolicy": {
+    "title": "Privacy Notice on the Processing of Personal Data",
+    "revision": "Last revision: January 5, 2026",
+    "section1": {
+      "title": "1. Introduction and legal references",
+      "content": "This notice explains the processing of personal data collected through this website, including those obtained via cookies, tracking technologies and—where present—contact forms, restricted areas, digital services, and economic transactions carried out electronically.\nThis notice is addressed to anyone who accesses or uses this site, describing how users’ personal data are collected, used and protected, as well as the rights granted by law.\nThese provisions do not concern other websites, pages or online services accessible through any external links that may be present on the site; please refer to the respective privacy notices of those third parties.\nThis notice is provided in compliance with the main national and international data protection regulations, including:\n- Regulation (EU) 2016/679 (GDPR)\n- Other regulations that may apply."
+    },
+    "section2": {
+      "title": "2. Who manages your data and how can you contact us?",
+      "content": "Your personal data are processed by:\nSpin8 Studio\nKadınlar Denizi, 14. Sk., 09400 Kuşadası/Aydın\nFor any information regarding the processing of personal data or to exercise your rights under the law, data subjects can contact the Controller."
+    },
+    "section3": {
+      "title": "3. On what legal bases do we process your data?",
+      "content": "The processing of personal data collected through this site (including via cookies, similar technologies, contact forms, restricted areas, digital services and transactions, where applicable) is based on one or more of the following legal bases:",
+      "list": [
+        "Performance of a service/pre-contractual measures requested by the user through the provided contact forms;",
+        "Compliance with legal, regulatory or statutory obligations;",
+        "An additional legal basis, the legitimate interest of the Controller, may be used for specific purposes (e.g., ensuring IT security, preventing fraud, protecting the Controller’s rights in legal proceedings)."
+      ],
+      "footer": "Failure to give or withdrawal of consent may reduce or limit certain functionalities or personalized services."
+    },
+    "section4": {
+      "title": "4. What data do we collect when you visit the site?",
+      "content": "While browsing this site, the following data may be collected—also via cookies and similar technologies such as pixel tags, web beacons, local storage and equivalent technologies:",
+      "list": [
+        "**Browsing and technical data:** information such as IP address, device identifiers, operating system and browser data, requested URLs, connection times, technical logs, technical preferences, usage data collected via cookies and tracking technologies (pixel tags, web beacons, local storage and equivalent tools).",
+        "**Data communicated via social integrations and third-party platforms:** data transmitted through social features (login, plugins, shares, etc.), processed in accordance with the rules of the respective platforms as well as this notice."
+      ]
+    },
+    "section5": {
+      "title": "5. How do we process your data, how do we protect it, and how long do we keep it?",
+      "content": "Personal data collected through this site are processed mainly with electronic and digital tools in accordance with the principles of lawfulness, fairness, data minimization, integrity, and confidentiality.\nData are retained according to the following timelines:",
+      "list": [
+        "**Cookie preferences and consents:** retained for 180 days, as per the Cookie Policy on this site.",
+        "**Browsing and technical data:** retained only for the time necessary to ensure the security, integrity and functionality of the site and subsequently anonymized or aggregated.",
+        "**Data collected for contractual and transactional purposes:** retained for the time required by applicable laws (for example, tax or accounting laws).",
+        "**Data processed for marketing purposes:** retained until consent is withdrawn or deletion is requested.",
+        "**Data entered via forms or specific requests:** retained for the time necessary to respond or fulfil the related purpose."
+      ]
+    },
+    "section6": {
+      "title": "6. Who may receive your data?",
+      "content": "The personal data collected through this site may be accessed, within the limits of their respective responsibilities and purposes, by:",
+      "list": [
+        "Internal subjects authorized by the Controller, duly trained in privacy and security matters;",
+        "Suppliers and third parties appointed as Processors (for example: technical providers, IT companies, customer support companies, consultants, payment service providers and logistics providers, where applicable);",
+        "Business partners, third parties and affiliates, exclusively for promotional/marketing purposes if you have given specific consent or exercised opt-out where provided;",
+        "Providers of plugins, social networks and services for interaction with external platforms, which may process personal data according to their own logic as independent controllers (please refer in that case also to the individual privacy notices of such third parties);",
+        "Competent public authorities and supervisory bodies, within the limits imposed by law or to comply with requests from judicial authorities;"
+      ],
+      "footer": "The updated list of external recipients can be made available upon request by writing to the Controller’s contacts."
+    },
+    "section7": {
+      "title": "7. Where can your data be transferred?",
+      "content": "Personal data collected through this site may be processed and transferred—for the purposes indicated—to the following countries:",
+      "list": [
+        "to countries belonging to the European Economic Area (EEA), Switzerland or other countries recognized by the competent authorities as providing an “adequate” level of protection required by law;"
+      ],
+      "subListTitle": "**Updated list of “adequate” countries:**",
+      "subList": [
+        "EU",
+        "Switzerland"
+      ]
+    },
+    "section8": {
+      "title": "8. What are your rights regarding the data collected?",
+      "content": "The user, based on applicable law, has the right to:",
+      "list": [
+        "Obtain confirmation as to whether or not personal data concerning them are being processed and, where that is the case, access such data and related information (right of access).",
+        "Request the rectification, update or deletion of inaccurate data or data that are no longer necessary (right to rectification and erasure).",
+        "Request restriction of processing or object to the processing of data, including for promotional/profiling purposes, where provided.",
+        "Request data portability in a structured and interoperable format (where technically feasible).",
+        "Withdraw consent given to the use of non-technical cookies and to the processing of data collected through tracking tools.",
+        "Report any irregularities or abuses to the competent supervisory authorities."
+      ],
+      "footer": "To exercise these rights, simply send a request to the Controller’s contacts, who will respond within the timeframes provided by the applicable local regulation."
+    },
+    "section9": {
+      "title": "9. How are minors’ data processed?",
+      "content": "The protection of minors is a fundamental priority.\nThe services and content of this site are not intended for individuals under 18 years of age.\nWe do not knowingly collect personal data of minors without the verifiable consent of a parent or legal guardian.\nIf a parent or guardian believes that a minor has provided personal data without authorization, they may request its removal, update, or restriction of processing by writing to the contacts indicated in this notice."
+    },
+    "section10": {
+      "title": "10. How to make reports or complaints to the authorities?",
+      "content": "If you believe that the processing of your personal data through this site does not comply with applicable law, you may lodge a complaint free of charge with the competent supervisory authorities, including:",
+      "list": [
+        "The Data Protection Authority of your country of citizenship or residence;",
+        "European Data Protection Supervisor"
+      ]
+    },
+    "changes": {
+      "title": "How will we inform you about changes to this notice?",
+      "content": "This notice is subject to periodic review due to regulatory updates or changes to the services offered through the site. Any significant change will be communicated on this page."
+    }
   }
 }

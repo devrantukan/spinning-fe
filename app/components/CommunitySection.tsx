@@ -16,14 +16,14 @@ export default function CommunitySection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex flex-col md:flex-row gap-16 items-center">
             {/* Visual - Left on desktop (alternating layout) */}
-            <div className="w-full md:w-1/2 relative h-[500px] rounded-lg overflow-hidden shadow-2xl animate-fade-in-up md:order-1 order-2">
+            <div className="w-full md:w-1/2 relative h-[500px] rounded-lg overflow-hidden shadow-2xl animate-fade-in-up md:order-1 order-2 group">
                  <Image
-                    src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=2690&auto=format&fit=crop" 
+                    src="/community-bg.jpg" 
                     alt="Community"
                     fill
-                    className="object-cover hover:scale-105 transition-transform duration-700"
+                    className="object-contain grayscale group-hover:grayscale-0 hover:scale-105 transition-all duration-700"
                  />
-                 <div className="absolute inset-0 bg-black/20" />
+                 <div className="absolute inset-0 bg-black/20 pointer-events-none" />
             </div>
 
             {/* Text - Right on desktop */}

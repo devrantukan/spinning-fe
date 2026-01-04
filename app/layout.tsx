@@ -6,6 +6,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import WhatsAppOverlay from "./components/WhatsAppOverlay";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -65,6 +66,7 @@ export default function RootLayout({
             <AuthProvider>
               <Header />
               {children}
+              <WhatsAppOverlay />
               <Footer />
             </AuthProvider>
           </LanguageProvider>

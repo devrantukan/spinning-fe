@@ -16,7 +16,7 @@ type Language = "en" | "tr";
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: string) => string;
+  t: (key: string) => any;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(
@@ -29,7 +29,7 @@ const translations = {
 };
 
 // Helper function to get nested value from object using dot notation
-function getNestedValue(obj: Record<string, unknown>, path: string): string {
+function getNestedValue(obj: Record<string, unknown>, path: string): unknown {
   const result = path.split(".").reduce((current, key) => {
     if (current && typeof current === "object" && key in current) {
       return current[key] as Record<string, unknown>;
@@ -37,7 +37,7 @@ function getNestedValue(obj: Record<string, unknown>, path: string): string {
     return undefined;
   }, obj as Record<string, unknown> | undefined);
 
-  return typeof result === "string" ? result : path;
+  return result;
 }
 
 // Store for language state
@@ -86,13 +86,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     document.documentElement.lang = language;
   }, [language]);
 
-  const t = (key: string): string => {
+  const t = (key: string): any => {
     const lang = language as Language;
     const translation = getNestedValue(
       translations[lang] as Record<string, unknown>,
       key
     );
-    return translation || key;
+    return translation !== undefined ? translation : key;
   };
 
   return (

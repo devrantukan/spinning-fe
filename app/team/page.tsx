@@ -100,9 +100,7 @@ export default function Team() {
                     {member.description}
                   </div>
                   
-                  <button className="text-white text-sm font-bold uppercase tracking-widest border-b-2 border-yellow-500 pb-1 hover:text-yellow-500 transition-colors duration-300">
-                    {t("team.viewProfile")}
-                  </button>
+
                 </div>
               </div>
             ))}
