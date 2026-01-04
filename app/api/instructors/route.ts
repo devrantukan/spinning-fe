@@ -33,7 +33,7 @@ export async function GET() {
           name: instructor.user?.name || instructor.name || "Unknown Instructor",
           role: instructor.role || "Instructor",
           description: instructor.bio || instructor.description || "",
-          image: (instructor.photoUrl || instructor.image || "https://images.unsplash.com/photo-1594381898411-846e7d193883?q=80&w=2787&auto=format&fit=crop").replace("/instructorPhotos/", "/InstructorPhotos/"),
+          image: (instructor.photoUrl || instructor.image || "https://images.unsplash.com/photo-1594381898411-846e7d193883?q=80&w=2787&auto=format&fit=crop"),
         }));
 
         return NextResponse.json(mappedData);
