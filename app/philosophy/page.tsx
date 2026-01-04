@@ -197,7 +197,7 @@ export default function Philosophy() {
                       {value.title}
                     </h3>
                     <div className="text-gray-600 dark:text-gray-300 leading-relaxed text-sm sm:text-base md:text-lg space-y-3 sm:space-y-4">
-                      {value.description.split("\n\n").map((paragraph, idx) =>
+                      {value.description.split("\n\n").map((paragraph: string, idx: number) =>
                         paragraph.trim() ? (
                           <p key={idx} className="mb-3 sm:mb-4 last:mb-0">
                             {paragraph.trim()}
