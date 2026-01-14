@@ -1186,9 +1186,9 @@ export default function SessionDetailPage() {
 
         {/* Right Column - Session Details and Seat Selection */}
         <div className="flex-1 overflow-y-auto">
-          <div className="max-w-4xl px-4 py-8 lg:max-w-full lg:px-6 lg:py-24 h-full flex flex-col lg:flex-col">
+          <div className="max-w-4xl px-4 py-6 lg:max-w-full lg:px-6 lg:py-8 h-full flex flex-col lg:flex-col">
             {/* Top Half - Session Details (Desktop) / Full (Mobile) */}
-            <div className="flex-shrink-0 lg:h-1/2 lg:overflow-y-auto">
+            <div className="flex-shrink-0 lg:overflow-y-auto mb-4 lg:mb-0">
               {/* Session Title */}
               <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-10">
                 {normalizeTitle(
@@ -1347,7 +1347,7 @@ export default function SessionDetailPage() {
                       if (sessionData.maxCapacity !== undefined) {
                         const available =
                           (sessionData.maxCapacity || 0) -
-                          (sessionData.currentBookings || 0);
+                          (sessionData.currentBookings || 0) -1;
                         return `${available}`;
                       }
 
@@ -1408,8 +1408,8 @@ export default function SessionDetailPage() {
             </div>
 
             {/* Bottom Half - Seat Layout (Desktop) / Below Details (Mobile) */}
-            <div className="flex-1 lg:h-1/2 lg:overflow-y-auto lg:mt-4">
-              <div className="bg-white dark:bg-gray-800 rounded-lg lg:px-6 flex flex-col">
+            <div className="flex-1 lg:overflow-hidden lg:mt-4 min-h-0 flex flex-col">
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-4 lg:p-6 flex flex-col h-full justify-center">
                 <div className="flex justify-center mb-4">
                   <div className="bg-gray-800 dark:bg-gray-700 rounded-lg px-4 py-3 flex items-center gap-2 w-auto">
                     <div className="w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-white flex items-center justify-center shrink-0">
@@ -1489,12 +1489,12 @@ export default function SessionDetailPage() {
                 </div>
 
                 {/* Seats Grid */}
-                <div className="space-y-3 mb-6 flex flex-col items-center">
+                <div className="space-y-2 lg:space-y-3 mb-0 flex flex-col items-center mt-16">
                   {Object.keys(seatsByRow).length > 0 ? (
                     Object.keys(seatsByRow)
                       .sort()
                       .map((row) => (
-                        <div key={row} className="flex items-center gap-3">
+                        <div key={row} className="flex items-center gap-2 lg:gap-3">
                           <div className="flex gap-2 flex-wrap justify-center">
                             {seatsByRow[row]
                               .sort(
@@ -1515,7 +1515,7 @@ export default function SessionDetailPage() {
                                     (seat.type !== "normal" &&
                                       seat.type !== "exclusive")
                                   }
-                                  className={`min-w-10 min-h-10 lg:min-w-12 lg:min-h-12 w-auto h-auto px-2 py-2 lg:px-3 lg:py-3 transition-all flex items-center justify-center ${
+                                  className={`min-w-14 min-h-14 w-auto h-auto p-0 lg:p-2 transition-all flex items-center justify-center ${
                                     seat.type === "podium" ||
                                     seat.type === "column"
                                       ? "bg-gray-600 dark:bg-gray-800 rounded cursor-not-allowed opacity-60"
@@ -1606,7 +1606,7 @@ export default function SessionDetailPage() {
                                           : "text-white"
                                       }`}
                                     >
-                                      {seat.number}
+                                      {seat.status !== "unavailable" && seat.number}
                                     </span>
                                   )}
                                 </button>
