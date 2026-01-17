@@ -996,24 +996,22 @@ export default function Classes() {
     )} ${sessionDate.getFullYear()}`;
 
     // Format time
-    const timeMatch = session.time.match(/(\d{1,2}):?(\d{2})?\s*(am|pm)?/i);
+    // Format time (24-hour format)
+    const timeMatch = session.time.match(/(\d{1,2}):?(\d{2})?\s*(am|pm|öö|ös)?/i);
     let formattedTime = session.time;
     if (timeMatch) {
       let hours = parseInt(timeMatch[1]);
       const minutes = timeMatch[2] || "00";
       const period = timeMatch[3]?.toLowerCase();
-      if (period === "pm" && hours !== 12) hours += 12;
-      if (period === "am" && hours === 12) hours = 0;
-      const displayHours = hours % 12 || 12;
-      const periodText =
-        period ||
-        (hours >= 12
-          ? t("classes.filters.pm").toLowerCase()
-          : t("classes.filters.am").toLowerCase());
-      formattedTime = `${displayHours}:${minutes.padStart(
+
+      // Convert to 24-hour format if it has AM/PM
+      if ((period === "pm" || period === "ös") && hours !== 12) hours += 12;
+      if ((period === "am" || period === "öö") && hours === 12) hours = 0;
+
+      formattedTime = `${hours.toString().padStart(2, "0")}:${minutes.padStart(
         2,
         "0"
-      )} ${periodText}`;
+      )}`;
     }
 
     return (
@@ -1499,9 +1497,10 @@ export default function Classes() {
                 <div key={`am-${dateKey}`} className="flex flex-col">
                   <div className="space-y-3 md:space-y-4 flex-1">
                     {daySessions.length === 0 ? (
-                      <p className="text-gray-500 dark:text-gray-400 text-xs md:text-sm">
+                      /* <p className="text-gray-500 dark:text-gray-400 text-xs md:text-sm">
                         {t("classes.noSessions")}
-                      </p>
+                      </p> */
+                      null
                     ) : shouldShowAm && amSessions.length > 0 ? (
                       <div className="space-y-3 md:space-y-4">
                         {amSessions.map((session) =>
