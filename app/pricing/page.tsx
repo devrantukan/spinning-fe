@@ -57,11 +57,58 @@ export default function Pricing() {
     text: string;
   } | null>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [pendingPackage, setPendingPackage] = useState<Package | null>(null);
+  const [, setPendingPackage] = useState<Package | null>(null);
 
   useEffect(() => {
+    const fetchPackages = async () => {
+      setLoading(true);
+      try {
+        // Include auth token if available (for better backend access)
+        const headers: HeadersInit = {
+          "Content-Type": "application/json",
+        };
+
+        if (session?.access_token) {
+          headers.Authorization = `Bearer ${session.access_token}`;
+        }
+
+        const response = await fetch("/api/packages", {
+          headers,
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const activePackages = Array.isArray(data)
+            ? data.filter((p: Package) => p.isActive)
+            : [];
+
+          // Promote welcome-3 pack to the top
+          activePackages.sort((a, b) => {
+            const isA = a.code === "WELCOME-3";
+            const isB = b.code === "WELCOME-3";
+            return isA === isB ? 0 : isA ? -1 : 1;
+          });
+
+          setPackages(activePackages);
+        } else {
+          console.error(
+            "Error fetching packages:",
+            response.status,
+            response.statusText
+          );
+          // Still set empty array so UI can render
+          setPackages([]);
+        }
+      } catch (error) {
+        console.error("Error fetching packages:", error);
+        setPackages([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchPackages();
-  }, []);
+  }, [session?.access_token]);
 
   // Handle successful login - open purchase modal if there was a pending package
   const handleLoginSuccess = useCallback(() => {
@@ -82,44 +129,6 @@ export default function Pricing() {
       });
     }, 300);
   }, []);
-
-  const fetchPackages = async () => {
-    setLoading(true);
-    try {
-      // Include auth token if available (for better backend access)
-      const headers: HeadersInit = {
-        "Content-Type": "application/json",
-      };
-
-      if (session?.access_token) {
-        headers.Authorization = `Bearer ${session.access_token}`;
-      }
-
-      const response = await fetch("/api/packages", {
-        headers,
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setPackages(
-          Array.isArray(data) ? data.filter((p: Package) => p.isActive) : []
-        );
-      } else {
-        console.error(
-          "Error fetching packages:",
-          response.status,
-          response.statusText
-        );
-        // Still set empty array so UI can render
-        setPackages([]);
-      }
-    } catch (error) {
-      console.error("Error fetching packages:", error);
-      setPackages([]);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const validateCoupon = async (code: string, packageId: string) => {
     if (!code.trim()) {
@@ -194,7 +203,7 @@ export default function Pricing() {
         type: "success",
         text: t("pricing.couponApplied") || "Coupon applied successfully",
       });
-    } catch (err) {
+    } catch (_) {
       setCouponDiscount(null);
       setMessage({
         type: "error",
@@ -288,11 +297,14 @@ export default function Pricing() {
             data.error || t("pricing.purchaseError") || "Failed to purchase",
         });
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      let errorMessage = t("pricing.purchaseError") || "Failed to purchase";
+      if (error instanceof Error) {
+        errorMessage = error.message || errorMessage;
+      }
       setMessage({
         type: "error",
-        text:
-          error.message || t("pricing.purchaseError") || "Failed to purchase",
+        text: errorMessage,
       });
     } finally {
       setPurchasing(false);
@@ -363,90 +375,170 @@ export default function Pricing() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {packages.map((pkg) => (
-              <div
-                key={pkg.id}
-                className="!bg-white dark:!bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow"
-              >
-                <div className="text-center mb-4">
-                  <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                    {pkg.code}
-                  </div>
-                  <h3 className="text-2xl font-bold !text-gray-900 dark:!text-white mb-2">
-                    {language === "tr" && pkg.nameTr ? pkg.nameTr : pkg.name}
-                  </h3>
-                  <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                    {getPackageTypeName(pkg.type)}
+          <div className="max-w-7xl mx-auto">
+            {/* Featured Section */}
+            {packages.find((p) => p.code === "WELCOME-3") && (
+              <div className="mb-16">
+                <div className="relative bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl p-8 md:p-12 shadow-2xl overflow-hidden text-white">
+                  <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl"></div>
+                  <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-64 h-64 bg-black opacity-10 rounded-full blur-3xl"></div>
+
+                  <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div className="flex-1 text-center md:text-left">
+                      <div className="inline-block px-4 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm font-semibold mb-2">
+                        {t("pricing.recommended") || "Recommended for You"}
+                      </div>
+                      <h2 className="text-3xl md:text-5xl font-bold mb-2">
+                        {(() => {
+                          const pkg = packages.find(
+                            (p) => p.code === "WELCOME-3"
+                          );
+                          return language === "tr" && pkg?.nameTr
+                            ? pkg.nameTr
+                            : pkg?.name;
+                        })()}
+                      </h2>
+                      
+                      <div className="flex flex-col mb-0">
+                         {(() => {
+                          const pkg = packages.find((p) => p.code === "WELCOME-3");
+                           if (!pkg) return null;
+                           return (
+                            <>
+                              <div className="text-lg !text-white font-medium mb-4 opacity-90">
+                                {pkg.credits} {t("pricing.rides") || "rides"}
+                                {pkg.discountAmount && pkg.discountAmount > 0 && (
+                                  <> - {t("pricing.save") || "Save"} {formatPrice(pkg.discountAmount)}</>
+                                )}
+                              </div>
+                              <div className="flex items-baseline gap-3">
+                                <span className="text-5xl font-bold !text-white">{formatPrice(pkg.price)}</span>
+                                {pkg.discountPercentage && pkg.discountPercentage > 0 && (
+                                  <span className="text-xl !text-white line-through opacity-70">
+                                     {formatPrice((pkg.price * 100) / (100 - pkg.discountPercentage))}
+                                  </span>
+                                )}
+                              </div>
+                            </>
+                           )
+                         })()}
+                      </div>
+                    </div>
+
+                    <div className="flex-shrink-0 w-full md:w-auto flex items-center justify-center md:justify-end mt-6 md:mt-0">
+                      <button
+                        onClick={() => {
+                          const pkg = packages.find((p) => p.code === "WELCOME-3");
+                          if (!pkg) return;
+                          
+                          if (!user || !session?.access_token) {
+                            setPendingPackage(pkg);
+                            setIsAuthModalOpen(true);
+                            return;
+                          }
+                          setSelectedPackage(pkg);
+                          setShowModal(true);
+                          setCouponCode("");
+                          setCouponDiscount(null);
+                          setPaymentMethod("BANK_TRANSFER");
+                          setMessage(null);
+                        }}
+                        className="w-full md:w-auto bg-white text-orange-600 hover:bg-gray-100 font-bold py-4 px-12 rounded-xl text-lg shadow-lg transition-transform hover:scale-105 active:scale-95 whitespace-nowrap"
+                      >
+                        {t("pricing.getStarted") || "Get Started Now"}
+                      </button>
+                    </div>
                   </div>
                 </div>
-
-                {pkg.description && (
-                  <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm text-center min-h-12">
-                    {language === "tr" && pkg.descriptionTr
-                      ? pkg.descriptionTr
-                      : pkg.description}
-                  </p>
-                )}
-
-                <div className="text-center mb-6">
-                  <div className="text-4xl font-bold text-orange-600 dark:text-orange-400 mb-2">
-                    {formatPrice(pkg.price)}
-                  </div>
-                  {pkg.discountPercentage && pkg.discountPercentage > 0 && (
-                    <div className="text-sm text-green-600 dark:text-green-400">
-                      {t("pricing.save") || "Save"}{" "}
-                      {formatPrice(pkg.discountAmount || 0)} (
-                      {pkg.discountPercentage.toFixed(1)}%)
-                    </div>
-                  )}
-                  {pkg.credits && (
-                    <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                      {pkg.credits} {t("pricing.credits") || "credits"} •{" "}
-                      {formatPrice(pkg.pricePerCredit || 0)} /{" "}
-                      {t("pricing.perCredit") || "credit"}
-                    </div>
-                  )}
-                </div>
-
-                {pkg.benefits && pkg.benefits.length > 0 && (
-                  <div className="mb-6">
-                    <ul className="space-y-2">
-                      {pkg.benefits.map((benefit, idx) => (
-                        <li
-                          key={idx}
-                          className="text-sm text-green-600 dark:text-green-400 flex items-center"
-                        >
-                          <span className="mr-2">✓</span>
-                          {benefit
-                            .replace("_", " ")
-                            .replace(/\b\w/g, (l) => l.toUpperCase())}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                <button
-                  onClick={() => {
-                    if (!user || !session?.access_token) {
-                      setPendingPackage(pkg);
-                      setIsAuthModalOpen(true);
-                      return;
-                    }
-                    setSelectedPackage(pkg);
-                    setShowModal(true);
-                    setCouponCode("");
-                    setCouponDiscount(null);
-                    setPaymentMethod("BANK_TRANSFER");
-                    setMessage(null);
-                  }}
-                  className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-colors"
-                >
-                  {t("pricing.purchase") || "Purchase"}
-                </button>
               </div>
-            ))}
+            )}
+
+            {/* Standard Packages Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {packages
+                .filter((p) => p.code !== "WELCOME-3")
+                .map((pkg) => (
+                  <div
+                    key={pkg.id}
+                    className="!bg-white dark:!bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow"
+                  >
+                    <div className="text-center mb-4">
+                      <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                        {pkg.code}
+                      </div>
+                      <h3 className="text-2xl font-bold !text-gray-900 dark:!text-white mb-2">
+                        {language === "tr" && pkg.nameTr ? pkg.nameTr : pkg.name}
+                      </h3>
+                      <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                        {getPackageTypeName(pkg.type)}
+                      </div>
+                    </div>
+
+                    {pkg.description && (
+                      <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm text-center min-h-12">
+                        {language === "tr" && pkg.descriptionTr
+                          ? pkg.descriptionTr
+                          : pkg.description}
+                      </p>
+                    )}
+
+                    <div className="text-center mb-6">
+                      <div className="text-4xl font-bold text-orange-600 dark:text-orange-400 mb-2">
+                        {formatPrice(pkg.price)}
+                      </div>
+                      {pkg.discountPercentage && pkg.discountPercentage > 0 && (
+                        <div className="text-sm text-green-600 dark:text-green-400">
+                          {t("pricing.save") || "Save"}{" "}
+                          {formatPrice(pkg.discountAmount || 0)} ({pkg.discountPercentage.toFixed(1)}%)
+                        </div>
+                      )}
+                      {pkg.credits && (
+                        <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                          {pkg.credits} {t("pricing.credits") || "credits"} •{" "}
+                          {formatPrice(pkg.pricePerCredit || 0)} / {t("pricing.perCredit") || "credit"}
+                        </div>
+                      )}
+                    </div>
+
+                    {pkg.benefits && pkg.benefits.length > 0 && (
+                      <div className="mb-6">
+                        <ul className="space-y-2">
+                          {pkg.benefits.map((benefit, idx) => (
+                            <li
+                              key={idx}
+                              className="text-sm text-green-600 dark:text-green-400 flex items-center"
+                            >
+                              <span className="mr-2">✓</span>
+                              {benefit
+                                .replace("_", " ")
+                                .replace(/\b\w/g, (l) => l.toUpperCase())}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    <button
+                      onClick={() => {
+                        if (!user || !session?.access_token) {
+                          setPendingPackage(pkg);
+                          setIsAuthModalOpen(true);
+                          return;
+                        }
+                        setSelectedPackage(pkg);
+                        setShowModal(true);
+                        setCouponCode("");
+                        setCouponDiscount(null);
+                        setPaymentMethod("BANK_TRANSFER");
+                        setMessage(null);
+                      }}
+                      className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+                    >
+                      {t("pricing.purchase") || "Purchase"}
+                    </button>
+                  </div>
+                ))}
+            </div>
           </div>
         )}
 
