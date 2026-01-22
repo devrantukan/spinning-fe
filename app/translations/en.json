@@ -509,6 +509,9 @@
     "bankTransfer": "Bank Transfer",
     "bankTransferDescription": "Transfer funds directly from your bank account",
     "comingSoon": "Coming Soon",
+    "recommended": "Recommended for You",
+    "getStarted": "Get Started Now",
+    "rides": "rides",
     "types": {
       "singleRide": "Single Ride",
       "creditPack": "Credit Pack",

@@ -509,6 +509,9 @@
     "bankTransfer": "Banka Havalesi",
     "bankTransferDescription": "Banka hesabınızdan doğrudan para transferi yapın",
     "comingSoon": "Yakında",
+    "recommended": "Sizin İçin Önerilen",
+    "getStarted": "Hemen Başla",
+    "rides": "sürüş",
     "types": {
       "singleRide": "Tek Ders",
       "creditPack": "Kredi Paketi",
