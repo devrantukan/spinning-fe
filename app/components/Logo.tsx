@@ -10,37 +10,23 @@ interface LogoProps {
 export default function Logo({ className = "h-12 md:h-16 w-auto" }: LogoProps) {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [fillColor, setFillColor] = useState("#000000");
 
-  // Update fill color when theme changes
+  // Use a simple effect to determine if we are on the client
   useEffect(() => {
     setMounted(true);
-    // Check both resolvedTheme and document class for dark mode
-    const isDark =
-      resolvedTheme === "dark" ||
+  }, []);
+
+  // Calculate fill color directly during render based on theme
+  // Default to black for SSR, update on client mount
+  const isDark = mounted && (
+    resolvedTheme === "dark" || 
+    (typeof document !== 'undefined' && (
       document.documentElement.classList.contains("dark") ||
-      document.documentElement.getAttribute("data-theme") === "dark";
-    setFillColor(isDark ? "#ffffff" : "#000000");
-  }, [resolvedTheme]);
-
-  // Also listen for theme changes via DOM mutations
-  useEffect(() => {
-    if (!mounted) return;
-
-    const observer = new MutationObserver(() => {
-      const isDark =
-        document.documentElement.classList.contains("dark") ||
-        document.documentElement.getAttribute("data-theme") === "dark";
-      setFillColor(isDark ? "#ffffff" : "#000000");
-    });
-
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class", "data-theme"],
-    });
-
-    return () => observer.disconnect();
-  }, [mounted]);
+      document.documentElement.getAttribute("data-theme") === "dark"
+    ))
+  );
+  
+  const fillColor = isDark ? "#ffffff" : "#000000";
 
   return (
     <svg

@@ -400,52 +400,16 @@ export default function Pricing() {
                       </h2>
                       
                       <div className="flex flex-col mb-0">
-                         {(() => {
-                          const pkg = packages.find((p) => p.code === "WELCOME-3");
-                           if (!pkg) return null;
-                           return (
-                            <>
-                              <div className="text-lg !text-white font-medium mb-4 opacity-90">
-                                {pkg.credits} {t("pricing.rides") || "rides"}
-                                {pkg.discountAmount && pkg.discountAmount > 0 && (
-                                  <> - {t("pricing.save") || "Save"} {formatPrice(pkg.discountAmount)}</>
-                                )}
-                              </div>
-                              <div className="flex items-baseline gap-3">
-                                <span className="text-5xl font-bold !text-white">{formatPrice(pkg.price)}</span>
-                                {pkg.discountPercentage && pkg.discountPercentage > 0 && (
-                                  <span className="text-xl !text-white line-through opacity-70">
-                                     {formatPrice((pkg.price * 100) / (100 - pkg.discountPercentage))}
-                                  </span>
-                                )}
-                              </div>
-                            </>
-                           )
-                         })()}
+                         {/* Prices hidden as per request */}
                       </div>
                     </div>
 
                     <div className="flex-shrink-0 w-full md:w-auto flex items-center justify-center md:justify-end mt-6 md:mt-0">
                       <button
-                        onClick={() => {
-                          const pkg = packages.find((p) => p.code === "WELCOME-3");
-                          if (!pkg) return;
-                          
-                          if (!user || !session?.access_token) {
-                            setPendingPackage(pkg);
-                            setIsAuthModalOpen(true);
-                            return;
-                          }
-                          setSelectedPackage(pkg);
-                          setShowModal(true);
-                          setCouponCode("");
-                          setCouponDiscount(null);
-                          setPaymentMethod("BANK_TRANSFER");
-                          setMessage(null);
-                        }}
+                        onClick={() => router.push("/contact")}
                         className="w-full md:w-auto bg-white text-orange-600 hover:bg-gray-100 font-bold py-4 px-12 rounded-xl text-lg shadow-lg transition-transform hover:scale-105 active:scale-95 whitespace-nowrap"
                       >
-                        {t("pricing.getStarted") || "Get Started Now"}
+                        {t("pricing.contactUs") || "Contact Us"}
                       </button>
                     </div>
                   </div>
@@ -474,30 +438,16 @@ export default function Pricing() {
                       </div>
                     </div>
 
-                    {pkg.description && (
+                    {/* {pkg.description && (
                       <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm text-center min-h-12">
                         {language === "tr" && pkg.descriptionTr
                           ? pkg.descriptionTr
                           : pkg.description}
                       </p>
-                    )}
+                    )} */}
 
                     <div className="text-center mb-6">
-                      <div className="text-4xl font-bold text-orange-600 dark:text-orange-400 mb-2">
-                        {formatPrice(pkg.price)}
-                      </div>
-                      {pkg.discountPercentage && pkg.discountPercentage > 0 && (
-                        <div className="text-sm text-green-600 dark:text-green-400">
-                          {t("pricing.save") || "Save"}{" "}
-                          {formatPrice(pkg.discountAmount || 0)} ({pkg.discountPercentage.toFixed(1)}%)
-                        </div>
-                      )}
-                      {pkg.credits && (
-                        <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                          {pkg.credits} {t("pricing.credits") || "credits"} •{" "}
-                          {formatPrice(pkg.pricePerCredit || 0)} / {t("pricing.perCredit") || "credit"}
-                        </div>
-                      )}
+                      {/* Price hidden as per request */}
                     </div>
 
                     {pkg.benefits && pkg.benefits.length > 0 && (
@@ -519,22 +469,10 @@ export default function Pricing() {
                     )}
 
                     <button
-                      onClick={() => {
-                        if (!user || !session?.access_token) {
-                          setPendingPackage(pkg);
-                          setIsAuthModalOpen(true);
-                          return;
-                        }
-                        setSelectedPackage(pkg);
-                        setShowModal(true);
-                        setCouponCode("");
-                        setCouponDiscount(null);
-                        setPaymentMethod("BANK_TRANSFER");
-                        setMessage(null);
-                      }}
+                      onClick={() => router.push("/contact")}
                       className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-colors"
                     >
-                      {t("pricing.purchase") || "Purchase"}
+                      {t("pricing.contactUs") || "Contact Us"}
                     </button>
                   </div>
                 ))}
