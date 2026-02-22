@@ -94,10 +94,10 @@ export default function Team() {
                     {member.name}
                   </h3>
                   <div className="text-orange-500 font-semibold mb-3 uppercase text-sm tracking-wider">
-                    {member.role} + DJ
+                    {member.role}  {member.name.includes("Beyza") ? "+ DJ" : ""}
                   </div>
                   <div className="text-gray-300 text-sm line-clamp-2 mb-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
-                    {member.description}
+                     {/*member.description*/}
                   </div>
                   
 
